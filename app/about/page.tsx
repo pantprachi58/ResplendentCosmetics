@@ -489,9 +489,7 @@ export default function AboutPage() {
             <p>© 2025 Resplendent Aesthetics. All Rights Reserved.</p>
             <p className={styles.disclaimer}>
               Disclaimer: Medical and surgical outcomes vary by individual anatomy. Content on
-              this portal is for informative consultation guidance and does not replace dedicated
-              clinical evaluation.
-            </p>
+              this portal is for informative consultation guidance and does not replace dedicated.            </p>
           </div>
         </div>
       </footer>
