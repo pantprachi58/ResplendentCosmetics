@@ -130,7 +130,7 @@ const TREATMENTS = [
   { label: "Medical Laser Treatments", href: "/laser-treatments" },
 ];
 
-const Icon = ({ name }) => (
+const Icon = ({ name }: { name: string }) => (
   <span className={styles.icon} aria-hidden="true">
     {name}
   </span>
