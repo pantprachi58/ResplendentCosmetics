@@ -1,0 +1,443 @@
+.main {
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+  color: white;
+  padding: 120px 20px 80px;
+  text-align: center;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.heroTitle {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.heroSubtitle {
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  font-weight: 300;
+  margin-bottom: 24px;
+  opacity: 0.9;
+}
+
+.heroDescription {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.8;
+  opacity: 0.85;
+}
+
+/* Founder Section */
+.founder {
+  padding: 80px 20px;
+  background: #f8f9fa;
+}
+
+.founderCard {
+  background: white;
+  border-radius: 20px;
+  padding: 60px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  text-align: center;
+}
+
+.founderLabel {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+.founderName {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 12px;
+}
+
+.founderCredentials {
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.founderBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+  align-items: center;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px 30px;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.badgeTitle {
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 4px;
+}
+
+.badgeText {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.badgeHighlight {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2d6a9f;
+}
+
+/* Story Section */
+.story {
+  padding: 80px 20px;
+  background: white;
+}
+
+.sectionTitle {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 700;
+  text-align: center;
+  color: #1a1a2e;
+  margin-bottom: 16px;
+}
+
+.sectionSubtitle {
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  text-align: center;
+  color: #666;
+  margin-bottom: 50px;
+  font-weight: 300;
+}
+
+.storyContent {
+  max-width: 900px;
+  margin: 0 auto 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.storyContent p {
+  font-size: 1.1rem;
+  line-height: 1.9;
+  color: #444;
+  text-align: justify;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+  margin-top: 60px;
+}
+
+.statCard {
+  text-align: center;
+  padding: 30px;
+  background: linear-gradient(135deg, #2d6a9f 0%, #1a4d7a 100%);
+  border-radius: 16px;
+  color: white;
+}
+
+.statNumber {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  margin-bottom: 12px;
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 1.1rem;
+  opacity: 0.95;
+  font-weight: 300;
+}
+
+/* Pillars Section */
+.pillars {
+  padding: 80px 20px;
+  background: #f8f9fa;
+}
+
+.pillarsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin-top: 50px;
+}
+
+.pillarCard {
+  background: white;
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+}
+
+.pillarCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.pillarIcon {
+  font-size: 3rem;
+  color: #2d6a9f;
+  margin-bottom: 20px;
+}
+
+.pillarTitle {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 16px;
+}
+
+.pillarText {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #555;
+}
+
+/* Facility Section */
+.facility {
+  padding: 80px 20px;
+  background: white;
+}
+
+.facilityIntro {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 50px;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #555;
+}
+
+.facilityGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-bottom: 60px;
+}
+
+.facilityCard {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 40px 30px;
+  border-radius: 16px;
+  border-left: 4px solid #2d6a9f;
+}
+
+.facilityTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 8px;
+}
+
+.facilitySubtitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2d6a9f;
+  margin-bottom: 16px;
+}
+
+.facilityText {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #555;
+}
+
+.certifications {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  padding: 40px;
+  background: #f8f9fa;
+  border-radius: 16px;
+}
+
+.certItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.certItem span {
+  font-size: 2.5rem;
+  color: #2d6a9f;
+}
+
+.certTitle {
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 4px;
+  font-size: 1.1rem;
+}
+
+.certText {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Timeline Section */
+.timeline {
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+  color: white;
+}
+
+.timeline .sectionTitle,
+.timeline .sectionSubtitle {
+  color: white;
+}
+
+.timeline .sectionSubtitle {
+  opacity: 0.9;
+}
+
+.timelineList {
+  max-width: 900px;
+  margin: 60px auto 0;
+  position: relative;
+}
+
+.timelineList::before {
+  content: "";
+  position: absolute;
+  left: 80px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.timelineItem {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 50px;
+  position: relative;
+}
+
+.timelineYear {
+  flex-shrink: 0;
+  width: 80px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #2d6a9f;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+.timelineYear::after {
+  content: "";
+  position: absolute;
+  right: -40px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  background: #2d6a9f;
+  border: 4px solid #1a1a2e;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.timelineContent {
+  flex: 1;
+  padding: 24px 30px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.timelineTitle {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #ffffff;
+}
+
+.timelineText {
+  font-size: 1rem;
+  line-height: 1.7;
+  opacity: 0.85;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero {
+    padding: 100px 20px 60px;
+  }
+
+  .founderCard {
+    padding: 40px 30px;
+  }
+
+  .founderBadges {
+    flex-direction: column;
+  }
+
+  .badge {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .timelineList::before {
+    left: 40px;
+  }
+
+  .timelineItem {
+    gap: 20px;
+  }
+
+  .timelineYear {
+    width: 60px;
+    font-size: 1rem;
+  }
+
+  .timelineYear::after {
+    right: -20px;
+    width: 12px;
+    height: 12px;
+  }
+
+  .timelineContent {
+    padding: 20px;
+  }
+
+  .certifications {
+    grid-template-columns: 1fr;
+    padding: 30px 20px;
+  }
+}
