@@ -5,7 +5,7 @@ export type FooterLink = {
 
 export const quickLinks: FooterLink[] = [
   { href: "/", label: "Home" },
-  { href: "/about-us", label: "About Us" },
+  { href: "/about", label: "About Us" },
   { href: "/why-choose-us", label: "Why Choose Us" },
   { href: "/doctors", label: "Our Doctors" },
   { href: "/before-after", label: "Before & After Gallery" },

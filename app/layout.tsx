@@ -4,43 +4,12 @@ import Footer from "@/components/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Best Cosmetic & Plastic Surgeon in Delhi - Resplendent Cosmetics Studio",
+  title:
+    "Resplendent Aesthetics | Plastic & Cosmetic Surgery, Greater Kailash, New Delhi",
   description:
-    "Dr. Sukhbir Singh is a highly reputed cosmetic and plastic surgeon in Delhi NCR. A board-certified doctor with over 15 years of experience, he specializes in Nose, Face, Breast, Eyelid Surgery, and more.",
-  keywords: ["Cosmetic surgeon in delhi", "plastic surgeon in delhi"],
-  authors: [{ name: "Dr. Sukhbir Singh" }],
-  publisher: "Resplendent Cosmetics",
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-    },
-  },
-  metadataBase: new URL("https://www.resplendentcosmetics.com"),
-  alternates: {
-    canonical: "https://www.resplendentcosmetics.com/",
-  },
+    "Bespoke aesthetic and reconstructive surgery led by Senior Plastic Surgeon Dr. Sukhbir Singh in Greater Kailash Part 1, South Delhi.",
   icons: {
     icon: "/images/fav.png",
-    shortcut: "/images/fav.png",
-    apple: "/images/fav.png",
-  },
-  openGraph: {
-    title: "Best Cosmetic & Plastic Surgeon in Delhi - Resplendent Cosmetics Studio",
-    description:
-      "Dr. Sukhbir Singh is a highly reputed cosmetic and plastic surgeon in Delhi NCR. A board-certified doctor with over 15 years of experience, he specializes in Nose, Face, Breast, Eyelid Surgery, and more.",
-    url: "https://www.resplendentcosmetics.com/",
-    siteName: "Resplendent Cosmetics Studio",
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Best Cosmetic & Plastic Surgeon in Delhi - Resplendent Cosmetics Studio",
-    description:
-      "Dr. Sukhbir Singh is a highly reputed cosmetic and plastic surgeon in Delhi NCR. A board-certified doctor with over 15 years of experience, he specializes in Nose, Face, Breast, Eyelid Surgery, and more.",
   },
 };
 

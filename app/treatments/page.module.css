@@ -1,0 +1,398 @@
+.main {
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+  color: white;
+  padding: 120px 20px 80px;
+  text-align: center;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.heroTitle {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.heroSubtitle {
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.8;
+  opacity: 0.9;
+}
+
+/* Filters Section */
+.filters {
+  padding: 40px 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.filterContainer {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+}
+
+.filterLabel {
+  font-weight: 600;
+  color: #1a1a2e;
+  font-size: 1rem;
+}
+
+.filterButton {
+  padding: 12px 28px;
+  border-radius: 50px;
+  border: 2px solid #dee2e6;
+  background: white;
+  color: #495057;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.filterButton:hover {
+  border-color: #2d6a9f;
+  color: #2d6a9f;
+  background: #f0f7ff;
+}
+
+.filterButton.active {
+  background: #2d6a9f;
+  color: white;
+  border-color: #2d6a9f;
+}
+
+/* Treatments Section */
+.treatments {
+  padding: 80px 20px;
+  background: white;
+}
+
+.sectionTitle {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 700;
+  text-align: center;
+  color: #1a1a2e;
+  margin-bottom: 16px;
+}
+
+.sectionSubtitle {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  text-align: center;
+  color: #666;
+  margin-bottom: 60px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.7;
+}
+
+.treatmentsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.treatmentCard {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.treatmentCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+  background: #f8f9fa;
+}
+
+.treatmentImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.treatmentCard:hover .treatmentImage {
+  transform: scale(1.1);
+}
+
+.badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+  z-index: 1;
+}
+
+.badgeNavy {
+  background: rgba(26, 26, 46, 0.9);
+  color: white;
+}
+
+.badgeBlue {
+  background: rgba(45, 106, 159, 0.9);
+  color: white;
+}
+
+.badgeSlate {
+  background: rgba(100, 116, 139, 0.9);
+  color: white;
+}
+
+.badgeMint {
+  background: rgba(16, 185, 129, 0.9);
+  color: white;
+}
+
+.badgeSolid {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+}
+
+.content {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.treatmentTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.treatmentDescription {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #555;
+  margin-bottom: 20px;
+  flex: 1;
+}
+
+.learnMore {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #2d6a9f;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: gap 0.3s ease;
+}
+
+.treatmentCard:hover .learnMore {
+  gap: 12px;
+}
+
+.learnMore span:last-child {
+  font-size: 1.2rem;
+}
+
+/* Categories Section */
+.categories {
+  padding: 80px 20px;
+  background: #f8f9fa;
+}
+
+.categoriesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin-top: 50px;
+}
+
+.categoryCard {
+  background: white;
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  text-align: center;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.categoryCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  border-color: #2d6a9f;
+}
+
+.categoryIcon {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  color: #2d6a9f;
+}
+
+.categoryTitle {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 12px;
+}
+
+.categoryCount {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+/* Consultation Section */
+.consultation {
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #2d6a9f 0%, #1a4d7a 100%);
+  color: white;
+  text-align: center;
+}
+
+.consultation .sectionTitle {
+  color: white;
+}
+
+.consultation .sectionSubtitle {
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 40px;
+}
+
+.consultationContent {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.consultationText {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 40px;
+  opacity: 0.95;
+}
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 40px;
+  background: white;
+  color: #2d6a9f;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.ctaButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  background: #f8f9fa;
+}
+
+.ctaButton span:last-child {
+  font-size: 1.5rem;
+}
+
+/* Info Cards */
+.infoCards {
+  padding: 80px 20px;
+  background: white;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 50px;
+}
+
+.infoCard {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 40px 30px;
+  border-radius: 16px;
+  border-left: 4px solid #2d6a9f;
+}
+
+.infoCardIcon {
+  font-size: 3rem;
+  color: #2d6a9f;
+  margin-bottom: 20px;
+}
+
+.infoCardTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 12px;
+}
+
+.infoCardText {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #555;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero {
+    padding: 100px 20px 60px;
+  }
+
+  .filterContainer {
+    justify-content: center;
+  }
+
+  .treatmentsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .imageWrapper {
+    height: 240px;
+  }
+
+  .content {
+    padding: 24px;
+  }
+
+  .categoriesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+}
