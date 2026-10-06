@@ -46,7 +46,7 @@ export default function Header() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               className={styles.image}
-              src="/svg/Resplendent Logo Color.png"
+              src="/logo.svg"
               alt="Resplendent Aesthetics"
             />
           </Link>
