@@ -1,22 +1,9 @@
 import Link from "next/link";
+import Icon from "@/components/Icon";
 import styles from "./page.module.css";
 
-const LOGO =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuDPNiCEd88On6IYXIt52bTgVim-AU5HEFFLqCtPVHA9r7vhVfUCEBGU65U8igK2m_23ctC6fsgsqBORZQs9HUFBRCgzXLaOl5e7_HZ_QxuKwkPPIOZQx1OwdLIW9WEVk6KL7xZQDOeF-EJzsWYuxqv4aKfeJSmXrLMEVT06eNMib2M2xt8G9yMvRDufaMLA2aaB4ydeLUvhChDAj4U4P4uwnvB5trD3iqPZU4BTpIo6CppVVtG1sAA6XPQOc2oLIu-5cA";
-const FOOTER_LOGO =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuA-x605TaqYNFbY37ND_GioE4MJ1nGv-fV3yPHXO5_hY6m4V0ozdok5-tzXTQ1sOVfC68VrOBwzH7PWvHyjGfHfMe0eGz9ivxAxTASU27Y-8szloNqiVjGxvL5hJKMeqUNTW2g1fPYvydpzL8VVN74M_lue68ftwv1BZZPlf6eTgTiwDhbnRXdxtPZZoljCp2Fcth_dZHS6P-dzyX7otFYGIa0HUhcaMgJh7iuS0Fb_NXwySvtBuodMUYUmmqooLeNIZw";
 const DOCTOR_IMG =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuDSTJ5gTWMFzZv27HqAbUpkkDnbqAF_Iu46ZbbRkDtsPs_HM23XUzMh5-2MKBdMlyoeYcDLRNy5r3DBW7U88RjQZOPBCokOHarR2bZO8igf4FkAJR62zRrFrL-zk4dmqoZLAUwhlzwJF_IOcM1SLNf7RqbbRA0Eille2AjkOQG74se0oTscwKcaVfA3zAnJqbxu84o8mZGeXtblAFmUbJh_WiUu7bYl9tOUB23l0wB1sS9CAdJ1UQM0B44J_sTbQgUQhQ";
-
-const NAV = [
-  { label: "Home", href: "/" },
-  { label: "About Us", href: "/about-us", active: true },
-  { label: "Treatments", href: "/treatments" },
-  { label: "Doctors", href: "/doctors" },
-  { label: "Hair Transplant", href: "/hair-transplant" },
-  { label: "Why Choose Us", href: "/why-choose-us" },
-  { label: "Contact", href: "/contact" },
-];
 
 const STATS = [
   { value: "15,000+", label: "Transformations Performed" },
@@ -112,29 +99,7 @@ const MILESTONES = [
   },
 ];
 
-const QUICK_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "About Us", href: "/about-us" },
-  { label: "Why Choose Us", href: "/why-choose-us" },
-  { label: "Our Doctors", href: "/doctors" },
-  { label: "Before & After Gallery", href: "/before-after" },
-  { label: "International Patients", href: "/international-patients" },
-];
 
-const TREATMENTS = [
-  { label: "Hair Transplant — FUE & DHI", href: "/hair-transplant" },
-  { label: "Rhinoplasty (Nose Reshaping)", href: "/rhinoplasty" },
-  { label: "Face & Neck Lift", href: "/face-neck-lift" },
-  { label: "Liposuction & Body Contouring", href: "/liposuction-body-contouring" },
-  { label: "Botox & Dermal Fillers", href: "/botox-fillers" },
-  { label: "Medical Laser Treatments", href: "/laser-treatments" },
-];
-
-const Icon = ({ name }: { name: string }) => (
-  <span className={styles.icon} aria-hidden="true">
-    {name}
-  </span>
-);
 
 export const metadata = {
   title: "About Us | Resplendent Aesthetics",
@@ -144,58 +109,7 @@ export const metadata = {
 
 export default function AboutPage() {
   return (
-    <div className={styles.page}>
-      {/* Header */}
-      <header className={styles.header}>
-        <div className={styles.topBar}>
-          <div className={styles.topBarInner}>
-            <div className={styles.topBarGroup}>
-              <div className={styles.topBarItem}>
-                <Icon name="call" />
-                <span>+91 99103 91229</span>
-              </div>
-              <div className={styles.topBarItem}>
-                <Icon name="location_on" />
-                <span>R-9, Basement, Greater Kailash Part 1, New Delhi - 110048</span>
-              </div>
-              <div className={styles.topBarItem}>
-                <Icon name="schedule" />
-                <span>Mon - Sat: 9:00 AM - 7:00 PM</span>
-              </div>
-            </div>
-            <Link href="/international-patients" className={styles.intlLink}>
-              <Icon name="public" />
-              <span>International Patient Desk</span>
-            </Link>
-          </div>
-        </div>
-
-        <div className={styles.navBar}>
-          <img src={LOGO} alt="Resplendent Aesthetics" className={styles.logo} />
-          <nav className={styles.nav} aria-label="Main">
-            {NAV.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                aria-current={item.active ? "page" : undefined}
-                className={`${styles.navLink} ${item.active ? styles.navActive : ""}`}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-          <div className={styles.navActions}>
-            <Link href="/book-consultation" className={styles.btnPrimary}>
-              Book Consultation
-            </Link>
-            <div className={styles.avatar}>
-              <Icon name="person" />
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <main className={styles.main}>
+    <main className={styles.main}>
         {/* Hero */}
         <section className={`${styles.section} ${styles.hero}`}>
           <div className={`${styles.container} ${styles.heroInner}`}>
@@ -419,80 +333,5 @@ export default function AboutPage() {
           </div>
         </section>
       </main>
-
-      {/* Footer */}
-      <footer className={styles.footer}>
-        <div className={styles.container}>
-          <div className={styles.footerGrid}>
-            <div className={styles.footerCol}>
-              <img src={FOOTER_LOGO} alt="Resplendent Aesthetics" className={styles.footerLogo} />
-              <p className={styles.footerText}>
-                An ultra-luxurious, medical-grade sanctuary in Greater Kailash, South Delhi. We
-                deliver bespoke surgical precision, natural harmony, and confidential aesthetic
-                transformations led by board-certified plastic surgeons.
-              </p>
-              <div className={styles.socials}>
-                {["photo_camera", "share", "play_circle"].map((i) => (
-                  <a key={i} href="#" className={styles.social} aria-label={i}>
-                    <Icon name={i} />
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            <div className={styles.footerCol}>
-              <h3 className={styles.footerHeading}>Quick Links</h3>
-              <ul className={styles.footerList}>
-                {QUICK_LINKS.map((l) => (
-                  <li key={l.label}>
-                    <Link href={l.href}>{l.label}</Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className={styles.footerCol}>
-              <h3 className={styles.footerHeading}>Key Treatments</h3>
-              <ul className={styles.footerList}>
-                {TREATMENTS.map((l) => (
-                  <li key={l.label}>
-                    <Link href={l.href}>{l.label}</Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className={styles.footerCol}>
-              <h3 className={styles.footerHeading}>Studio Concierge</h3>
-              <div className={styles.footerList}>
-                <div className={styles.contactRow}>
-                  <Icon name="location_on" />
-                  <span>R-9, Basement, Greater Kailash Part 1, New Delhi - 110048</span>
-                </div>
-                <div className={styles.contactRow}>
-                  <Icon name="call" />
-                  <span>+91 99103 91229</span>
-                </div>
-                <div className={styles.contactRow}>
-                  <Icon name="mail" />
-                  <span>info@resplendentcosmetics.com</span>
-                </div>
-                <div className={styles.contactRow}>
-                  <Icon name="schedule" />
-                  <span>Mon - Sat: 9:00 AM - 7:00 PM</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className={styles.footerBottom}>
-            <p>© 2025 Resplendent Aesthetics. All Rights Reserved.</p>
-            <p className={styles.disclaimer}>
-              Disclaimer: Medical and surgical outcomes vary by individual anatomy. Content on
-              this portal is for informative consultation guidance and does not replace dedicated.            </p>
-          </div>
-        </div>
-      </footer>
-    </div>
   );
 }

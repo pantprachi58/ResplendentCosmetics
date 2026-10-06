@@ -16,7 +16,7 @@ export default function Facility() {
         <div className={styles.box}>
           <span className={styles.label}>Medical-Grade Excellence</span>
           <h2 className={styles.title}>
-            NABH-Accredited Private Surgical Sanctuary
+            Accredited Private Surgical sanctuary
           </h2>
           <p className={styles.text}>
             Engineered for unparalleled clinical safety, complete patient

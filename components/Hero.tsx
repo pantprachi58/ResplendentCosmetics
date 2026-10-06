@@ -6,6 +6,15 @@ import styles from "./Hero.module.css";
 export default function Hero() {
   return (
     <section className={styles.root}>
+      <video
+        className={styles.video}
+        autoPlay
+        loop
+        muted
+        playsInline
+      >
+        <source src="/videos/video1.mp4" type="video/mp4" />
+      </video>
       <div className={styles.overlay} />
       <div className={styles.card} />
       <div className={styles.card2} />
@@ -18,7 +27,7 @@ export default function Hero() {
             </span>
           </div>
           <h1 className={styles.title}>
-            Sculpting Natural Elegance with{" "}
+            Plastic surgery in Delhi with{" "}
             <span className={styles.label2}>Board-Certified</span> Surgical
             Mastery.
           </h1>

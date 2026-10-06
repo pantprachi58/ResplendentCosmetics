@@ -1,13 +1,17 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Icon from "./Icon";
 import { navItems } from "@/data/navigation";
+import { treatmentCategories } from "@/data/treatmentCategories";
 import styles from "./Header.module.css";
 
 export default function Header() {
   const pathname = usePathname();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   return (
     <header className={styles.root}>
       <div className={styles.box}>
@@ -53,6 +57,51 @@ export default function Header() {
               item.href === "/"
                 ? pathname === "/"
                 : pathname.startsWith(item.href);
+            
+            // Special handling for Treatments dropdown
+            if (item.label === "Treatments") {
+              return (
+                <div
+                  key={item.href}
+                  className={styles.dropdownContainer}
+                  onMouseEnter={() => setIsDropdownOpen(true)}
+                  onMouseLeave={() => setIsDropdownOpen(false)}
+                >
+                  <Link
+                    href={item.href}
+                    aria-current={active ? "page" : undefined}
+                    className={`${styles.navLink} ${active ? styles.navLinkActive : styles.navLinkIdle}`}
+                  >
+                    {item.label}
+                    <Icon name="expand_more" className={styles.dropdownIcon} />
+                  </Link>
+                  {isDropdownOpen && (
+                    <div className={styles.dropdown}>
+                      <div className={styles.dropdownContent}>
+                        {treatmentCategories.map((category) => (
+                          <div key={category.category} className={styles.dropdownColumn}>
+                            <h3 className={styles.columnTitle}>{category.category}</h3>
+                            <ul className={styles.columnList}>
+                              {category.items.map((treatment) => (
+                                <li key={treatment.href}>
+                                  <Link
+                                    href={treatment.href}
+                                    className={styles.dropdownLink}
+                                  >
+                                    {treatment.name}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            }
+            
             return (
               <Link
                 key={item.href}

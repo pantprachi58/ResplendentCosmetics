@@ -17,21 +17,30 @@
   }
 }
 
+.video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
 .overlay {
   pointer-events: none;
   position: absolute;
   inset: 0px;
-  z-index: 0;
-  background-image: radial-gradient(ellipse at top, var(--tw-gradient-stops));
-  --tw-gradient-from: rgb(0 82 204 / 0.3) var(--tw-gradient-from-position);
+  z-index: 1;
+  background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
+  --tw-gradient-from: rgb(0 82 204 / 0.7) var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(0 82 204 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-  --tw-gradient-to: rgb(10 25 47 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-to: rgb(10 25 47 / 0.5) var(--tw-gradient-to-position);
   --tw-gradient-stops:
-    var(--tw-gradient-from), #0a192f var(--tw-gradient-via-position),
+    var(--tw-gradient-from), rgb(10 25 47 / 0.6) var(--tw-gradient-via-position),
     var(--tw-gradient-to);
-  --tw-gradient-to: #0f172a var(--tw-gradient-to-position);
-  opacity: 0.4;
+  --tw-gradient-to: rgb(10 25 47 / 0.8) var(--tw-gradient-to-position);
 }
 
 .card {
