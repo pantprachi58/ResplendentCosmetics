@@ -1,0 +1,156 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.75rem;
+  border-radius: 1.25rem;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  background-color: rgb(15 23 42 / 0.75);
+  box-shadow: 0 24px 48px rgb(0 0 0 / 0.3);
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgb(255 255 255 / 0.1);
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #34d399;
+}
+
+.mono {
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.screen {
+  position: relative;
+  overflow: hidden;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background-color: #0b1222;
+}
+
+.svg {
+  width: 100%;
+  height: auto;
+}
+
+.ping {
+  transform-origin: 170px 120px;
+  animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 12px;
+  color: #cbd5e1;
+}
+
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dotBlue,
+.dotGreen,
+.dotRed {
+  display: inline-block;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 9999px;
+}
+
+.dotBlue {
+  background-color: #60a5fa;
+}
+
+.dotGreen {
+  background-color: #10b981;
+}
+
+.dotRed {
+  background-color: #f87171;
+}
+
+.accent {
+  color: #34d399;
+}
+
+.zones {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 11px;
+  color: #ffffff;
+}
+
+.zones span {
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.375rem;
+  background-color: rgb(15 23 42 / 0.9);
+}
+
+.zoneA {
+  color: #60a5fa;
+}
+
+.zoneB {
+  color: #10b981;
+}
+
+.readout {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 0;
+  font-size: 13px;
+  color: #cbd5e1;
+}
+
+.readout div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.readout dd {
+  margin: 0;
+  font-family: ui-monospace, monospace;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.readout dd.zoneA {
+  color: #60a5fa;
+}
+
+.readout dd.zoneB {
+  color: #10b981;
+}

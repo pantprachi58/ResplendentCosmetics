@@ -1,0 +1,114 @@
+/* Books */
+.books {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .books {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.book {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.75rem;
+  border-radius: 1rem;
+  border: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+}
+
+.bookIcon {
+  display: flex;
+  width: 3.5rem;
+  height: 3.5rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  background-color: #0052cc;
+  color: #ffffff;
+}
+
+.bookIcon :global(.material-symbols-outlined) {
+  font-size: 28px;
+}
+
+.bookTitle {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* Articles */
+.articles {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.article {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  transition: border-color 200ms ease;
+}
+
+.article:hover {
+  border-color: rgb(0 82 204 / 0.35);
+}
+
+.year {
+  flex-shrink: 0;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  background-color: #eef4ff;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  color: #0052cc;
+}
+
+.articleTitle {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.authors {
+  margin-top: 0.25rem;
+  font-size: 13px;
+  line-height: 20px;
+  color: #475569;
+}
+
+.journal {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.375rem;
+  margin-top: 0.375rem;
+  font-size: 13px;
+  line-height: 20px;
+  font-style: italic;
+  color: #059669;
+}
+
+.journalIcon {
+  flex-shrink: 0;
+  font-size: 16px;
+  font-style: normal;
+}

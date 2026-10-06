@@ -1,0 +1,144 @@
+.note {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  align-self: flex-start;
+  padding: 0.375rem 0.875rem;
+  border-radius: 9999px;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+@media (min-width: 768px) {
+  .note {
+    align-self: flex-end;
+  }
+}
+
+.noteIcon {
+  font-size: 16px;
+  color: #10b981;
+}
+
+.grid2,
+.grid3,
+.grid4 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .grid2,
+  .grid3,
+  .grid4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .grid4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 1rem;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgb(15 23 42 / 0.05);
+  transition: box-shadow 200ms ease;
+}
+
+.card:hover {
+  box-shadow: 0 12px 28px rgb(15 23 42 / 0.08);
+}
+
+.photo {
+  aspect-ratio: 16 / 10;
+}
+
+.photoContain {
+  aspect-ratio: 16 / 10;
+  background-color: #f8fafc;
+}
+
+.contain {
+  object-fit: contain;
+}
+
+.portrait {
+  aspect-ratio: 5 / 6;
+}
+
+.body {
+  flex: 1;
+  padding: 1.25rem;
+}
+
+.title {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.text {
+  margin-top: 0.375rem;
+  font-size: 13px;
+  line-height: 21px;
+  color: #475569;
+}
+
+.bullets {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.875rem;
+  font-size: 13px;
+  line-height: 20px;
+  color: #1e293b;
+}
+
+.bullets li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.check {
+  flex-shrink: 0;
+  font-size: 18px;
+  color: #10b981;
+}
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.875rem 1.25rem;
+  border-top: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+  font-size: 12px;
+  line-height: 16px;
+  color: #64748b;
+}
+
+.footValue {
+  font-weight: 700;
+  color: #0052cc;
+}

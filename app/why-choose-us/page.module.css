@@ -1,0 +1,638 @@
+.green {
+  flex-shrink: 0;
+  font-size: 18px;
+  color: #10b981;
+}
+
+.red {
+  flex-shrink: 0;
+  font-size: 18px;
+  color: #ba1a1a;
+}
+
+/* Hero */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    padding-top: 5.5rem;
+    padding-bottom: 5.5rem;
+  }
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 3rem;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .heroGrid {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  }
+}
+
+.heroCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.title {
+  max-width: 48rem;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+}
+
+@media (min-width: 1024px) {
+  .title {
+    font-size: 44px;
+    line-height: 52px;
+  }
+}
+
+.lead {
+  max-width: 42rem;
+  font-size: 16px;
+  line-height: 27px;
+  color: #1e293b;
+}
+
+.directorCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid #e2e7ff;
+  background-color: #f6f8ff;
+}
+
+.directorHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.directorEyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.directorId {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.initials {
+  display: flex;
+  width: 3rem;
+  height: 3rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: #0052cc;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.directorName {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.directorCreds {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.directorQuote {
+  font-size: 13px;
+  line-height: 20px;
+  font-style: italic;
+  color: #1e293b;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin-top: 3.5rem;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  border: 1px solid #e2e7ff;
+  background-color: #f6f8ff;
+}
+
+@media (min-width: 768px) {
+  .metrics {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.metricValue {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 30px;
+  line-height: 38px;
+  font-weight: 800;
+  color: #0052cc;
+}
+
+.metricValue small {
+  margin-left: 0.25rem;
+  font-family: Inter, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.metricLabel {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #0f172a;
+}
+
+.metricText {
+  font-size: 12px;
+  line-height: 18px;
+  color: #64748b;
+}
+
+/* Facility showcase */
+.showcase {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.showcaseGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .showcaseGrid {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+}
+
+.showcaseMain {
+  min-height: 24rem;
+  border-radius: 0.75rem;
+  background-color: #0a1120;
+}
+
+.showcaseScrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, #0a1120 5%, rgb(10 17 32 / 0.4) 55%, transparent);
+}
+
+.showcaseCopy {
+  position: absolute;
+  right: 2rem;
+  bottom: 2rem;
+  left: 2rem;
+  display: flex;
+  max-width: 32rem;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.showcaseEyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #10b981;
+}
+
+.showcaseTitle {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.showcaseText {
+  font-size: 13px;
+  line-height: 20px;
+  color: #cbd5e1;
+}
+
+.showcaseSide {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.showcaseTile {
+  min-height: 11.25rem;
+  border-radius: 0.75rem;
+  background-color: #0a1120;
+}
+
+.tileCopy {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.tileTitle {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.tileIcon {
+  font-size: 26px;
+  color: #10b981;
+}
+
+/* Comparison table */
+.tableScroll {
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.table {
+  width: 100%;
+  min-width: 760px;
+  overflow: hidden;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 0.75rem;
+  border: 1px solid #e2e7ff;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgb(15 23 42 / 0.06);
+  text-align: left;
+}
+
+.table thead th {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #e2e7ff;
+  background-color: #f6f8ff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.table thead th:first-child {
+  color: #0f172a;
+}
+
+.thOurs {
+  color: #0052cc !important;
+}
+
+.thOurs :global(.material-symbols-outlined) {
+  margin-right: 0.375rem;
+  vertical-align: -4px;
+}
+
+.table tbody th,
+.table tbody td {
+  width: 33.33%;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #eef2fb;
+  vertical-align: top;
+}
+
+.table tbody tr:last-child th,
+.table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #fafbff;
+}
+
+.rowTopic {
+  display: block;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.rowDetail {
+  font-size: 12px;
+  font-weight: 400;
+  color: #64748b;
+}
+
+.table td {
+  font-size: 13px;
+  line-height: 20px;
+  color: #64748b;
+}
+
+.tdOurs {
+  border-left: 2px solid #0052cc;
+  background-color: rgb(0 82 204 / 0.05);
+  font-size: 14px !important;
+  font-weight: 500;
+  color: #0f172a !important;
+}
+
+.cell {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+/* Testimonial */
+.testimonialSection {
+  background: linear-gradient(110deg, #0a1120 0%, #0f1e3d 60%, #0a2a26 100%);
+}
+
+.testimonialInner {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.testimonialGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2.5rem;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .testimonialGrid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  }
+}
+
+.testimonialIntro {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.testimonialHeadline {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 26px;
+  line-height: 34px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.stars {
+  display: flex;
+  gap: 0.125rem;
+  color: #10b981;
+}
+
+.stars :global(.material-symbols-outlined) {
+  font-size: 18px;
+}
+
+.testimonialCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  border: 1px solid #1e293b;
+  background-color: rgb(15 23 42 / 0.9);
+}
+
+.testimonialQuote {
+  margin: 0;
+  font-size: 16px;
+  line-height: 27px;
+  font-style: italic;
+  color: #cbd5e1;
+}
+
+.testimonialAuthor {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #1e293b;
+}
+
+.authorName {
+  display: block;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: #10b981;
+}
+
+.authorProcedure {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.lockBadge {
+  display: flex;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: rgb(16 185 129 / 0.2);
+  color: #10b981;
+}
+
+.affiliationHead {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+  .affiliationHead {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.affiliationTitle {
+  margin-top: 0.25rem;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.affiliationText {
+  max-width: 28rem;
+  font-size: 13px;
+  line-height: 20px;
+  color: #94a3b8;
+}
+
+.affiliationGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .affiliationGrid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+.affiliation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(30 41 59 / 0.8);
+  background-color: rgb(15 23 42 / 0.8);
+  text-align: center;
+  transition: border-color 200ms ease;
+}
+
+.affiliation:hover {
+  border-color: rgb(0 82 204 / 0.5);
+}
+
+.affiliationIcon {
+  font-size: 30px;
+  color: #10b981;
+}
+
+.affiliationName {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.affiliationDesc {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* Consultation */
+.consult {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  padding: 2rem;
+  border-radius: 1.25rem;
+  border: 1px solid #e2e7ff;
+  background-color: #f6f8ff;
+}
+
+@media (min-width: 1024px) {
+  .consult {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3rem;
+  }
+}
+
+.consultCopy {
+  display: flex;
+  max-width: 36rem;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.consultPoints {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.consultPoints li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.consultCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  border: 1px solid #e2e7ff;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgb(15 23 42 / 0.06);
+}
+
+@media (min-width: 1024px) {
+  .consultCard {
+    width: 24rem;
+    flex-shrink: 0;
+  }
+}
+
+.consultCardTitle {
+  margin-top: 0.25rem;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.consultCardText {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.consultNote {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 12px;
+  color: #64748b;
+}

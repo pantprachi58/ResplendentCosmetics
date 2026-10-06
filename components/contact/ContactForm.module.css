@@ -1,0 +1,165 @@
+.card {
+  position: relative;
+  overflow: hidden;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  border: 1px solid #f1f5f9;
+  background-color: #ffffff;
+  box-shadow: 0 4px 28px -2px rgb(26 26 26 / 0.06);
+}
+
+@media (min-width: 640px) {
+  .card {
+    padding: 2.5rem;
+  }
+}
+
+.accentBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(90deg, #0052cc, #003d9b, #00b074);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.title {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.lock {
+  display: flex;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: rgb(0 82 204 / 0.1);
+  color: #0052cc;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.phoneRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .phoneRow {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  }
+}
+
+.fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.formatGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .formatGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.formatOption {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+  cursor: pointer;
+  transition: border-color 150ms ease, background-color 150ms ease;
+}
+
+.formatOption:hover,
+.formatOption:has(input:checked) {
+  border-color: rgb(0 82 204 / 0.5);
+  background-color: rgb(239 246 255 / 0.6);
+}
+
+.formatOption input {
+  accent-color: #0052cc;
+}
+
+.formatOption > span {
+  display: flex;
+  flex-direction: column;
+}
+
+.formatTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.formatText {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 13px;
+  line-height: 20px;
+  color: #64748b;
+  cursor: pointer;
+}
+
+.consent input {
+  margin-top: 0.25rem;
+  accent-color: #0052cc;
+}
+
+.responseNote {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  margin-top: -0.75rem;
+  font-size: 13px;
+  color: #64748b;
+  text-align: center;
+}
+
+.green {
+  font-size: 15px;
+  color: #00b074;
+}

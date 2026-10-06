@@ -13,7 +13,7 @@ export default function Footer() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 className={styles.image}
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfhJ8JNzkS-mPLBvz5QO6jjA9YrW7iSpusXt6o1Lqt5REfRSoOtVW8JVF-i1z9YSgKQq9q2LIjxomiDnvtn-wTjf8n_4doGsi6Tnph6OgEIv4ClosLlVU6eKNIVZznZr3tY5wqK_gacZrOBAimIUgxDczZBipDuXM961aqKm2_X6gIFtfZI1nwaVGFOQJfLzl860vRg-2JiH5JMhi80gNpT4P6m42wRn7YSQAR-uvAnyS1jlBL3RK8yIIbNSJAygVICg"
+                src="/images/footer-logo.png"
                 alt="Resplendent Aesthetics"
               />
             </div>

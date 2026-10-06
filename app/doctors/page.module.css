@@ -1,0 +1,472 @@
+/* Editorial Header */
+.header {
+  padding-top: 3.5rem;
+  padding-bottom: 3rem;
+}
+
+.headerInner {
+  display: flex;
+  max-width: 56rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  text-align: center;
+}
+
+.title {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+}
+
+@media (min-width: 1024px) {
+  .title {
+    font-size: 48px;
+    line-height: 56px;
+  }
+}
+
+.lead {
+  max-width: 48rem;
+  font-size: 17px;
+  line-height: 28px;
+  color: #64748b;
+}
+
+.divider {
+  width: 5rem;
+  height: 0.25rem;
+  margin-top: 0.5rem;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #10b981, #0052cc);
+}
+
+/* Profiles */
+.profiles {
+  padding-bottom: 4rem;
+}
+
+.profileList {
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+}
+
+.profile {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  overflow: hidden;
+  border-radius: 1.25rem;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  box-shadow: 0 8px 30px rgb(0 0 0 / 0.04);
+  transition: box-shadow 300ms ease;
+}
+
+.profile:hover {
+  box-shadow: 0 16px 40px rgb(0 82 204 / 0.1);
+}
+
+@media (min-width: 1024px) {
+  .profile {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  }
+
+  .profileReverse {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+
+  .profileReverse .portraitCol {
+    order: 2;
+    border-right: 0;
+    border-left: 1px solid #e2e8f0;
+  }
+}
+
+.portraitCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  background: linear-gradient(to bottom, rgb(239 246 255 / 0.7), rgb(241 245 249 / 0.7));
+}
+
+@media (min-width: 640px) {
+  .portraitCol {
+    padding: 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .portraitCol {
+    border-bottom: 0;
+    border-right: 1px solid #e2e8f0;
+  }
+}
+
+.portrait {
+  aspect-ratio: 4 / 5;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgb(15 23 42 / 0.12);
+}
+
+.portraitImage {
+  object-position: top;
+  transition: transform 700ms ease;
+}
+
+.portrait:hover .portraitImage {
+  transform: scale(1.05);
+}
+
+.portraitOverlay {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1.5rem;
+  background: linear-gradient(to top, rgb(2 6 23 / 0.9), rgb(15 23 42 / 0.5), transparent);
+  color: #ffffff;
+}
+
+.overlayTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-bottom: 0.25rem;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #34d399;
+}
+
+.overlayTag :global(.material-symbols-outlined) {
+  font-size: 15px;
+}
+
+.overlayTitle {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 20px;
+  line-height: 26px;
+  font-weight: 700;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 9999px;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  color: #0052cc;
+}
+
+.badgeIcon {
+  font-size: 15px;
+  color: #10b981;
+}
+
+.dossier {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .dossier {
+    padding: 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .dossier {
+    padding: 3rem;
+  }
+}
+
+.specialty {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #00b074;
+}
+
+.name {
+  margin-top: 0.25rem;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 30px;
+  line-height: 38px;
+  font-weight: 700;
+  color: #0052cc;
+}
+
+.qualifications {
+  margin-top: 0.25rem;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 500;
+  color: #64748b;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.25rem 0;
+}
+
+.tagBlue,
+.tagGreen {
+  padding: 0.375rem 0.875rem;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.tagBlue {
+  border: 1px solid rgb(0 82 204 / 0.2);
+  background-color: #eef4ff;
+  color: #0052cc;
+}
+
+.tagGreen {
+  border: 1px solid rgb(0 176 116 / 0.3);
+  background-color: #e8faf3;
+  color: #00875a;
+}
+
+.bio {
+  margin-bottom: 1.5rem;
+  font-size: 15px;
+  line-height: 26px;
+  color: #1e293b;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid #e2e8f0;
+  background-color: #f1f5f9;
+}
+
+.stats > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.statValue,
+.statValueGreen {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 22px;
+  line-height: 30px;
+  font-weight: 700;
+  color: #0052cc;
+}
+
+.statValueGreen {
+  color: #00b074;
+}
+
+.statLabel {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.ctaRow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .ctaRow {
+    flex-direction: row;
+  }
+}
+
+.ctaNote {
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* Accreditations */
+.accreditations {
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.accreditationGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .accreditationGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .accreditationGrid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+.accreditation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+  text-align: center;
+  transition: border-color 200ms ease, background-color 200ms ease;
+}
+
+.accreditation:hover {
+  border-color: rgb(0 82 204 / 0.4);
+  background-color: rgb(238 244 255 / 0.5);
+}
+
+.accreditationIcon {
+  display: flex;
+  width: 3rem;
+  height: 3rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  border-radius: 9999px;
+  background-color: #eef4ff;
+  color: #0052cc;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+.accreditation:hover .accreditationIcon {
+  background-color: #0052cc;
+  color: #ffffff;
+}
+
+.accreditationTitle {
+  margin-bottom: 0.25rem;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.accreditationText {
+  font-size: 13px;
+  line-height: 20px;
+  color: #64748b;
+}
+
+/* Philosophy */
+.philosophy {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  overflow: hidden;
+  padding: 2.5rem 1.5rem;
+  border-radius: 1.25rem;
+  background: linear-gradient(135deg, #0f172a 0%, #002244 100%);
+  text-align: center;
+  color: #ffffff;
+}
+
+@media (min-width: 1024px) {
+  .philosophy {
+    padding: 3.5rem;
+  }
+}
+
+.quoteIcon {
+  font-size: 36px;
+  color: #00b074;
+}
+
+.quote {
+  max-width: 56rem;
+  margin: 0;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 20px;
+  line-height: 32px;
+  font-weight: 600;
+}
+
+@media (min-width: 1024px) {
+  .quote {
+    font-size: 26px;
+    line-height: 40px;
+  }
+}
+
+.pillars {
+  display: grid;
+  width: 100%;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+  text-align: left;
+}
+
+@media (min-width: 768px) {
+  .pillars {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.pillar {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  background-color: rgb(255 255 255 / 0.05);
+}
+
+.pillarIcon {
+  flex-shrink: 0;
+  font-size: 22px;
+  color: #00b074;
+}
+
+.pillarTitle {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.pillarText {
+  margin-top: 0.25rem;
+  font-size: 12px;
+  line-height: 18px;
+  color: #cbd5e1;
+}
