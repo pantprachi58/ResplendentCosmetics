@@ -98,7 +98,7 @@ export default function Header() {
       <div className={styles.mainBar}>
         <Link className={styles.logoLink} href="/" onClick={closeAll}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className={styles.logo} src="/logo.svg" alt="Resplendent Aesthetics" />
+          <img className={styles.logo} src="/svg/logo.png" width={443} height={117} alt="Resplendent Aesthetics" />
         </Link>
 
         {/* Desktop navigation */}
