@@ -10,7 +10,7 @@ export const quickLinks: FooterLink[] = [
   { href: "/doctors", label: "Our Doctors" },
   { href: "/gallery", label: "Gallery" },
   { href: "/achievements", label: "Achievements" },
-  { href: "/international-patients", label: "International Patients" },
+  { href: "/contact#international-desk", label: "International Patients" },
 ];
 
 export const treatmentLinks: FooterLink[] = [
@@ -22,5 +22,5 @@ export const treatmentLinks: FooterLink[] = [
     label: "Liposuction & Body Contouring",
   },
   { href: "/treatments/botox", label: "Botox & Dermal Fillers" },
-  { href: "/laser-treatments", label: "Medical Laser Treatments" },
+  { href: "/treatments/laser-hair-removal", label: "Laser Hair Removal" },
 ];
