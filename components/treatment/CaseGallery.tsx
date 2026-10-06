@@ -4,17 +4,21 @@ import type { CaseGalleryData, CaseStudy } from "@/data/treatments/types";
 import ui from "@/components/shared/ui.module.css";
 import styles from "./CaseGallery.module.css";
 
-function CaseMedia({ item, columns }: { item: CaseStudy; columns: 2 | 4 }) {
-  const sizes = columns === 4 ? "(min-width: 1024px) 25vw, (min-width: 768px) 50vw, 100vw" : "(min-width: 768px) 25vw, 50vw";
+function CaseMedia({ item, columns }: { item: CaseStudy; columns: CaseGalleryData["columns"] }) {
+  const sizes =
+    columns === 2 ? "(min-width: 768px) 25vw, 50vw" : "(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw";
 
   if (item.before && item.after) {
+    // 3-column galleries hold wide strip photos, so before/after stack vertically instead of side by side.
+    const stacked = columns === 3;
+    const photoClass = `${ui.media} ${stacked ? styles.pairPhotoWide : styles.pairPhoto}`;
     return (
-      <div className={styles.pair}>
-        <div className={`${ui.media} ${styles.pairPhoto}`}>
+      <div className={stacked ? styles.pairStacked : styles.pair}>
+        <div className={photoClass}>
           <Image src={item.before.src} alt={item.before.alt} fill sizes={sizes} className={ui.cover} />
           <span className={styles.beforeLabel}>Before</span>
         </div>
-        <div className={`${ui.media} ${styles.pairPhoto}`}>
+        <div className={photoClass}>
           <Image src={item.after.src} alt={item.after.alt} fill sizes={sizes} className={ui.cover} />
           <span className={styles.afterLabel}>{item.after.label}</span>
         </div>
@@ -32,6 +36,12 @@ function CaseMedia({ item, columns }: { item: CaseStudy; columns: 2 | 4 }) {
   );
 }
 
+const gridClass: Record<CaseGalleryData["columns"], string> = {
+  2: styles.grid2,
+  3: styles.grid3,
+  4: styles.grid4,
+};
+
 export default function CaseGallery({ data }: { data: CaseGalleryData }) {
   return (
     <section id={data.id} className={`${ui.section} ${ui.ivory}`}>
@@ -48,7 +58,7 @@ export default function CaseGallery({ data }: { data: CaseGalleryData }) {
           </span>
         </div>
 
-        <div className={data.columns === 4 ? styles.grid4 : styles.grid2}>
+        <div className={gridClass[data.columns]}>
           {data.cases.map((item) => (
             <article key={item.caseId} className={styles.card}>
               <CaseMedia item={item} columns={data.columns} />
@@ -60,12 +70,16 @@ export default function CaseGallery({ data }: { data: CaseGalleryData }) {
                   </div>
                 )}
                 <h3 className={styles.title}>{item.title}</h3>
-                <p className={styles.text}>{item.text}</p>
+                {item.text && <p className={styles.text}>{item.text}</p>}
               </div>
-              <div className={styles.meta}>
-                <span>{item.meta[0]}</span>
-                <span className={styles.metaAccent}>{item.meta[1]}</span>
-              </div>
+              {item.meta ? (
+                <div className={styles.meta}>
+                  <span>{item.meta[0]}</span>
+                  <span className={styles.metaAccent}>{item.meta[1]}</span>
+                </div>
+              ) : (
+                <div className={styles.bodyEnd} />
+              )}
             </article>
           ))}
         </div>

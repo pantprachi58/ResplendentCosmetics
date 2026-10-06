@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import Icon from "@/components/Icon";
 import type { FaqData } from "@/data/treatments/types";
 import ui from "@/components/shared/ui.module.css";
@@ -8,14 +8,17 @@ import styles from "./FaqAccordion.module.css";
 
 type FaqAccordionProps = {
   data: FaqData;
+  id?: string;
   tone?: "white" | "ivory";
 };
 
-export default function FaqAccordion({ data, tone = "white" }: FaqAccordionProps) {
+export default function FaqAccordion({ data, id, tone = "white" }: FaqAccordionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  // Unique per instance so pages with more than one FAQ section keep valid aria-controls ids.
+  const idPrefix = useId();
 
   return (
-    <section className={`${ui.section} ${ui[tone]}`}>
+    <section id={id} className={`${ui.section} ${ui[tone]}`}>
       <div className={`${ui.container} ${styles.inner}`}>
         <div className={ui.headerCenter}>
           <span className={ui.eyebrow}>{data.eyebrow}</span>
@@ -26,7 +29,7 @@ export default function FaqAccordion({ data, tone = "white" }: FaqAccordionProps
         <div className={styles.list}>
           {data.items.map((item, index) => {
             const open = openIndex === index;
-            const panelId = `faq-panel-${index}`;
+            const panelId = `${idPrefix}-panel-${index}`;
             return (
               <div key={item.question} className={`${styles.item} ${open ? styles.itemOpen : ""}`}>
                 <button

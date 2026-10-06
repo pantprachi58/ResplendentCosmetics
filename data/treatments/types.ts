@@ -132,18 +132,18 @@ export type FeatureBandData = {
 export type CaseStudy = {
   caseId: string;
   title: string;
-  text: string;
+  text?: string;
   badge?: string;
   image?: ImageRef;
   before?: ImageRef;
   after?: ImageRef & { label: string };
-  meta: [string, string];
+  meta?: [string, string];
 };
 
 export type CaseGalleryData = SectionHeading & {
   id: string;
   note: string;
-  columns: 2 | 4;
+  columns: 2 | 3 | 4;
   cases: CaseStudy[];
 };
 
@@ -164,6 +164,7 @@ export type CardGridData = SectionHeading & {
 };
 
 export type CalloutData = {
+  id?: string;
   icon: string;
   eyebrow?: string;
   title: string;
@@ -199,6 +200,33 @@ export type ConsultationFormData = SectionHeading & {
   withDate?: boolean;
   submitLabel: string;
   successMessage: string;
+};
+
+export type MediaCard = {
+  image: ImageRef;
+  title?: string;
+  text?: string;
+  bullets?: string[];
+  footLabel?: string;
+  footValue?: string;
+};
+
+export type MediaCardGridData = SectionHeading & {
+  id?: string;
+  columns: 2 | 3 | 4;
+  /** "contain" shows the whole photo (e.g. composite before/after shots) instead of cropping */
+  fit?: "cover" | "contain";
+  /** Portrait suits tall photos such as event shots; landscape is the default */
+  aspect?: "landscape" | "portrait";
+  note?: string;
+  cards: MediaCard[];
+};
+
+export type VideoGalleryData = SectionHeading & {
+  id?: string;
+  /** Optional link shown under the videos, e.g. to the YouTube channel */
+  moreLink?: Cta;
+  videos: { youtubeId: string; title: string; note?: string }[];
 };
 
 export type CtaBandData = {

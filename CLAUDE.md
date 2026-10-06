@@ -24,19 +24,27 @@ app/
   about/page.tsx      About page (self-contained: data + markup inline)
   treatments/page.tsx Client component; filterable grid over data/procedures.ts
   treatments/<slug>/  Treatment detail pages (blepharoplasty, botox, brow-lift, chin-jawline,
-                      face-neck-lift, hair-transplant, hydrafacial, liposuction, rhinoplasty)
+                      face-neck-lift, hair-transplant, hydrafacial, liposuction, rhinoplasty,
+                      vaginal-tightening, vaginoplasty, chemical-peel, dimple-creation,
+                      ear-lobe-repair, otoplasty, eyelid-surgery, dermal-fillers, prp-therapy,
+                      microdermabrasion, thread-lift, buttock-calf-augmentation, gender-reassignment,
+                      laser-hair-removal, body-tightening, rf-microneedling, fat-grafting, tummy-tuck,
+                      breast-surgery (#augmentation/#lift/#reduction), hymenoplasty, penile-enlargement,
+                      gynecomastia, six-pack-abs)
   book-consultation/ contact/ doctors/ why-choose-us/   Standalone pages (page.tsx + page.module.css)
+  gallery/ achievements/   Videos + event photos; publications list (data in data/gallery.ts, data/achievements.ts)
 components/
   <Section>.tsx + <Section>.module.css   one pair per home-page section
   Icon.tsx            Material Symbols wrapper: <Icon name="call" filled? className? />
   about/*             About-page section components (currently NOT used by app/about/page.tsx)
   shared/ui.module.css  Shared primitives for content pages: .page (main wrapper w/ header offset),
                       .container, .section, .eyebrow, .title, .btn*, .media/.cover, form .input
-  shared/CtaLink.tsx  Pill button; next/link for "/" routes, <a> for tel:/#/external
+  shared/CtaLink.tsx  Pill button; next/link for "/" routes, <a> for tel:/# (external http links open in a new tab)
+  shared/PageIntro.tsx  Centred heading for non-treatment pages
   treatment/*         Reusable treatment-page sections, each fed by typed data: Breadcrumb,
                       TreatmentHero, TreatmentOverview, ProcessSteps, FeatureBand, CaseGallery,
                       CardGrid, CalloutBanner, FaqAccordion (client), ConsultationForm (client),
-                      CtaBand, Diagrams (inline SVG scans)
+                      CtaBand, VideoGallery (lazy youtube-nocookie embeds), MediaCardGrid (photo cards / galleries), Diagrams (inline SVG scans)
   booking/BookingWizard.tsx  Client 4-step booking flow; contact/ContactForm.tsx  Client form
 data/*.ts             Typed content arrays (procedures, doctors, results, testimonials,
                       stats, navigation, treatmentCategories, footer, facility, about, internationalDesk,
@@ -63,10 +71,15 @@ Path alias: `@/*` → repo root (e.g. `@/components/Icon`, `@/data/procedures`).
 - Commented section headers in JSX (`{/* Hero Section */}`) are the norm in page files.
 
 - **New treatment pages**: add `data/treatments/<slug>.ts` (typed `TreatmentPageData` + any extra section data) and an `app/treatments/<slug>/page.tsx` that composes `components/treatment/*` sections inside `<main className={ui.page}>`. Put images in `public/images/pages/<slug>/`, never hotlink. Palette for these pages is blue/green: `#0052cc` / `#003d9b` / `#10b981` / navy `#002244` / charcoal `#0f172a`.
-- Legacy top-level treatment URLs (`/rhinoplasty`, `/hair-transplant`, ...) 308-redirect to `/treatments/<slug>` via `next.config.mjs`.
+- Legacy URLs (`/rhinoplasty`, `/hair-transplant`, ... and old production `*.php` pages) 308-redirect to `/treatments/<slug>` via `next.config.mjs`. When porting a page from the live PHP site, add its `.php` URL there.
+- Live-site photos must also be checked for stock images posing as results and identifiable patients (one gallery photo showed patients on OT tables and was excluded).
+- Live-site photos must be checked before use: several carry another clinic's watermark ("Pure Aesthetic Surgery") and were deliberately not used.
+- Live pages contain copy-paste errors (wrong FAQ blocks, wrong meta descriptions, stray paragraphs) and medical overclaims ("guaranteed", "no side effects"); review the content, don't port blindly.
+- Pages ported from the live site use only the live content (no invented stats, cases or surgeon claims); sections without source material are omitted.
 
 ## Known gaps
 
+- `/treatments/eyelid-surgery` (ported from live) and `/treatments/blepharoplasty` (template) cover the same procedure; consolidate into one before launch to avoid duplicate SEO content.
 - Some links still point to routes that don't exist: `/international-patients`, `/before-after`, `/laser-treatments`, and the `/treatments/<slug>` pages in `data/treatmentCategories.ts` other than the 9 built ones.
 - Forms (contact, booking, consultation) have no backend; they only show a client-side confirmation.
 - `README.md` is partly stale (says `/about-us` and `/treatments` don't exist).

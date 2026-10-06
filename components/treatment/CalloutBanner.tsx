@@ -8,7 +8,7 @@ export default function CalloutBanner({ data }: { data: CalloutData }) {
   const { aside } = data;
 
   return (
-    <section className={`${ui.section} ${ui.white}`}>
+    <section id={data.id} className={`${ui.section} ${ui.white}`}>
       <div className={ui.container}>
         <div className={`${styles.panel} ${aside ? styles.withAside : ""}`}>
           <div className={styles.main}>

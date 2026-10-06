@@ -17,7 +17,7 @@ const variantClass = {
   ghost: ui.btnGhost,
 };
 
-/** Pill button that uses next/link for routes and a plain anchor for tel:/#/external targets. */
+/** Pill button that uses next/link for routes and a plain anchor for tel:/#/external targets (external opens in a new tab). */
 export default function CtaLink({ cta, variant = "primary", block = false }: CtaLinkProps) {
   const className = `${ui.btn} ${variantClass[variant]}${block ? ` ${ui.btnBlock}` : ""}`;
   const content = (
@@ -35,8 +35,14 @@ export default function CtaLink({ cta, variant = "primary", block = false }: Cta
       </Link>
     );
   }
+  const external = cta.href.startsWith("http");
   return (
-    <a className={className} href={cta.href}>
+    <a
+      className={className}
+      href={cta.href}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
+    >
       {content}
     </a>
   );
