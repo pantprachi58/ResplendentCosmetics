@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description:
     "Bespoke aesthetic and reconstructive surgery led by Senior Plastic Surgeon Dr. Sukhbir Singh in Greater Kailash Part 1, South Delhi.",
   icons: {
-    icon: "/images/fav.png",
+    icon: "/svg/Resplendent Logo favicon Color.png",
   },
 };
 

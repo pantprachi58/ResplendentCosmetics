@@ -46,7 +46,7 @@ export default function Header() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               className={styles.image}
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaP2k0vqTtIrrWbcSatCtFEHpagp3rEgBUdVPfdFwlx0Y1PvOzxRlvkvHAgt4oxfT3U6Fyou_8CJReCtrQv2sR0WBhOGa9vb7guX7SPFzmBCxtdxyouikPpYwRybS3DMI1ZKB8vMeRniHYo3C-SWwhS9fTvos6kUWhcnSnpjMnRiCjQp8QcLgqeoQn1Av7Bj4gr-W1HX8fZFI5a9AOLh5VcvAz-ClUrcLXyAvl2SycnlnJkm_iEqZb7jeYmW8NNWjtAw"
+              src="/svg/Resplendent Logo Color.png"
               alt="Resplendent Aesthetics"
             />
           </Link>

@@ -18,9 +18,9 @@ export default function HomePage() {
         <TrustBar />
         <Procedures />
         <TreatmentChoice />
-        <Facility />
         <Results />
         <Doctors />
+        <Facility />
         <Testimonials />
         <InternationalDesk />
         <AppointmentCta />
