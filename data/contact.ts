@@ -52,6 +52,7 @@ export const contactChannels: ContactChannel[] = [
 ];
 
 export const internationalDesk: CardGridData = {
+  id: "international-desk",
   eyebrow: "Dedicated Overseas Concierge",
   title: "Welcoming Global Patients to New Delhi",
   intro:

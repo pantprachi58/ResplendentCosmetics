@@ -30,7 +30,7 @@ app/
                       microdermabrasion, thread-lift, buttock-calf-augmentation, gender-reassignment,
                       laser-hair-removal, body-tightening, rf-microneedling, fat-grafting, tummy-tuck,
                       breast-surgery (#augmentation/#lift/#reduction), hymenoplasty, penile-enlargement,
-                      gynecomastia, six-pack-abs)
+                      gynecomastia, six-pack-abs, lip-augmentation)
   book-consultation/ contact/ doctors/ why-choose-us/   Standalone pages (page.tsx + page.module.css)
   gallery/ achievements/   Videos + event photos; publications list (data in data/gallery.ts, data/achievements.ts)
 components/
@@ -76,11 +76,13 @@ Path alias: `@/*` → repo root (e.g. `@/components/Icon`, `@/data/procedures`).
 - Live-site photos must be checked before use: several carry another clinic's watermark ("Pure Aesthetic Surgery") and were deliberately not used.
 - Live pages contain copy-paste errors (wrong FAQ blocks, wrong meta descriptions, stray paragraphs) and medical overclaims ("guaranteed", "no side effects"); review the content, don't port blindly.
 - Pages ported from the live site use only the live content (no invented stats, cases or surgeon claims); sections without source material are omitted.
+- **Header** (`components/Header.tsx`, client): main links from `data/navigation.ts`; the Treatments mega menu (Face / Body / Women / Men) from `data/treatmentCategories.ts`, which mirrors the live site's menu (Hair Transplant deliberately left out). Every href there must resolve to a built page. Desktop nav shows at ≥1280px (mega menu opens on mouse hover or the chevron button; Escape / outside click closes); below that a hamburger opens an accordion panel. The contact top bar shows at ≥1024px. The fixed header is 5rem tall (7.5rem with the top bar); `globals.css` sets a matching `scroll-margin-top` on `[id]` so in-page anchors aren't hidden.
+- International patient links go to `/contact#international-desk` (there is no separate page; `/international-patients` redirects there).
 
 ## Known gaps
 
 - `/treatments/eyelid-surgery` (ported from live) and `/treatments/blepharoplasty` (template) cover the same procedure; consolidate into one before launch to avoid duplicate SEO content.
-- Some links still point to routes that don't exist: `/international-patients`, `/before-after`, `/laser-treatments`, and the `/treatments/<slug>` pages in `data/treatmentCategories.ts` other than the 9 built ones.
+- Pages not reachable from the header menu: `hydrafacial`, `chin-jawline`, `blepharoplasty` (overlaps `eyelid-surgery`), `hair-transplant` and `/why-choose-us` (the last two are still linked from the footer). The live `blog.php` has no local equivalent.
 - Forms (contact, booking, consultation) have no backend; they only show a client-side confirmation.
 - `README.md` is partly stale (says `/about-us` and `/treatments` don't exist).
 - `app/treatments/page.tsx` derives categories by matching `procedure.badge` strings against hardcoded lists; adding a procedure with a new badge value means updating those lists (filter map and the surgical/non-surgical counts).

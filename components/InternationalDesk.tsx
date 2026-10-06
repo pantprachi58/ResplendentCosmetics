@@ -34,7 +34,7 @@ export default function InternationalDesk() {
             </div>
           </div>
           <div className={styles.stack2}>
-            <Link className={styles.button} href="/international-patients">
+            <Link className={styles.button} href="/contact#international-desk">
               <span>Contact International Desk</span>
               <Icon name="travel_explore" className={styles.icon3} />
             </Link>

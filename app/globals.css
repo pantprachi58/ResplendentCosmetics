@@ -531,3 +531,14 @@ main > :last-child {
 ::-webkit-scrollbar {
   display: none;
 }
+
+/* Keep in-page anchor targets clear of the fixed header (5rem; 7.5rem with the top bar) */
+[id] {
+  scroll-margin-top: 6rem;
+}
+
+@media (min-width: 1024px) {
+  [id] {
+    scroll-margin-top: 8.5rem;
+  }
+}

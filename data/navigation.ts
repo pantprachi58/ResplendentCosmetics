@@ -8,7 +8,10 @@ export const navItems: NavItem[] = [
   { href: "/about", label: "About Us" },
   { href: "/treatments", label: "Treatments" },
   { href: "/doctors", label: "Doctors" },
-  { href: "/treatments/hair-transplant", label: "Hair Transplant" },
-  { href: "/why-choose-us", label: "Why Choose Us" },
+  { href: "/gallery", label: "Gallery" },
+  { href: "/achievements", label: "Achievements" },
   { href: "/contact", label: "Contact" },
 ];
+
+/** Nav item that opens the treatments mega menu instead of linking directly */
+export const TREATMENTS_HREF = "/treatments";
