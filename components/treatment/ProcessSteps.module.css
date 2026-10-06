@@ -1,0 +1,113 @@
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.75rem;
+  border-radius: 1rem;
+  border: 1px solid #e2e8f0;
+  border-top: 3px solid #0052cc;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgb(15 23 42 / 0.05);
+  transition: box-shadow 200ms ease, transform 200ms ease;
+}
+
+.card:nth-child(even) {
+  border-top-color: #10b981;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgb(15 23 42 / 0.08);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.number {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 36px;
+  line-height: 40px;
+  font-weight: 800;
+  color: rgb(0 82 204 / 0.25);
+}
+
+.iconWrap {
+  display: flex;
+  width: 2.5rem;
+  height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: #eef4ff;
+}
+
+.icon {
+  font-size: 20px;
+  color: #0052cc;
+}
+
+.title {
+  margin-bottom: 0.625rem;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.text {
+  font-size: 13px;
+  line-height: 21px;
+  color: #475569;
+}
+
+.foot {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background-color: #f1f5ff;
+}
+
+.footLabel {
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.footValue {
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 700;
+  color: #059669;
+}

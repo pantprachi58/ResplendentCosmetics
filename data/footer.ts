@@ -13,13 +13,13 @@ export const quickLinks: FooterLink[] = [
 ];
 
 export const treatmentLinks: FooterLink[] = [
-  { href: "/hair-transplant", label: "Hair Transplant — FUE & DHI" },
-  { href: "/rhinoplasty", label: "Rhinoplasty (Nose Reshaping)" },
-  { href: "/face-neck-lift", label: "Face & Neck Lift" },
+  { href: "/treatments/hair-transplant", label: "Hair Transplant — FUE & DHI" },
+  { href: "/treatments/rhinoplasty", label: "Rhinoplasty (Nose Reshaping)" },
+  { href: "/treatments/face-neck-lift", label: "Face & Neck Lift" },
   {
-    href: "/liposuction-body-contouring",
+    href: "/treatments/liposuction",
     label: "Liposuction & Body Contouring",
   },
-  { href: "/botox-fillers", label: "Botox & Dermal Fillers" },
+  { href: "/treatments/botox", label: "Botox & Dermal Fillers" },
   { href: "/laser-treatments", label: "Medical Laser Treatments" },
 ];

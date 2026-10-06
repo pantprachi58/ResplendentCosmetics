@@ -19,6 +19,7 @@ export const treatmentCategories: TreatmentCategory[] = [
       { name: "Ear Lobe Repair", href: "/treatments/ear-lobe-repair" },
       { name: "Dimple Creation", href: "/treatments/dimple-creation" },
       { name: "Brow Lift", href: "/treatments/brow-lift" },
+      { name: "Chin & Jawline", href: "/treatments/chin-jawline" },
       { name: "Botox & Neurotoxins", href: "/treatments/botox" },
       { name: "Dermal Fillers", href: "/treatments/dermal-fillers" },
       { name: "PDO Thread Lift", href: "/treatments/thread-lift" },
@@ -26,6 +27,7 @@ export const treatmentCategories: TreatmentCategory[] = [
       { name: "Laser Resurfacing", href: "/treatments/laser-resurfacing" },
       { name: "Microdermabrasion", href: "/treatments/microdermabrasion" },
       { name: "Chemical Peel", href: "/treatments/chemical-peel" },
+      { name: "HydraFacial", href: "/treatments/hydrafacial" },
     ],
   },
   {

@@ -1,0 +1,247 @@
+.root {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0f172a 0%, #002244 100%);
+}
+
+.root::after {
+  content: "";
+  position: absolute;
+  top: -10rem;
+  right: -6rem;
+  width: 30rem;
+  height: 30rem;
+  border-radius: 9999px;
+  background-color: rgb(0 82 204 / 0.22);
+  filter: blur(96px);
+  pointer-events: none;
+}
+
+.grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 3rem;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.title {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: #ffffff;
+}
+
+@media (min-width: 1024px) {
+  .title {
+    font-size: 40px;
+    line-height: 48px;
+  }
+}
+
+.paragraph {
+  font-size: 15px;
+  line-height: 26px;
+  color: #cbd5e1;
+}
+
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  font-size: 14px;
+  line-height: 22px;
+  color: #ffffff;
+}
+
+.checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.checkBadge {
+  display: flex;
+  width: 1.5rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: rgb(16 185 129 / 0.2);
+  color: #34d399;
+}
+
+.checkBadge :global(.material-symbols-outlined) {
+  font-size: 16px;
+}
+
+.note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background-color: rgb(0 82 204 / 0.18);
+  font-size: 13px;
+  line-height: 21px;
+  color: #e2e8f0;
+}
+
+.noteIcon {
+  flex-shrink: 0;
+  font-size: 20px;
+  color: #34d399;
+}
+
+.aside {
+  min-width: 0;
+}
+
+.metrics,
+.metricsCompact {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.metricsCompact {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 640px) {
+  .metricsCompact {
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  }
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  background-color: rgb(255 255 255 / 0.05);
+  backdrop-filter: blur(4px);
+}
+
+.metricsCompact .metric {
+  padding: 1rem;
+}
+
+.metricIcon {
+  flex-shrink: 0;
+  margin-bottom: 0.5rem;
+  font-size: 26px;
+  color: #34d399;
+}
+
+.metricValue {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.metricsCompact .metricValue {
+  font-size: 22px;
+  line-height: 28px;
+}
+
+.metricLabel {
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #34d399;
+}
+
+.metricText {
+  margin-top: 0.5rem;
+  font-size: 12px;
+  line-height: 18px;
+  color: #94a3b8;
+}
+
+.panel {
+  padding: 2rem;
+  border-radius: 1.25rem;
+  border: 1px solid rgb(255 255 255 / 0.12);
+  background-color: rgb(255 255 255 / 0.05);
+}
+
+.panelHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgb(255 255 255 / 0.12);
+}
+
+.panelTitle {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.panelItems {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.panelItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background-color: rgb(15 23 42 / 0.6);
+}
+
+.panelItem .metricIcon {
+  margin-bottom: 0;
+  font-size: 20px;
+}
+
+.panelItemTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.panelItemText {
+  margin-top: 0.125rem;
+  font-size: 13px;
+  line-height: 20px;
+  color: #cbd5e1;
+}

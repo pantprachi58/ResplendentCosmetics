@@ -1,0 +1,309 @@
+.green {
+  flex-shrink: 0;
+  font-size: 16px;
+  color: #10b981;
+}
+
+/* Header */
+.header {
+  position: relative;
+  overflow: hidden;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.header::before {
+  content: "";
+  position: absolute;
+  top: -8rem;
+  right: 25%;
+  width: 24rem;
+  height: 24rem;
+  border-radius: 9999px;
+  background-color: rgb(0 82 204 / 0.06);
+  filter: blur(64px);
+  pointer-events: none;
+}
+
+.headerCopy {
+  position: relative;
+  display: flex;
+  max-width: 48rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.title {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+}
+
+@media (min-width: 1024px) {
+  .title {
+    font-size: 44px;
+    line-height: 52px;
+  }
+}
+
+.lead {
+  font-size: 16px;
+  line-height: 27px;
+  color: #64748b;
+}
+
+/* Booking layout */
+.booking {
+  padding-bottom: 5rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+  }
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.security {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0 0.5rem;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.security span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.75rem;
+  border-radius: 1rem;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgb(15 23 42 / 0.05);
+}
+
+.cardTint {
+  background-color: #f1f5ff;
+  box-shadow: none;
+}
+
+.cardTitle {
+  margin-top: 0.25rem;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.concierge {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.conciergeItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.conciergeIcon {
+  display: flex;
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: #eef4ff;
+  color: #0052cc;
+}
+
+.conciergeIcon :global(.material-symbols-outlined) {
+  font-size: 18px;
+}
+
+.conciergeLabel {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #0f172a;
+}
+
+.conciergeText {
+  font-size: 13px;
+  line-height: 20px;
+  color: #64748b;
+}
+
+.conciergeAccent {
+  font-size: 12px;
+  color: #059669;
+}
+
+.conciergeStrong {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.conciergeLink {
+  font-size: 12px;
+  font-weight: 600;
+  color: #0052cc;
+}
+
+.conciergeLink:hover {
+  text-decoration: underline;
+}
+
+.conciergeMuted {
+  display: block;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.map {
+  display: flex;
+  height: 9rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+}
+
+.map::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgb(15 23 42 / 0.2);
+  transition: background-color 200ms ease;
+}
+
+.map:hover::after {
+  background-color: rgb(15 23 42 / 0.1);
+}
+
+.mapLabel {
+  position: relative;
+  z-index: 1;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+  background-color: rgb(255 255 255 / 0.9);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #0f172a;
+}
+
+.standards {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.standard {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.standardIcon {
+  flex-shrink: 0;
+  font-size: 20px;
+  color: #0052cc;
+}
+
+.standardTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.quoteCard {
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+}
+
+.quoteMark {
+  position: absolute;
+  right: -0.5rem;
+  bottom: -1rem;
+  font-size: 120px;
+  color: #eef2fb;
+  pointer-events: none;
+}
+
+.quote {
+  position: relative;
+  margin: 0 0 1rem;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 16px;
+  line-height: 25px;
+  font-style: italic;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.quoteAuthor {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.quoteAvatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  flex-shrink: 0;
+  border-radius: 9999px;
+}
+
+.quoteName {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #0f172a;
+}
