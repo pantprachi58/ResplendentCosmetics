@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import Icon from "./Icon";
 import { procedures, type Procedure } from "@/data/procedures";
@@ -15,7 +18,18 @@ const badgeToneClass: Record<Procedure["badgeTone"], string> = {
   solid: styles.tagSolid,
 };
 
+type FilterType = "all" | "surgical" | "dermatology";
+
 export default function Procedures() {
+  const [activeFilter, setActiveFilter] = useState<FilterType>("all");
+
+  const filteredProcedures = procedures.filter((item) => {
+    if (activeFilter === "all") return true;
+    if (activeFilter === "surgical") return item.cardTone === "blue";
+    if (activeFilter === "dermatology") return item.cardTone === "emerald";
+    return true;
+  });
+
   return (
     <section className={styles.root} id="procedures">
       <div className={styles.stack}>
@@ -29,13 +43,32 @@ export default function Procedures() {
         </div>
         <div className={styles.row}>
           <span className={styles.label2}>Classification:</span>
-          <span className={styles.badge}>All Disciplines</span>
-          <span className={styles.badge2}>Surgical</span>
-          <span className={styles.badge2}>Dermatology</span>
+          <button
+            className={activeFilter === "all" ? styles.badge : styles.badge2}
+            onClick={() => setActiveFilter("all")}
+          >
+            All Disciplines
+          </button>
+          <button
+            className={
+              activeFilter === "surgical" ? styles.badge : styles.badge2
+            }
+            onClick={() => setActiveFilter("surgical")}
+          >
+            Surgical
+          </button>
+          <button
+            className={
+              activeFilter === "dermatology" ? styles.badge : styles.badge2
+            }
+            onClick={() => setActiveFilter("dermatology")}
+          >
+            Dermatology
+          </button>
         </div>
       </div>
       <div className={styles.columns}>
-        {procedures.map((item) => (
+        {filteredProcedures.map((item) => (
           <div
             key={item.title}
             className={`${styles.card} ${styles.group} ${cardToneClass[item.cardTone]}`}
