@@ -16,7 +16,7 @@ export default function Facility() {
         <div className={styles.box}>
           <span className={styles.label}>Medical-Grade Excellence</span>
           <h2 className={styles.title}>
-            Accredited Private Surgical sanctuary
+            Accredited Private Surgical Sanctuary
           </h2>
           <p className={styles.text}>
             Engineered for unparalleled clinical safety, complete patient

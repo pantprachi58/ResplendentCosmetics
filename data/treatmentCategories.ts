@@ -15,7 +15,7 @@ export const treatmentCategories: TreatmentCategory[] = [
     category: "Face",
     items: [
       { name: "Brow Lift", href: "/treatments/brow-lift" },
-      { name: "Chemical Peel (Non-Surgical)", href: "/treatments/chemical-peel" },
+      { name: "Thread Lift", href: "/treatments/thread-lift" },
       { name: "Dimple Surgery", href: "/treatments/dimple-creation" },
       { name: "Earlobe Repair", href: "/treatments/ear-lobe-repair" },
       { name: "Ear Surgery", href: "/treatments/otoplasty" },
@@ -27,7 +27,7 @@ export const treatmentCategories: TreatmentCategory[] = [
       { name: "Nose Job", href: "/treatments/rhinoplasty" },
       { name: "Botox (Non-Surgical)", href: "/treatments/botox" },
       { name: "Microdermabrasion (Non-Surgical)", href: "/treatments/microdermabrasion" },
-      { name: "Thread Lift", href: "/treatments/thread-lift" },
+      { name: "Chemical Peel (Non-Surgical)", href: "/treatments/chemical-peel" },
     ],
   },
   {
