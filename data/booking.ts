@@ -66,17 +66,8 @@ export const bookingSpecialists: BookingSpecialist[] = [
     role: "Lead Plastic Surgeon",
     credentials: "MS, MCh (Plastic Surgery) • Fellow PUCRS Brazil",
     focus: "Specialist in Rhinoplasty, Face Lifting, VASER Liposuction & Hair Micro-Grafting",
-    image: `${IMG}/01-portrait-of-senior-cosmetic-surgeon.jpg`,
+    image: "/images/pages/doctors/01-dr-sukhbir-singh-lead-consultant.jpg",
     accreditation: { label: "Accredited", value: "ISAPS & APSI Member" },
-  },
-  {
-    value: "dr-ananya",
-    name: "Dr. Ananya Roy",
-    role: "Aesthetic Dermatologist",
-    credentials: "MD (Dermatology, Venereology & Leprosy)",
-    focus: "Specialist in Full-Face Profiling, Advanced Neurotoxins, Dermal Fillers & Laser Physics",
-    image: `${IMG}/02-portrait-of-dr-ananya-roy.jpg`,
-    accreditation: { label: "Certified", value: "IADVL Fellow" },
   },
   {
     value: "next-available",
@@ -135,7 +126,7 @@ export const bookingFaq: FaqData = {
     {
       question: "What happens during the initial consultation?",
       answer:
-        "Your appointment is a dedicated 45-minute surgical assessment. Dr. Sukhbir Singh or Dr. Ananya Roy will review your physiological health, perform detailed facial or body structural assessment, conduct computer-assisted simulations where applicable, and formulate an evidence-based roadmap. You will receive completely transparent feedback on surgical vs. non-surgical outcomes.",
+        "Your appointment is a dedicated 45-minute surgical assessment. Dr. Sukhbir Singh will review your physiological health, perform detailed facial or body structural assessment, conduct computer-assisted simulations where applicable, and formulate an evidence-based roadmap. You will receive completely transparent feedback on surgical vs. non-surgical outcomes.",
     },
     {
       question: "Is there a fee for surgical assessments?",

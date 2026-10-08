@@ -49,6 +49,67 @@ export default function BookingWizard() {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    
+    // Extract form data
+    const fullName = formData.get("full_name") as string;
+    const mobile = formData.get("mobile") as string;
+    const email = formData.get("email") as string;
+    const location = formData.get("location") as string;
+    const objectives = formData.get("objectives") as string;
+    
+    // Get selected category details
+    const selectedCategory = bookingCategories.find((cat) => cat.value === category) || 
+                           { title: "Comprehensive Surgical Assessment" };
+    
+    // Get selected specialist details
+    const selectedSpecialist = bookingSpecialists.find((doc) => doc.value === specialist);
+    
+    // Get selected format details
+    const selectedFormat = consultFormats.find((fmt) => fmt.value === format);
+    
+    // Format the date
+    const selectedDate = dates[dateIndex];
+    const formattedDate = selectedDate?.toLocaleDateString("en-IN", { 
+      weekday: "long", 
+      day: "numeric", 
+      month: "long",
+      year: "numeric"
+    });
+    
+    // Construct WhatsApp message
+    const message = `*NEW CONSULTATION BOOKING REQUEST*
+
+📋 *Patient Details:*
+Name: ${fullName}
+Mobile: ${mobile}
+Email: ${email}
+Location: ${location}
+
+🎯 *Procedure/Category:*
+${selectedCategory.title}
+
+👨‍⚕️ *Preferred Specialist:*
+${selectedSpecialist?.name || "Next Available Senior Specialist"}
+
+📅 *Consultation Details:*
+Format: ${selectedFormat?.title || "In-Person"}
+Date: ${formattedDate || "Not selected"}
+Time: ${slot}
+
+${objectives ? `📝 *Aesthetic Objectives:*\n${objectives}\n` : ""}
+---
+*This is an automated booking request from the Resplendent Aesthetics website.*`;
+
+    // WhatsApp number (from the contact data - +91 99103 91229)
+    const whatsappNumber = "919910391229";
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+    
+    // Open WhatsApp in a new window
+    window.open(whatsappUrl, "_blank");
+    
+    // Show success message
     setSubmitted(true);
   };
 
@@ -338,24 +399,25 @@ export default function BookingWizard() {
           <div className={styles.fields}>
             <label className={ui.field}>
               <span className={ui.label}>Full Legal Name *</span>
-              <input className={ui.input} type="text" placeholder="e.g. Rohini Malhotra" required />
+              <input className={ui.input} type="text" name="full_name" placeholder="e.g. Rohini Malhotra" required />
             </label>
             <label className={ui.field}>
               <span className={ui.label}>Mobile / WhatsApp Number *</span>
-              <input className={ui.input} type="tel" placeholder="+91 98100 XXXXX" required />
+              <input className={ui.input} type="tel" name="mobile" placeholder="+91 98100 XXXXX" required />
             </label>
             <label className={ui.field}>
               <span className={ui.label}>Email Address *</span>
-              <input className={ui.input} type="email" placeholder="you@example.com" required />
+              <input className={ui.input} type="email" name="email" placeholder="you@example.com" required />
             </label>
             <label className={ui.field}>
               <span className={ui.label}>City &amp; Country of Residence *</span>
-              <input className={ui.input} type="text" placeholder="e.g. New Delhi, India or London, UK" required />
+              <input className={ui.input} type="text" name="location" placeholder="e.g. New Delhi, India or London, UK" required />
             </label>
             <label className={`${ui.field} ${styles.fullWidth}`}>
               <span className={ui.label}>Aesthetic Objectives or Prior Procedures (Optional)</span>
               <textarea
                 className={ui.input}
+                name="objectives"
                 rows={3}
                 placeholder="Detail any previous cosmetic procedures, aesthetic concerns, or outcomes you wish to address..."
               />

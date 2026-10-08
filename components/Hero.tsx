@@ -98,15 +98,15 @@ export default function Hero() {
                 </div>
               </div>
             </div>
-            <div className={styles.card6}>
+            {/* <div className={styles.card6}>
               <div className={styles.row9}>
                 <Icon name="neurology" className={styles.icon4} />
               </div>
               <div>
                 <p className={styles.text4}>Sub-Millimeter Precision</p>
-                {/* <p className={styles.text5}>Sub-Millimeter Precision</p> */}
+                <p className={styles.text5}>Sub-Millimeter Precision</p>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

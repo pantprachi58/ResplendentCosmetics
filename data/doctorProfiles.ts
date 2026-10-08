@@ -47,62 +47,6 @@ export const doctorProfiles: DoctorProfile[] = [
     cta: { label: "Book Consultation with Dr. Sukhbir", icon: "calendar_month" },
     ctaNote: "Direct surgeon evaluation • Private suites",
   },
-  // {
-  //   name: "Dr. Ananya Roy",
-  //   specialty: "Clinical & Aesthetic Dermatology",
-  //   qualifications:
-  //     "MBBS, MD (Dermatology, Venereology & Leprosy), DNB, Fellowship in Aesthetic Lasers (Milan, Italy)",
-  //   image: `${IMG}/02-dr-ananya-roy-gold-medalist.jpg`,
-  //   imageAlt: "Dr. Ananya Roy - Gold Medalist Dermatologist & Laser Specialist",
-  //   overlayTag: { icon: "spa", label: "Aesthetic Medicine" },
-  //   overlayTitle: "Gold Medalist Dermatologist",
-  //   badges: [
-  //     { icon: "workspace_premium", label: "12+ Yrs Experience" },
-  //     { icon: "military_tech", label: "Milan Laser Fellow" },
-  //   ],
-  //   specialties: [
-  //     "Botox & Neuromodulators",
-  //     "Dermal Fillers & Sculptra",
-  //     "Laser Skin Resurfacing (CO2/Nd:YAG)",
-  //     "RF Microneedling & PRP",
-  //   ],
-  //   bio: "Dr. Ananya Roy is a distinguished aesthetic dermatologist known for her nuanced, non-surgical facial rejuvenation and cellular skin therapies. Having trained across European dermatology institutes, she pairs medical science with subtle micro-droplet injection techniques to restore volume, clear stubborn pigmentation, and stimulate collagen without artificial rigidity.",
-  //   stats: [
-  //     { value: "8,500+", label: "Injectables" },
-  //     { value: "US-FDA", label: "Approved Lasers" },
-  //     { value: "Bespoke", label: "Protocol Design" },
-  //   ],
-  //   cta: { label: "Consult Dr. Ananya Roy", icon: "event_available" },
-  //   ctaNote: "Comprehensive digital skin mapping included",
-  // },
-  // {
-  //   name: "Dr. Rajesh Khanna",
-  //   specialty: "Body Contouring & Breast Architecture",
-  //   qualifications:
-  //     "MBBS, MS, MCh (Plastic Surgery), Fellowship in High-Definition Liposculpture (Colombia & Spain)",
-  //   image: `${IMG}/03-dr-rajesh-khanna-senior-consultant.jpg`,
-  //   imageAlt: "Dr. Rajesh Khanna - Senior Consultant Aesthetic & Reconstructive Surgeon",
-  //   overlayTag: { icon: "medical_services", label: "Body Sculpting Lead" },
-  //   overlayTitle: "Reconstructive Specialist",
-  //   badges: [
-  //     { icon: "workspace_premium", label: "15+ Yrs Experience" },
-  //     { icon: "architecture", label: "4D VASER Certified" },
-  //   ],
-  //   specialties: [
-  //     "4D VASER Liposuction",
-  //     "Breast Augmentation & Lift",
-  //     "Abdominoplasty (Tummy Tuck)",
-  //     "Body Contouring Post-Weight Loss",
-  //   ],
-  //   bio: "Specializing in athletic torso etching, ultrasound-assisted 4D liposculpture, and subfascial breast augmentation, Dr. Rajesh Khanna integrates 3D anatomical planning with rapid-recovery surgical techniques. His focus on vascular preservation ensures minimal bruising, immediate skin retraction, and bespoke anatomical silhouettes tailored to each patient's lifestyle.",
-  //   stats: [
-  //     { value: "6,200+", label: "Transformations" },
-  //     { value: "Class-100", label: "NABH Theatres" },
-  //     { value: "Rapid-Rx", label: "Recovery Protocol" },
-  //   ],
-  //   cta: { label: "Consult Dr. Rajesh Khanna", icon: "calendar_month" },
-  //   ctaNote: "Confidential physical assessment",
-  // },
 ];
 
 export const accreditations: IconText[] = [

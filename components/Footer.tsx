@@ -1,6 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import Icon from "./Icon";
-import { quickLinks, type FooterLink, treatmentLinks } from "@/data/footer";
+import { quickLinks, treatmentLinks } from "@/data/footer";
 import styles from "./Footer.module.css";
 
 export default function Footer() {
@@ -24,14 +25,50 @@ export default function Footer() {
               board-certified plastic surgeons.
             </p>
             <div className={styles.row2}>
-              <a className={styles.button} href="#">
-                <Icon name="photo_camera" className={styles.icon} />
+              <a
+                className={styles.button}
+                href="https://www.instagram.com/resplendent__aesthetics"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Follow us on Instagram"
+              >
+                <Image
+                  src="/icons/instagram.svg"
+                  alt="Instagram"
+                  width={24}
+                  height={24}
+                  className={styles.icon}
+                />
               </a>
-              <a className={styles.button} href="#">
-                <Icon name="share" className={styles.icon} />
+              <a
+                className={styles.button}
+                href="https://www.facebook.com/sukhbir.singh.3557"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Follow us on Facebook"
+              >
+                <Image
+                  src="/icons/facebook.svg"
+                  alt="Facebook"
+                  width={24}
+                  height={24}
+                  className={styles.icon}
+                />
               </a>
-              <a className={styles.button} href="#">
-                <Icon name="play_circle" className={styles.icon} />
+              <a
+                className={styles.button}
+                href="https://www.youtube.com/@resplendentaesthetics"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Subscribe to our YouTube channel"
+              >
+                <Image
+                  src="/icons/youtube.svg"
+                  alt="YouTube"
+                  width={24}
+                  height={24}
+                  className={styles.icon}
+                />
               </a>
             </div>
           </div>
