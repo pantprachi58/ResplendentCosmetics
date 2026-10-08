@@ -109,6 +109,14 @@
     grid-column: span 7 / span 7;
   }
 }
+@media (min-width: 360px) {
+  .stack{
+    gap: 10px;
+  }
+  .label3{
+    font-size: 13px;
+  }
+}
 
 .row {
   display: inline-flex;

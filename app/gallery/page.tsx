@@ -10,7 +10,7 @@ import ui from "@/components/shared/ui.module.css";
 export const metadata: Metadata = {
   title: "Gallery | Resplendent Aesthetics",
   description:
-    "Videos and photos from Dr. Sukhbir Singh and Resplendent Aesthetics—educational treatment videos and conference highlights.",
+    "Videos and photos from Dr. Sukhbir Singh and Resplendent Aesthetics—educational treatment videos, conference highlights including IACD 5.0, WCAM 2026, and Haircon 2026.",
 };
 
 export default function GalleryPage() {
@@ -20,7 +20,7 @@ export default function GalleryPage() {
       <PageIntro
         eyebrow="Gallery"
         title="Videos & Highlights"
-        lead="Watch Dr. Sukhbir Singh explain popular treatments, and see highlights from the conferences where he presents and learns alongside surgeons from around the world."
+        lead="Watch Dr. Sukhbir Singh explain popular treatments, and see highlights from prestigious conferences including IACD 5.0, WCAM 2026 in Bangkok, and the 14th Annual Haircon Conference where he presents and collaborates with leading surgeons worldwide."
       />
       <VideoGallery data={galleryVideos} />
       <MediaCardGrid data={galleryPhotos} tone="ivory" />

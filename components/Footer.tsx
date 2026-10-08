@@ -84,7 +84,7 @@ export default function Footer() {
           </div>
         </div>
         <div className={styles.stack4}>
-          <p>© 2026 Resplendent Aesthetics. All Rights Reserved.Crafted with ❤️ by VD Infotech – Web Development | Digital Marketing | App & Software | Branding</p>
+          <p>© 2026 Resplendent Aesthetics. All Rights Reserved. Crafted with ❤️ by VD Infotech.</p>
           <p className={styles.text2}>
             Disclaimer: Medical and surgical outcomes vary by individual
             anatomy. Content on this portal is for informative consultation

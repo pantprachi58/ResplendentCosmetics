@@ -103,8 +103,8 @@ export default function Hero() {
                 <Icon name="neurology" className={styles.icon4} />
               </div>
               <div>
-                <p className={styles.text4}>Surgical Standard</p>
-                <p className={styles.text5}>Sub-Millimeter Precision</p>
+                <p className={styles.text4}>Sub-Millimeter Precision</p>
+                {/* <p className={styles.text5}>Sub-Millimeter Precision</p> */}
               </div>
             </div>
           </div>

@@ -386,3 +386,9 @@
 
 .group {
 }
+@media (min-width: 360px) {
+  .badge{
+    padding: 10px;
+    font-size: 10px;
+  }
+}
