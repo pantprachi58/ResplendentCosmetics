@@ -1,20 +1,30 @@
-import type { CalloutData, CardGridData, CtaBandData, FaqData, TreatmentHeroData, VideoGalleryData } from "./types";
+import type {
+  CalloutData,
+  CardGridData,
+  CtaBandData,
+  FaqData,
+  MediaCardGridData,
+  TreatmentHeroData,
+  VideoGalleryData,
+} from "./types";
 import { bookConsultationCta, clinicMeta } from "./shared";
 
 // Content sourced from https://www.resplendentcosmetics.com/female-breast-surgery.php.
-// All live before/after photos are watermarked by another clinic and are intentionally not used.
+// Before/after photos are the live page's images/female-breast/1-3.jpg, stored locally.
+
+const IMG = "/images/pages/female-breast-surgery";
 
 export const breastSurgeryMeta = {
-  title: "Breast Augmentation, Lift & Reduction Surgery in Delhi | Resplendent Aesthetics",
+  title: "Female Breast Surgery in Delhi NCR | Augmentation, Lift & Reduction | Resplendent Aesthetics",
   description:
-    "Female breast surgery in Greater Kailash, New Delhi: breast augmentation with implants or fat, breast lift (mastopexy) and breast reduction.",
+    "Female breast surgery and breast enhancement in Greater Kailash, New Delhi: breast augmentation with implants or fat, breast lift (mastopexy) for sagging breasts, and breast reduction.",
 };
 
 export const breastSurgeryHero: TreatmentHeroData = {
   breadcrumb: "Female Breast Surgery",
   eyebrow: "Women's Aesthetic Surgery",
   title: "Female Breast Surgery — ",
-  highlight: "Augmentation, Lift & Reduction",
+  highlight: "Augmentation, Mastopexy & Reduction",
   lead: "Whether you want to increase breast size, lift and reshape sagging breasts, or reduce large, heavy breasts that cause backache, our breast procedures are planned around your anatomy and goals.",
   pills: [
     { icon: "verified", label: "US FDA-Approved Implants" },
@@ -73,7 +83,7 @@ export const breastAugmentationFaq: FaqData = {
   eyebrow: "Breast Augmentation",
   title: "Breast Augmentation FAQs",
   intro:
-    "Breast augmentation increases the size of the breast with a medical implant or fat. Silicone implants are usually inserted through an incision in the crease beneath the breast; fat can be taken from the abdomen or buttocks instead.",
+    "Breast augmentation is the medical name for the ‘boob job’. It means increasing the size of the breast with a medical implant or fat. The implant is usually made of silicone and is inserted via an incision in the crease underneath the breasts. Fat can also be taken from the abdomen or buttocks and used for breast enlargement.",
   items: [
     {
       question: "Where are the incisions placed for breast implants?",
@@ -83,7 +93,7 @@ export const breastAugmentationFaq: FaqData = {
     {
       question: "What type of implants are best?",
       answer:
-        "We use US FDA-approved, high-grade cohesive gel silicone implants that come with a guarantee and the lowest chance of rupture. They are the safest, with the most natural feel. They cost a little more than some other implants but have good longevity with rare complications.",
+        "We use US FDA-approved, high-grade cohesive gel silicone implants that come with a guarantee and the lowest chance of rupture. They are the safest, with the most natural feel. Though they are a bit more expensive than Chinese and French implants, they have good longevity with rare chances of complications.",
     },
     {
       question: "How long is recovery? When can I exercise?",
@@ -123,7 +133,7 @@ export const breastReductionFaq: FaqData = {
   eyebrow: "Breast Reduction",
   title: "Breast Reduction FAQs",
   intro:
-    "Large, heavy breasts can cause backache and other physical problems, as well as low self-confidence and unwanted attention. Reduction removes breast tissue, fat and skin, and moves the remaining tissue and nipple higher.",
+    "Many women find that large, heavy breasts cause backache and other physical problems. There are psychological issues as well, including a lack of self-confidence and self-esteem, and some women are subject to unwanted attention or comments about their appearance. The surgery removes breast tissue, fat and skin; the remaining underlying tissues and nipple are then moved to a higher position.",
   items: [
     {
       question: "Where are the incisions placed for breast reduction?",
@@ -145,6 +155,18 @@ export const breastReductionFaq: FaqData = {
         "It is usually a day-care procedure, with discharge the same day or the next morning. Rest for 2–3 days until the drains are removed; you can resume normal activities in 5–7 days and normal walking in 10–12 days. Avoid heavy exercise, gym, swimming and lifting heavy weights for 6–8 weeks.",
     },
   ],
+};
+
+export const breastSurgeryResults: MediaCardGridData = {
+  id: "results",
+  eyebrow: "Patient Results",
+  title: "Female Breast Surgery Before & After",
+  note: "Individual results vary",
+  columns: 3,
+  fit: "contain",
+  cards: [1, 2, 3].map((n) => ({
+    image: { src: `${IMG}/before-after-${n}.jpg`, alt: `Female breast surgery patient ${n}, before and after` },
+  })),
 };
 
 export const breastSurgeryVideos: VideoGalleryData = {

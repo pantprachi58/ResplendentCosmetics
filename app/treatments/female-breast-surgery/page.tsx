@@ -4,6 +4,7 @@ import TreatmentHero from "@/components/treatment/TreatmentHero";
 import CardGrid from "@/components/treatment/CardGrid";
 import FaqAccordion from "@/components/treatment/FaqAccordion";
 import CalloutBanner from "@/components/treatment/CalloutBanner";
+import MediaCardGrid from "@/components/treatment/MediaCardGrid";
 import VideoGallery from "@/components/treatment/VideoGallery";
 import CtaBand from "@/components/treatment/CtaBand";
 import {
@@ -14,8 +15,9 @@ import {
   breastSurgeryHero,
   breastSurgeryMeta,
   breastSurgeryProcedures,
+  breastSurgeryResults,
   breastSurgeryVideos,
-} from "@/data/treatments/breast-surgery";
+} from "@/data/treatments/female-breast-surgery";
 import { treatmentsCrumb } from "@/data/treatments/shared";
 import ui from "@/components/shared/ui.module.css";
 
@@ -34,7 +36,8 @@ export default function BreastSurgeryPage() {
       <FaqAccordion id="augmentation" data={breastAugmentationFaq} tone="ivory" />
       <CalloutBanner data={breastLiftGuide} />
       <FaqAccordion id="reduction" data={breastReductionFaq} tone="ivory" />
-      <VideoGallery data={breastSurgeryVideos} />
+      <MediaCardGrid data={breastSurgeryResults} />
+      <VideoGallery data={breastSurgeryVideos} tone="ivory" />
       <CtaBand data={breastSurgeryCta} />
     </main>
   );

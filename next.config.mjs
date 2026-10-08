@@ -32,7 +32,7 @@ const nextConfig = {
       { source: "/microneedling_rf.php", destination: "/treatments/rf-microneedling", permanent: true },
       { source: "/autologous-fat-grafting.php", destination: "/treatments/fat-grafting", permanent: true },
       { source: "/tummy-tuck-surgery.php", destination: "/treatments/tummy-tuck", permanent: true },
-      { source: "/female-breast-surgery.php", destination: "/treatments/breast-surgery", permanent: true },
+      { source: "/female-breast-surgery.php", destination: "/treatments/female-breast-surgery", permanent: true },
       { source: "/hymenoplasty-surgery.php", destination: "/treatments/hymenoplasty", permanent: true },
       { source: "/penis-enlargement.php", destination: "/treatments/penile-enlargement", permanent: true },
       { source: "/gynecomastia-surgery-in-delhi.php", destination: "/treatments/gynecomastia", permanent: true },
@@ -59,9 +59,10 @@ const nextConfig = {
       { source: "/treatments/abdominoplasty", destination: "/treatments/tummy-tuck", permanent: true },
       { source: "/treatments/buttock-enhancement", destination: "/treatments/buttock-calf-augmentation", permanent: true },
       { source: "/treatments/prp-scalp-therapy", destination: "/treatments/prp-therapy", permanent: true },
-      { source: "/treatments/breast-augmentation", destination: "/treatments/breast-surgery#augmentation", permanent: true },
-      { source: "/treatments/breast-lift", destination: "/treatments/breast-surgery#lift", permanent: true },
-      { source: "/treatments/breast-reduction", destination: "/treatments/breast-surgery#reduction", permanent: true },
+      { source: "/treatments/breast-surgery", destination: "/treatments/female-breast-surgery", permanent: true },
+      { source: "/treatments/breast-augmentation", destination: "/treatments/female-breast-surgery#augmentation", permanent: true },
+      { source: "/treatments/breast-lift", destination: "/treatments/female-breast-surgery#lift", permanent: true },
+      { source: "/treatments/breast-reduction", destination: "/treatments/female-breast-surgery#reduction", permanent: true },
     ];
   },
 };

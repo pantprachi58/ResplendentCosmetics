@@ -47,7 +47,7 @@ export const treatmentCategories: TreatmentCategory[] = [
   {
     category: "Women",
     items: [
-      { name: "Female Breast Surgery", href: "/treatments/breast-surgery" },
+      { name: "Female Breast Surgery", href: "/treatments/female-breast-surgery" },
       { name: "Hymenoplasty Surgery", href: "/treatments/hymenoplasty" },
       { name: "Vaginal Tightening", href: "/treatments/vaginal-tightening" },
       { name: "Vaginoplasty Surgery", href: "/treatments/vaginoplasty" },
