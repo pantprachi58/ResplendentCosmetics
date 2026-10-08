@@ -24,6 +24,11 @@ export const genderReassignmentHero: TreatmentHeroData = {
     { icon: "timeline", label: "Treatment Over Time" },
   ],
   primaryCta: bookConsultationCta("Book a Confidential Consultation"),
+  image: {
+    src: "/images/procedures/13.png",
+    alt: "Male torso representing gender-affirming body contouring",
+    tag: "Gender-Affirming Care",
+  },
   card: {
     eyebrow: "Your Journey",
     title: "Step-by-Step Guidance",

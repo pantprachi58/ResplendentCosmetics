@@ -33,6 +33,11 @@ export const gynecomastiaHero: TreatmentHeroData = {
   ],
   primaryCta: bookConsultationCta("Book a Gynecomastia Consultation"),
   secondaryCta: { label: "Watch Gynecomastia Explained", href: "#videos", iconLeading: "play_circle" },
+  image: {
+    src: "/images/procedures/11.png",
+    alt: "Defined, flat male chest contour",
+    tag: "Male Breast Reduction",
+  },
   card: {
     eyebrow: "Procedure at a Glance",
     title: "Male Breast Reduction",

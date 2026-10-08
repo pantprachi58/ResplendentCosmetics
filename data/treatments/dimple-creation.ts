@@ -32,6 +32,11 @@ export const dimpleCreationHero: TreatmentHeroData = {
   ],
   primaryCta: bookConsultationCta("Book a Dimple Consultation"),
   secondaryCta: { label: "Watch the Procedure Explained", href: "#videos", iconLeading: "play_circle" },
+  image: {
+    src: "/images/procedures/7.png",
+    alt: "Smiling woman with natural cheek dimples",
+    tag: "Dimpleplasty",
+  },
   card: {
     eyebrow: "Procedure at a Glance",
     title: "Dimple Creation",

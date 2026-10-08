@@ -38,6 +38,7 @@ const nextConfig = {
       { source: "/gynecomastia-surgery-in-delhi.php", destination: "/treatments/gynecomastia", permanent: true },
       { source: "/six-pack-plastic-surgery.php", destination: "/treatments/six-pack-abs", permanent: true },
       { source: "/gallery.php", destination: "/gallery", permanent: true },
+      { source: "/blog.php", destination: "/blog", permanent: true },
       { source: "/achievement.php", destination: "/achievements", permanent: true },
       { source: "/lip-augmentation.php", destination: "/treatments/lip-augmentation", permanent: true },
       { source: "/face-lift.php", destination: "/treatments/face-neck-lift", permanent: true },

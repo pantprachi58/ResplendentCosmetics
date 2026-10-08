@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Icon from "./Icon";
+import CompareSlider from "./shared/CompareSlider";
 import { results, type CaseStudy } from "@/data/results";
 import styles from "./Results.module.css";
 
@@ -23,21 +23,23 @@ export default function Results() {
       <div className={styles.columns}>
         {results.map((item) => (
           <div key={item.title} className={styles.case}>
-            <div className={styles.box2}>
-              <Image
-                className={styles.image}
-                src={item.image}
-                alt={item.imageAlt}
-                fill
-                sizes="(min-width: 1024px) 25vw, (min-width: 768px) 50vw, 100vw"
-              />
+            <CompareSlider
+              className={styles.box2}
+              size="sm"
+              before={item.before}
+              after={item.after}
+              subject={item.title}
+              focus={item.focus}
+              sample={item.sample}
+              sizes="(min-width: 1024px) 25vw, (min-width: 768px) 50vw, 100vw"
+            >
               <div className={styles.card}>{item.tag}</div>
               <div
                 className={`${styles.stamp} ${badgeToneClass[item.badgeTone]}`}
               >
                 {item.badge}
               </div>
-            </div>
+            </CompareSlider>
             <div className={styles.stack}>
               <div>
                 <h3 className={styles.subtitle}>{item.title}</h3>

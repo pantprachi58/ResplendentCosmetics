@@ -1,0 +1,182 @@
+/* Shared by the treatment-page slider (size "lg") and home-page result cards (size "sm").
+   The parent passes a className for the frame's aspect-ratio / height. */
+
+.frame {
+  position: relative;
+  overflow: hidden;
+  background-color: #0f172a;
+  cursor: ew-resize;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.image {
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.beforeLayer {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 calc(100% - var(--pos)) 0 0);
+}
+
+.sampleBefore {
+  filter: grayscale(1) brightness(0.92);
+}
+
+.divider {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  left: var(--pos);
+  width: 3px;
+  transform: translateX(-50%);
+  background-color: #ffffff;
+  box-shadow: 0 0 12px rgb(0 0 0 / 0.35);
+  pointer-events: none;
+}
+
+.handle {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: var(--pos);
+  display: flex;
+  width: 3.25rem;
+  height: 3.25rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: #ffffff;
+  color: #002244;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.3);
+  transform: translate(-50%, -50%);
+  transition: box-shadow 150ms ease;
+  cursor: ew-resize;
+}
+
+.handle :global(.material-symbols-outlined) {
+  margin: 0 -0.3rem;
+  font-size: 22px;
+}
+
+.handle:focus-visible {
+  outline: 3px solid #34d399;
+  outline-offset: 3px;
+}
+
+.frame:active .handle {
+  box-shadow: 0 0 0 6px rgb(255 255 255 / 0.25), 0 8px 24px rgb(0 0 0 / 0.3);
+}
+
+.tag {
+  position: absolute;
+  z-index: 2;
+  top: 1rem;
+  padding: 0.375rem 0.875rem;
+  border-radius: 9999px;
+  background-color: rgb(15 23 42 / 0.78);
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #ffffff;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+}
+
+.tagBefore {
+  left: 1rem;
+}
+
+.tagAfter {
+  right: 1rem;
+}
+
+.tag[data-hidden="true"] {
+  opacity: 0;
+}
+
+.sampleBadge {
+  position: absolute;
+  z-index: 2;
+  bottom: 1rem;
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 9999px;
+  background-color: rgb(255 255 255 / 0.92);
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #0f172a;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.sampleBadge :global(.material-symbols-outlined) {
+  font-size: 16px;
+  color: #0052cc;
+}
+
+@media (min-width: 640px) {
+  .tag {
+    top: 1.25rem;
+  }
+
+  .tagBefore {
+    left: 1.25rem;
+  }
+
+  .tagAfter {
+    right: 1.25rem;
+  }
+
+  .sampleBadge {
+    bottom: 1.25rem;
+  }
+}
+
+/* Compact variant for cards: smaller handle, labels along the bottom edge */
+
+.small .handle {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.small .handle :global(.material-symbols-outlined) {
+  margin: 0 -0.25rem;
+  font-size: 18px;
+}
+
+.small .tag {
+  top: auto;
+  bottom: 0.75rem;
+  padding: 0.25rem 0.625rem;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+
+.small .tagBefore {
+  left: 0.75rem;
+}
+
+.small .tagAfter {
+  right: 0.75rem;
+}
+
+.small .sampleBadge {
+  bottom: 0.75rem;
+  padding: 0.25rem 0.625rem;
+  font-size: 10px;
+}

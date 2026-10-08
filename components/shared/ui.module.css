@@ -8,6 +8,8 @@
   background-color: #f8fafc;
   color: #1e293b;
   font-family: Inter, sans-serif;
+  /* Very long words (e.g. "Stereophotogrammetry") break instead of overflowing on 320px phones */
+  overflow-wrap: break-word;
   overflow-x: hidden;
 }
 
@@ -211,9 +213,18 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  white-space: nowrap;
+  text-align: center;
+  /* Long labels ("Book a Gynecomastia Consultation") wrap on phones instead of overflowing */
+  max-width: 100%;
+  white-space: normal;
   cursor: pointer;
   transition: all 200ms ease;
+}
+
+@media (min-width: 640px) {
+  .btn {
+    white-space: nowrap;
+  }
 }
 
 .btn :global(.material-symbols-outlined) {

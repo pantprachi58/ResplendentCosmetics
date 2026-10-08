@@ -237,6 +237,21 @@ export type CtaBandData = {
   meta?: { icon: string; label: string }[];
 };
 
+/** Draggable before/after comparison shown below the hero on treatment pages */
+export type BeforeAfterData = {
+  eyebrow: string;
+  title: string;
+  text: string;
+  points: string[];
+  cta: Cta;
+  before: ImageRef;
+  after: ImageRef;
+  /** CSS object-position for both photos, e.g. "75% 50%" to keep a side profile in frame */
+  focus?: string;
+  /** Stand-in photo until real clinic results are added: shows a "Sample image" badge and greys out the before side */
+  sample?: boolean;
+};
+
 export type TreatmentPageData = {
   slug: string;
   metaTitle: string;

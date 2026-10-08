@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Breadcrumb from "@/components/treatment/Breadcrumb";
 import TreatmentHero from "@/components/treatment/TreatmentHero";
+import BeforeAfter from "@/components/treatment/BeforeAfter";
 import CardGrid from "@/components/treatment/CardGrid";
 import CalloutBanner from "@/components/treatment/CalloutBanner";
 import FaqAccordion from "@/components/treatment/FaqAccordion";
@@ -14,6 +15,7 @@ import {
   rfMicroneedlingPlan,
 } from "@/data/treatments/rf-microneedling";
 import { treatmentsCrumb } from "@/data/treatments/shared";
+import { beforeAfter } from "@/data/treatments/beforeAfter";
 import ui from "@/components/shared/ui.module.css";
 
 export const metadata: Metadata = {
@@ -26,6 +28,7 @@ export default function RfMicroneedlingPage() {
     <main className={ui.page}>
       <Breadcrumb current={rfMicroneedlingHero.breadcrumb} trail={treatmentsCrumb} />
       <TreatmentHero data={rfMicroneedlingHero} />
+      <BeforeAfter data={beforeAfter["rf-microneedling"]} />
       <CardGrid data={rfMicroneedlingConcerns} />
       <CalloutBanner data={rfMicroneedlingPlan} />
       <FaqAccordion data={rfMicroneedlingFaq} tone="ivory" />

@@ -27,6 +27,11 @@ export const threadLiftHero: TreatmentHeroData = {
   ],
   primaryCta: bookConsultationCta("Book a Thread Lift Consultation"),
   secondaryCta: { label: "See Patient Results", href: "#results" },
+  image: {
+    src: "/images/pages/dermal-fillers/jawline-fillers.webp",
+    alt: "Doctor treating a patient's jawline",
+    tag: "Lower-Face Lifting",
+  },
   card: {
     eyebrow: "Treatment at a Glance",
     title: "PCLA Thread Lift",

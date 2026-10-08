@@ -22,6 +22,11 @@ export const hairTransplant: TreatmentPageData = {
     ],
     primaryCta: bookConsultationCta("Book Hair Assessment"),
     secondaryCta: { label: "Explore Before & After Cases", href: "#clinical-cases" },
+    image: {
+      src: "/images/pages/hair-transplant/01-close-up-view-of-plastic.jpg",
+      alt: "Surgeon implanting grafts along a patient's hairline",
+      tag: "Hair Restoration",
+    },
     card: {
       eyebrow: "Accreditation",
       title: "Dr. Sukhbir Singh",
@@ -30,7 +35,7 @@ export const hairTransplant: TreatmentPageData = {
         "Direct Surgeon Slit Creation & Graft Harvest",
         "Sapphire Micro-Blade Angulation (30°–45°)",
         "Autologous Platelet Bio-Infusion Included",
-        "Full Density Retention Guarantee Protocol",
+        "Graft-Survival-Focused Handling Protocol",
       ],
       footLabel: "Consultation Sanctuary",
       footValue: "Greater Kailash Part 1 — Delhi Flagship",

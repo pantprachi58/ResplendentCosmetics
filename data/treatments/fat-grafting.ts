@@ -25,6 +25,11 @@ export const fatGraftingHero: TreatmentHeroData = {
   ],
   primaryCta: bookConsultationCta("Book a Fat Grafting Consultation"),
   secondaryCta: { label: "Watch Fat Grafting Explained", href: "#videos", iconLeading: "play_circle" },
+  image: {
+    src: "/images/pages/dermal-fillers/under-eye-fillers.webp",
+    alt: "Volume being restored beneath the eye with an injection",
+    tag: "Natural Volume",
+  },
   card: {
     eyebrow: "Procedure at a Glance",
     title: "Fat Grafting",

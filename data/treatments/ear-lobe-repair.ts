@@ -34,6 +34,11 @@ export const earLobeRepairHero: TreatmentHeroData = {
   ],
   primaryCta: bookConsultationCta("Book an Earlobe Consultation"),
   secondaryCta: { label: "Watch the Procedure Explained", href: "#videos", iconLeading: "play_circle" },
+  image: {
+    src: "/images/pages/ear-lobe-repair/earlobe-repair.jpg",
+    alt: "Doctor examining a patient's earlobe",
+    tag: "Earlobe Repair",
+  },
   card: {
     eyebrow: "Procedure at a Glance",
     title: "Earlobe Repair",

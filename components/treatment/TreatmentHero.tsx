@@ -88,7 +88,7 @@ export default function TreatmentHero({ data }: { data: TreatmentHeroData }) {
         <div className={styles.aside}>
           {image && (
             <div className={styles.visual}>
-              <div className={`${ui.media} ${styles.photo}`}>
+              <div className={`${ui.media} ${styles.photo} ${card ? styles.photoWide : ""}`}>
                 <Image
                   src={image.src}
                   alt={image.alt}
@@ -119,7 +119,7 @@ export default function TreatmentHero({ data }: { data: TreatmentHeroData }) {
           )}
 
           {card && (
-            <div className={styles.card}>
+            <div className={`${styles.card} ${image ? styles.cardOverlap : ""}`}>
               <div className={styles.cardHead}>
                 <div>
                   <span className={styles.cardEyebrow}>{card.eyebrow}</span>
@@ -135,13 +135,16 @@ export default function TreatmentHero({ data }: { data: TreatmentHeroData }) {
                   </li>
                 ))}
               </ul>
-              <div className={styles.cardFoot}>
-                <div>
-                  <span className={styles.cardEyebrow}>{card.footLabel}</span>
-                  <p className={styles.cardFootValue}>{card.footValue}</p>
+              {/* The address footer is dropped when the card sits on a photo, to keep the hero compact */}
+              {!image && (
+                <div className={styles.cardFoot}>
+                  <div>
+                    <span className={styles.cardEyebrow}>{card.footLabel}</span>
+                    <p className={styles.cardFootValue}>{card.footValue}</p>
+                  </div>
+                  <Icon name="location_on" className={styles.cardIcon} />
                 </div>
-                <Icon name="location_on" className={styles.cardIcon} />
-              </div>
+              )}
             </div>
           )}
 

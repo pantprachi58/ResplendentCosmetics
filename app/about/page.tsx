@@ -1,5 +1,10 @@
-import Link from "next/link";
+import type { Metadata } from "next";
+import Image from "next/image";
 import Icon from "@/components/Icon";
+import Breadcrumb from "@/components/treatment/Breadcrumb";
+import CtaBand from "@/components/treatment/CtaBand";
+import type { CtaBandData } from "@/data/treatments/types";
+import ui from "@/components/shared/ui.module.css";
 import styles from "./page.module.css";
 
 const DOCTOR_IMG =
@@ -72,36 +77,46 @@ const METRICS = [
 const MILESTONES = [
   {
     year: "2008",
+    icon: "school",
     title: "International Fellowships",
     text: "Dr. Sukhbir Singh completes rigorous training and aesthetic surgical residency at PUCRS Brazil, absorbing refined Rio de Janeiro contouring mastery.",
   },
   {
     year: "2014",
+    icon: "apartment",
     title: "GK-1 Sanctuary Launch",
     text: "Inauguration of Resplendent Aesthetics in Greater Kailash Part 1, South Delhi, creating an exclusive sanctuary for bespoke plastic surgery.",
   },
   {
     year: "2018",
+    icon: "biotech",
     title: "Micro-FUE Innovation",
     text: "Introduction of specialized motorized Micro-FUE & sapphire slit graft implanters for natural, dense hairline transformations.",
     green: true,
   },
   {
     year: "2021",
+    icon: "auto_awesome",
     title: "HD Sculpting & RF",
     text: "Deployment of 4D high-definition ultrasonic liposuction, RF subdermal skin tightening, and advanced nonsurgical lasers.",
   },
   {
     year: "Present",
+    icon: "public",
     title: "Global Trust",
     text: "Over 15,000 delighted transformations across 45 countries with an active International Patient Concierge Desk in South Delhi.",
-    globe: true,
+    highlight: true,
   },
 ];
 
+const CTA: CtaBandData = {
+  eyebrow: "Your Journey To Harmony",
+  title: "Begin Your Transformation",
+  text: "Schedule a private, in-depth consultation with Dr. Sukhbir Singh at Resplendent Aesthetics, Greater Kailash 1.",
+  primaryCta: { label: "Book Consultation", href: "/book-consultation", icon: "calendar_today" },
+};
 
-
-export const metadata = {
+export const metadata: Metadata = {
   title: "About Us | Resplendent Aesthetics",
   description:
     "Founded by senior plastic surgeons to bring world-class aesthetic and reconstructive craftsmanship to Greater Kailash, New Delhi.",
@@ -109,229 +124,198 @@ export const metadata = {
 
 export default function AboutPage() {
   return (
-    <main className={styles.main}>
-        {/* Hero */}
-        <section className={`${styles.section} ${styles.hero}`}>
-          <div className={`${styles.container} ${styles.heroInner}`}>
-            <div className={styles.badge}>
-              <span className={styles.badgeDot} />
-              <span className={styles.eyebrow}>About Resplendent Aesthetics</span>
-            </div>
-            <h1 className={styles.heroTitle}>
-              A Philosophy Built on Precision, Discretion and Care
-            </h1>
-            <div className={styles.divider} />
-            <p className={styles.heroLead}>
-              Founded by senior plastic surgeons to bring world-class aesthetic and
-              reconstructive craftsmanship to Greater Kailash, New Delhi.
-            </p>
-          </div>
-        </section>
+    <main className={ui.page}>
+      <Breadcrumb current="About Us" />
 
-        {/* Story */}
-        <section className={`${styles.section} ${styles.story}`}>
-          <div className={`${styles.container} ${styles.storyGrid}`}>
-            <div className={styles.profileCol}>
-              <div className={styles.profileFrame}>
-                <div className={styles.profilePhoto}>
-                  <img src={DOCTOR_IMG} alt="Dr. Sukhbir Singh, Senior Plastic Surgeon" />
-                  <div className={styles.profileCaption}>
-                    <span className={styles.profileRole}>Founder &amp; Chief Consultant</span>
-                    <h3 className={styles.profileName}>Dr. Sukhbir Singh</h3>
-                    <p className={styles.profileCred}>
-                      MS, MCh (Plastic Surgery) • Fellow PUCRS (Brazil)
-                    </p>
-                  </div>
-                </div>
-                <div className={styles.certCard}>
-                  <div className={styles.certLeft}>
-                    <div className={styles.certIcon}>
-                      <Icon name="verified" />
-                    </div>
-                    <div>
-                      <div className={styles.certTitle}>Board Certified</div>
-                      <div className={styles.certSub}>ISAPS, APSI &amp; IAAPS Fellow</div>
-                    </div>
-                  </div>
-                  <span className={styles.expPill}>18+ Yrs Exp</span>
-                </div>
+      {/* Hero */}
+      <section className={styles.hero}>
+        <div className={`${ui.container} ${styles.heroInner}`}>
+          <span className={ui.statusPill}>
+            <span className={ui.pulse} />
+            About Resplendent Aesthetics
+          </span>
+          <h1 className={styles.heroTitle}>A Philosophy Built on Precision, Discretion and Care</h1>
+          <div className={styles.divider} />
+          <p className={styles.heroLead}>
+            Founded by senior plastic surgeons to bring world-class aesthetic and reconstructive craftsmanship to
+            Greater Kailash, New Delhi.
+          </p>
+        </div>
+      </section>
+
+      {/* Story */}
+      <section className={`${ui.section} ${ui.white} ${styles.story}`}>
+        <div className={`${ui.container} ${styles.storyGrid}`}>
+          <div className={styles.profileFrame}>
+            <div className={`${ui.media} ${styles.profilePhoto}`}>
+              <Image
+                src={DOCTOR_IMG}
+                alt="Dr. Sukhbir Singh, Senior Plastic Surgeon"
+                fill
+                sizes="(min-width: 1024px) 40vw, (min-width: 640px) 70vw, 100vw"
+                className={`${ui.cover} ${styles.profileImage}`}
+                priority
+              />
+              <div className={styles.profileCaption}>
+                <span className={styles.profileRole}>Founder &amp; Chief Consultant</span>
+                <h3 className={styles.profileName}>Dr. Sukhbir Singh</h3>
+                <p className={styles.profileCred}>MS, MCh (Plastic Surgery) • Fellow PUCRS (Brazil)</p>
               </div>
             </div>
-
-            <div className={styles.narrative}>
-              <div className={styles.narrativeTag}>
-                <span className={styles.narrativeLine} />
-                <span className={styles.eyebrow}>Architectural Beauty &amp; Science</span>
+            <div className={styles.certCard}>
+              <div className={styles.certLeft}>
+                <span className={styles.certIcon}>
+                  <Icon name="verified" filled />
+                </span>
+                <div>
+                  <p className={styles.certTitle}>Board Certified</p>
+                  <p className={styles.certSub}>ISAPS, APSI &amp; IAAPS Fellow</p>
+                </div>
               </div>
-              <h2 className={styles.sectionTitle}>
-                Where International Surgical Pedigree Meets South Delhi Serenity
-              </h2>
-              <div className={styles.prose}>
-                <p>
-                  Resplendent Aesthetics was founded in the enclave of Greater Kailash Part 1,
-                  South Delhi, with a resolute objective: to transcend industrial-scale
-                  aesthetic clinics and restore clinical plastic surgery as a dedicated,
-                  bespoke fine art.
-                </p>
-                <p>
-                  Formed through extensive international surgical training—notably specializing
-                  in advanced Brazilian aesthetic plastic surgery techniques at the esteemed{" "}
-                  <em>PUCRS (Pontifícia Universidade Católica do Rio Grande do Sul)</em>—our
-                  approach balances anatomically sound surgical integrity with fluid organic
-                  silhouettes.
-                </p>
-                <p>
-                  Whether performing high-definition micro-follicular hair transplants,
-                  structural preservation rhinoplasty, or refined facial rejuvenation, every
-                  protocol is engineered for patients who prioritize discretion, natural
-                  subtlety, and zero compromise on surgical safety.
-                </p>
-              </div>
-              <div className={styles.stats}>
-                {STATS.map((s) => (
-                  <div key={s.label} className={styles.stat}>
-                    <div className={s.green ? styles.statValueGreen : styles.statValue}>
-                      {s.value}
-                    </div>
-                    <div className={styles.statLabel}>{s.label}</div>
-                  </div>
-                ))}
-              </div>
+              <span className={styles.expPill}>18+ Yrs Exp</span>
             </div>
           </div>
-        </section>
 
-        {/* Values */}
-        <section className={`${styles.section} ${styles.values}`}>
-          <div className={styles.container}>
-            <div className={styles.sectionHead}>
-              <span className={styles.eyebrow}>Guiding Tenets</span>
-              <h2 className={styles.sectionTitle}>The Pillars of Resplendent Aesthetics</h2>
-              <div className={styles.divider} />
-            </div>
-            <div className={styles.valuesGrid}>
-              {VALUES.map((v) => (
-                <div key={v.title} className={styles.valueCard}>
-                  <div
-                    className={`${styles.valueIcon} ${
-                      v.tone === "green" ? styles.valueGreen : styles.valueBlue
-                    }`}
-                  >
-                    <Icon name={v.icon} />
-                  </div>
-                  <h3 className={styles.valueTitle}>{v.title}</h3>
-                  <p className={styles.valueText}>{v.text}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Sanctuary */}
-        <section className={`${styles.section} ${styles.sanctuary}`}>
-          <div className={`${styles.container} ${styles.sanctuaryWrap}`}>
-            <div className={styles.sanctuaryHead}>
-              <div className={styles.sanctuaryHeadTitle}>
-                <span className={styles.eyebrowLight}>Sanctuary Specification</span>
-                <h2 className={styles.sanctuaryTitle}>
-                  Surgical Sanctuary: Engineered to Hospital-Grade Benchmarks
-                </h2>
-              </div>
-              <div className={styles.sanctuaryHeadText}>
-                <p className={styles.sanctuaryText}>
-                  Our Greater Kailash Part 1 surgical suites replicate tertiary-care medical
-                  standards with NABH-aligned protocols, ultra-sterile HEPA filtration, and
-                  German micro-instrumentation.
-                </p>
-              </div>
-            </div>
-
-            <div className={styles.mosaic}>
-              {MOSAIC.map((m) => (
-                <div key={m.title} className={styles.mosaicItem}>
-                  <img src={m.src} alt={m.alt} />
-                  <div className={styles.mosaicOverlay}>
-                    <span className={styles.mosaicTag}>{m.tag}</span>
-                    <h4 className={styles.mosaicTitle}>{m.title}</h4>
-                    <p className={styles.mosaicText}>{m.text}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className={styles.metrics}>
-              {METRICS.map((m) => (
-                <div key={m.title} className={styles.metric}>
-                  <Icon name={m.icon} />
-                  <div>
-                    <div className={styles.metricTitle}>{m.title}</div>
-                    <div className={styles.metricSub}>{m.sub}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Timeline */}
-        <section className={`${styles.section} ${styles.timeline}`}>
-          <div className={styles.container}>
-            <div className={`${styles.sectionHead} ${styles.timelineHead}`}>
-              <span className={styles.eyebrow}>Our Evolution</span>
-              <h2 className={styles.sectionTitle}>Milestones of Excellence</h2>
-              <div className={styles.divider} />
-            </div>
-            <div className={styles.timelineWrap}>
-              <div className={styles.timelineLine} />
-              <div className={styles.timelineGrid}>
-                {MILESTONES.map((m) => (
-                  <div key={m.year} className={styles.milestone}>
-                    <div
-                      className={`${styles.milestoneDot} ${
-                        m.green ? styles.milestoneDotGreen : ""
-                      } ${m.globe ? styles.milestoneDotGlobe : ""}`}
-                    >
-                      {m.globe ? (
-                        <Icon name="public" />
-                      ) : (
-                        <span className={`${styles.dot} ${m.green ? styles.dotGreen : ""}`} />
-                      )}
-                    </div>
-                    <span className={m.green ? styles.milestoneYearGreen : styles.milestoneYear}>
-                      {m.year}
-                    </span>
-                    <h4 className={styles.milestoneTitle}>{m.title}</h4>
-                    <p className={styles.milestoneText}>{m.text}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* CTA */}
-        <section className={`${styles.section} ${styles.cta}`}>
-          <div className={`${styles.container} ${styles.ctaInner}`}>
-            <div className={styles.ctaCopy}>
-              <span className={styles.eyebrowLight}>Your Journey To Harmony</span>
-              <h2 className={styles.ctaTitle}>Begin Your Transformation</h2>
-              <p className={styles.ctaText}>
-                Schedule a private, in-depth consultation with Dr. Sukhbir Singh at
-                Resplendent Aesthetics, Greater Kailash 1.
+          <div className={styles.narrative}>
+            <span className={styles.narrativeTag}>
+              <span className={styles.narrativeLine} />
+              <span className={ui.eyebrow}>Architectural Beauty &amp; Science</span>
+            </span>
+            <h2 className={ui.title}>Where International Surgical Pedigree Meets South Delhi Serenity</h2>
+            <div className={styles.prose}>
+              <p>
+                Resplendent Aesthetics was founded in the enclave of Greater Kailash Part 1, South Delhi, with a
+                resolute objective: to transcend industrial-scale aesthetic clinics and restore clinical plastic
+                surgery as a dedicated, bespoke fine art.
+              </p>
+              <p>
+                Formed through extensive international surgical training—notably specializing in advanced Brazilian
+                aesthetic plastic surgery techniques at the esteemed{" "}
+                <em>PUCRS (Pontifícia Universidade Católica do Rio Grande do Sul)</em>—our approach balances
+                anatomically sound surgical integrity with fluid organic silhouettes.
+              </p>
+              <p>
+                Whether performing high-definition micro-follicular hair transplants, structural preservation
+                rhinoplasty, or refined facial rejuvenation, every protocol is engineered for patients who prioritize
+                discretion, natural subtlety, and zero compromise on surgical safety.
               </p>
             </div>
-            <div className={styles.ctaActions}>
-              <Link href="/book-consultation" className={styles.ctaPrimary}>
-                <span>Book Consultation</span>
-                <Icon name="calendar_today" />
-              </Link>
-              <a href="tel:+919910391229" className={styles.ctaPhone}>
-                <Icon name="call" />
-                <span>+91 99103 91229</span>
-              </a>
-            </div>
+            <dl className={styles.stats}>
+              {STATS.map((s) => (
+                <div key={s.label} className={styles.stat}>
+                  <dt className={styles.statLabel}>{s.label}</dt>
+                  <dd className={`${styles.statValue} ${s.green ? styles.statValueGreen : ""}`}>{s.value}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
-        </section>
-      </main>
+        </div>
+      </section>
+
+      {/* Values */}
+      <section className={`${ui.section} ${ui.ivory}`}>
+        <div className={ui.container}>
+          <div className={ui.headerCenter}>
+            <span className={ui.eyebrow}>Guiding Tenets</span>
+            <h2 className={ui.title}>The Pillars of Resplendent Aesthetics</h2>
+            <div className={`${styles.divider} ${styles.dividerCenter}`} />
+          </div>
+          <div className={styles.valuesGrid}>
+            {VALUES.map((v) => (
+              <article key={v.title} className={styles.valueCard}>
+                <span className={`${styles.valueIcon} ${v.tone === "green" ? styles.valueGreen : styles.valueBlue}`}>
+                  <Icon name={v.icon} />
+                </span>
+                <h3 className={styles.valueTitle}>{v.title}</h3>
+                <p className={styles.valueText}>{v.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Sanctuary */}
+      <section className={`${ui.section} ${ui.dark} ${styles.sanctuary}`}>
+        <div className={`${ui.container} ${styles.sanctuaryWrap}`}>
+          <div className={ui.headerSplit}>
+            <div className={styles.sanctuaryHeadTitle}>
+              <span className={ui.eyebrow}>Sanctuary Specification</span>
+              <h2 className={ui.title}>Surgical Sanctuary: Engineered to Hospital-Grade Benchmarks</h2>
+            </div>
+            <p className={styles.sanctuaryText}>
+              Our Greater Kailash Part 1 surgical suites replicate tertiary-care medical standards with NABH-aligned
+              protocols, ultra-sterile HEPA filtration, and German micro-instrumentation.
+            </p>
+          </div>
+
+          <div className={styles.mosaic}>
+            {MOSAIC.map((m) => (
+              <figure key={m.title} className={`${ui.media} ${styles.mosaicItem}`}>
+                <Image
+                  src={m.src}
+                  alt={m.alt}
+                  fill
+                  sizes="(min-width: 1024px) 33vw, 100vw"
+                  className={`${ui.cover} ${styles.mosaicImage}`}
+                />
+                <figcaption className={styles.mosaicOverlay}>
+                  <span className={styles.mosaicTag}>{m.tag}</span>
+                  <h3 className={styles.mosaicTitle}>{m.title}</h3>
+                  <p className={styles.mosaicText}>{m.text}</p>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+
+          <ul className={styles.metrics}>
+            {METRICS.map((m) => (
+              <li key={m.title} className={styles.metric}>
+                <span className={styles.metricIcon}>
+                  <Icon name={m.icon} />
+                </span>
+                <div>
+                  <p className={styles.metricTitle}>{m.title}</p>
+                  <p className={styles.metricSub}>{m.sub}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* Timeline */}
+      <section className={`${ui.section} ${ui.white}`}>
+        <div className={ui.container}>
+          <div className={ui.headerCenter}>
+            <span className={ui.eyebrow}>Our Evolution</span>
+            <h2 className={ui.title}>Milestones of Excellence</h2>
+            <div className={`${styles.divider} ${styles.dividerCenter}`} />
+          </div>
+          <ol className={styles.timeline}>
+            {MILESTONES.map((m) => (
+              <li key={m.year} className={styles.milestone}>
+                <span
+                  className={`${styles.milestoneDot} ${m.green ? styles.milestoneDotGreen : ""} ${
+                    m.highlight ? styles.milestoneDotHighlight : ""
+                  }`}
+                >
+                  <Icon name={m.icon} />
+                </span>
+                <div className={styles.milestoneBody}>
+                  <span className={`${styles.milestoneYear} ${m.green ? styles.milestoneYearGreen : ""}`}>
+                    {m.year}
+                  </span>
+                  <h3 className={styles.milestoneTitle}>{m.title}</h3>
+                  <p className={styles.milestoneText}>{m.text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <CtaBand data={CTA} />
+    </main>
   );
 }

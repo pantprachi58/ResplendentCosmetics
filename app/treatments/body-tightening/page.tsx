@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Breadcrumb from "@/components/treatment/Breadcrumb";
 import TreatmentHero from "@/components/treatment/TreatmentHero";
+import BeforeAfter from "@/components/treatment/BeforeAfter";
 import MediaCardGrid from "@/components/treatment/MediaCardGrid";
 import TreatmentOverview from "@/components/treatment/TreatmentOverview";
 import CalloutBanner from "@/components/treatment/CalloutBanner";
@@ -16,6 +17,7 @@ import {
   faceTiteComparison,
 } from "@/data/treatments/body-tightening";
 import { treatmentsCrumb } from "@/data/treatments/shared";
+import { beforeAfter } from "@/data/treatments/beforeAfter";
 import ui from "@/components/shared/ui.module.css";
 
 export const metadata: Metadata = {
@@ -28,6 +30,7 @@ export default function BodyTighteningPage() {
     <main className={ui.page}>
       <Breadcrumb current={bodyTighteningHero.breadcrumb} trail={treatmentsCrumb} />
       <TreatmentHero data={bodyTighteningHero} />
+      <BeforeAfter data={beforeAfter["body-tightening"]} />
       <TreatmentOverview data={faceTiteComparison} />
       <MediaCardGrid data={bodyTighteningTechnologies} tone="ivory" />
       <CalloutBanner data={bodyTighteningCost} />

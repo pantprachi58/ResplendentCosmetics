@@ -8,6 +8,7 @@ export const quickLinks: FooterLink[] = [
   { href: "/about", label: "About Us" },
   { href: "/why-choose-us", label: "Why Choose Us" },
   // { href: "/doctors", label: "Our Doctors" },
+  { href: "/blog", label: "Blog" },
   { href: "/gallery", label: "Gallery" },
   { href: "/achievements", label: "Achievements" },
   { href: "/contact#international-desk", label: "International Patients" },

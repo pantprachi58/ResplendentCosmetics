@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Breadcrumb from "@/components/treatment/Breadcrumb";
 import TreatmentHero from "@/components/treatment/TreatmentHero";
+import BeforeAfter from "@/components/treatment/BeforeAfter";
 import CardGrid from "@/components/treatment/CardGrid";
 import MediaCardGrid from "@/components/treatment/MediaCardGrid";
 import CalloutBanner from "@/components/treatment/CalloutBanner";
@@ -16,6 +17,7 @@ import {
   laserHairRemovalVideos,
 } from "@/data/treatments/laser-hair-removal";
 import { treatmentsCrumb } from "@/data/treatments/shared";
+import { beforeAfter } from "@/data/treatments/beforeAfter";
 import ui from "@/components/shared/ui.module.css";
 
 export const metadata: Metadata = {
@@ -28,6 +30,7 @@ export default function LaserHairRemovalPage() {
     <main className={ui.page}>
       <Breadcrumb current={laserHairRemovalHero.breadcrumb} trail={treatmentsCrumb} />
       <TreatmentHero data={laserHairRemovalHero} />
+      <BeforeAfter data={beforeAfter["laser-hair-removal"]} />
       <CardGrid data={laserHairRemovalBenefits} />
       <MediaCardGrid data={laserHairRemovalAreas} tone="ivory" />
       <CalloutBanner data={laserHairRemovalCost} />

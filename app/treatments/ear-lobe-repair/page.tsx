@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Breadcrumb from "@/components/treatment/Breadcrumb";
 import TreatmentHero from "@/components/treatment/TreatmentHero";
+import BeforeAfter from "@/components/treatment/BeforeAfter";
 import TreatmentOverview from "@/components/treatment/TreatmentOverview";
 import CardGrid from "@/components/treatment/CardGrid";
 import ProcessSteps from "@/components/treatment/ProcessSteps";
@@ -20,6 +21,7 @@ import {
   earLobeRepairVideos,
 } from "@/data/treatments/ear-lobe-repair";
 import { treatmentsCrumb } from "@/data/treatments/shared";
+import { beforeAfter } from "@/data/treatments/beforeAfter";
 import ui from "@/components/shared/ui.module.css";
 
 export const metadata: Metadata = {
@@ -32,6 +34,7 @@ export default function EarLobeRepairPage() {
     <main className={ui.page}>
       <Breadcrumb current={earLobeRepairHero.breadcrumb} trail={treatmentsCrumb} />
       <TreatmentHero data={earLobeRepairHero} />
+      <BeforeAfter data={beforeAfter["ear-lobe-repair"]} />
       <TreatmentOverview data={earLobeRepairOverview} />
       <ProcessSteps data={earLobeRepairProcess} />
       <CardGrid data={earLobeRepairCauses} />

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Breadcrumb from "@/components/treatment/Breadcrumb";
 import TreatmentHero from "@/components/treatment/TreatmentHero";
+import BeforeAfter from "@/components/treatment/BeforeAfter";
 import CardGrid from "@/components/treatment/CardGrid";
 import ProcessSteps from "@/components/treatment/ProcessSteps";
 import CaseGallery from "@/components/treatment/CaseGallery";
@@ -21,6 +22,7 @@ import {
   eyelidSurgeryVideos,
 } from "@/data/treatments/eyelid-surgery";
 import { treatmentsCrumb } from "@/data/treatments/shared";
+import { beforeAfter } from "@/data/treatments/beforeAfter";
 import ui from "@/components/shared/ui.module.css";
 
 export const metadata: Metadata = {
@@ -33,6 +35,7 @@ export default function EyelidSurgeryPage() {
     <main className={ui.page}>
       <Breadcrumb current={eyelidSurgeryHero.breadcrumb} trail={treatmentsCrumb} />
       <TreatmentHero data={eyelidSurgeryHero} />
+      <BeforeAfter data={beforeAfter["eyelid-surgery"]} />
       <CardGrid data={eyelidSurgeryTypes} />
       <ProcessSteps data={eyelidSurgeryProcess} />
       <CardGrid data={eyelidSurgeryBenefits} />

@@ -24,6 +24,11 @@ export const buttockCalfHero: TreatmentHeroData = {
   ],
   primaryCta: bookConsultationCta("Book a Body Consultation"),
   secondaryCta: { label: "Read Recovery Guidance", href: "#faq" },
+  image: {
+    src: "/images/procedures/9.png",
+    alt: "Contour markings drawn on the buttocks before body reshaping",
+    tag: "Body Contouring",
+  },
   card: {
     eyebrow: "Procedure at a Glance",
     title: "Body Implants & BBL",

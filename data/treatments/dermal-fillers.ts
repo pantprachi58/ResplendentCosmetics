@@ -33,6 +33,11 @@ export const dermalFillersHero: TreatmentHeroData = {
   ],
   primaryCta: bookConsultationCta("Book a Filler Consultation"),
   secondaryCta: { label: "Explore Filler Treatments", href: "#filler-types" },
+  image: {
+    src: "/images/pages/dermal-fillers/cheek-fillers.webp",
+    alt: "Dermal filler being injected into a patient's cheek",
+    tag: "Non-Surgical",
+  },
   card: {
     eyebrow: "Treatment at a Glance",
     title: "Dermal Fillers",

@@ -24,6 +24,11 @@ export const otoplastyHero: TreatmentHeroData = {
   ],
   primaryCta: bookConsultationCta("Book an Ear Consultation"),
   secondaryCta: { label: "Read Recovery Guidance", href: "#faq" },
+  image: {
+    src: "/images/procedures/6.png",
+    alt: "Close-up of a natural, well-positioned ear",
+    tag: "Ear Reshaping",
+  },
   card: {
     eyebrow: "Procedure at a Glance",
     title: "Otoplasty",

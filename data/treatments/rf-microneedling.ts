@@ -24,6 +24,11 @@ export const rfMicroneedlingHero: TreatmentHeroData = {
   ],
   primaryCta: bookConsultationCta("Book a Morpheus8 Consultation"),
   secondaryCta: { label: "What Can It Treat?", href: "#concerns" },
+  image: {
+    src: "/images/procedures/16.png",
+    alt: "Morpheus8 microneedling RF handpiece",
+    tag: "Morpheus8",
+  },
   card: {
     eyebrow: "Treatment at a Glance",
     title: "Morpheus8",

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Breadcrumb from "@/components/treatment/Breadcrumb";
 import TreatmentHero from "@/components/treatment/TreatmentHero";
+import BeforeAfter from "@/components/treatment/BeforeAfter";
 import CardGrid from "@/components/treatment/CardGrid";
 import ProcessSteps from "@/components/treatment/ProcessSteps";
 import CalloutBanner from "@/components/treatment/CalloutBanner";
@@ -16,6 +17,7 @@ import {
   chemicalPeelTypes,
 } from "@/data/treatments/chemical-peel";
 import { treatmentsCrumb } from "@/data/treatments/shared";
+import { beforeAfter } from "@/data/treatments/beforeAfter";
 import ui from "@/components/shared/ui.module.css";
 
 export const metadata: Metadata = {
@@ -28,6 +30,7 @@ export default function ChemicalPeelPage() {
     <main className={ui.page}>
       <Breadcrumb current={chemicalPeelHero.breadcrumb} trail={treatmentsCrumb} />
       <TreatmentHero data={chemicalPeelHero} />
+      <BeforeAfter data={beforeAfter["chemical-peel"]} />
       <CardGrid data={chemicalPeelTypes} />
       <ProcessSteps data={chemicalPeelProcess} />
       <CalloutBanner data={chemicalPeelAftercare} />

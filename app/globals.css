@@ -542,3 +542,16 @@ main > :last-child {
     scroll-margin-top: 8.5rem;
   }
 }
+
+/* Material Symbols render their ligature name as text until the font loads.
+   Reserve a square 1em box and clip overflow so the raw name (e.g. "calendar_today")
+   never shows or pushes layout around; layout.tsx also loads the font with display=block. */
+.material-symbols-outlined {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  overflow: hidden;
+  line-height: 1;
+  white-space: nowrap;
+  flex-shrink: 0;
+}

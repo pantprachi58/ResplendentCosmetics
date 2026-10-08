@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Breadcrumb from "@/components/treatment/Breadcrumb";
 import TreatmentHero from "@/components/treatment/TreatmentHero";
+import BeforeAfter from "@/components/treatment/BeforeAfter";
 import CardGrid from "@/components/treatment/CardGrid";
 import ProcessSteps from "@/components/treatment/ProcessSteps";
 import CalloutBanner from "@/components/treatment/CalloutBanner";
@@ -18,6 +19,7 @@ import {
   sixPackAbsVideos,
 } from "@/data/treatments/six-pack-abs";
 import { treatmentsCrumb } from "@/data/treatments/shared";
+import { beforeAfter } from "@/data/treatments/beforeAfter";
 import ui from "@/components/shared/ui.module.css";
 
 export const metadata: Metadata = {
@@ -30,6 +32,7 @@ export default function SixPackAbsPage() {
     <main className={ui.page}>
       <Breadcrumb current={sixPackAbsHero.breadcrumb} trail={treatmentsCrumb} />
       <TreatmentHero data={sixPackAbsHero} />
+      <BeforeAfter data={beforeAfter["six-pack-abs"]} />
       <CardGrid data={sixPackAbsBenefits} />
       <ProcessSteps data={sixPackAbsProcess} />
       <CalloutBanner data={sixPackAbsCandidates} />

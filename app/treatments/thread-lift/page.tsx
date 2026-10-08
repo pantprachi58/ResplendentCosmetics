@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Breadcrumb from "@/components/treatment/Breadcrumb";
 import TreatmentHero from "@/components/treatment/TreatmentHero";
+import BeforeAfter from "@/components/treatment/BeforeAfter";
 import CardGrid from "@/components/treatment/CardGrid";
 import TreatmentOverview from "@/components/treatment/TreatmentOverview";
 import MediaCardGrid from "@/components/treatment/MediaCardGrid";
@@ -14,6 +15,7 @@ import {
   threadLiftTechniques,
 } from "@/data/treatments/thread-lift";
 import { treatmentsCrumb } from "@/data/treatments/shared";
+import { beforeAfter } from "@/data/treatments/beforeAfter";
 import ui from "@/components/shared/ui.module.css";
 
 export const metadata: Metadata = {
@@ -26,6 +28,7 @@ export default function ThreadLiftPage() {
     <main className={ui.page}>
       <Breadcrumb current={threadLiftHero.breadcrumb} trail={treatmentsCrumb} />
       <TreatmentHero data={threadLiftHero} />
+      <BeforeAfter data={beforeAfter["thread-lift"]} />
       <CardGrid data={threadLiftCandidates} />
       <MediaCardGrid data={threadLiftResults} tone="ivory" />
       <TreatmentOverview data={threadLiftTechniques} />

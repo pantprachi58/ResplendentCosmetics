@@ -23,6 +23,11 @@ export const microdermabrasionHero: TreatmentHeroData = {
   ],
   primaryCta: bookConsultationCta("Book a Skin Consultation"),
   secondaryCta: { label: "Is It Right for Me?", href: "#faq" },
+  image: {
+    src: "/images/procedures/17.png",
+    alt: "Microdermabrasion handpiece being used on a patient's forehead",
+    tag: "Skin Resurfacing",
+  },
   card: {
     eyebrow: "Treatment at a Glance",
     title: "Microdermabrasion",

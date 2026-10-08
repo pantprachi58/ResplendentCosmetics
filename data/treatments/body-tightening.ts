@@ -32,6 +32,11 @@ export const bodyTighteningHero: TreatmentHeroData = {
   ],
   primaryCta: bookConsultationCta("Book a Tightening Consultation"),
   secondaryCta: { label: "Compare the Treatments", href: "#technologies" },
+  image: {
+    src: "/images/pages/body-tightening/bodytite.webp",
+    alt: "Illustration of a contoured, tightened body silhouette",
+    tag: "FaceTite • BodyTite • AccuTite",
+  },
   card: {
     eyebrow: "Treatment at a Glance",
     title: "RFAL Skin Tightening",

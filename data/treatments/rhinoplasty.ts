@@ -22,6 +22,11 @@ export const rhinoplasty: TreatmentPageData = {
     ],
     primaryCta: bookConsultationCta("Book Rhinoplasty Assessment"),
     secondaryCta: { label: "Explore 3D Nose Simulation", href: "#simulation-section", iconLeading: "view_in_ar" },
+    image: {
+      src: "/images/procedures/2.png",
+      alt: "Side profile of a refined, natural nose",
+      tag: "Facial Harmony",
+    },
     card: {
       eyebrow: "Lead Consultant Plastic Surgeon",
       title: "Dr. Sukhbir Singh",
@@ -29,8 +34,8 @@ export const rhinoplasty: TreatmentPageData = {
       checklist: [
         "MBBS, MS, MCh (Plastic Surgery) • Fellow PUCRS Brazil",
         "ISAPS Member • APSI Certified",
-        "Piezotome Technology: ultrasonic bone reshaping with zero mucosal tearing",
-        "Airway Protection: concomitant spreader grafts ensure laminar flow",
+        "Piezotome Technology: ultrasonic bone reshaping designed to protect soft tissue",
+        "Airway Protection: spreader grafts used where needed to support breathing",
       ],
       footLabel: "Direct Case Lead",
       footValue: "Greater Kailash 1, New Delhi",

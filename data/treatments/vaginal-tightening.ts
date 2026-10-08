@@ -32,6 +32,11 @@ export const vaginalTighteningHero: TreatmentHeroData = {
   ],
   primaryCta: bookConsultationCta("Book a Private Consultation"),
   secondaryCta: { label: "Read Common Questions", href: "#faq" },
+  image: {
+    src: "/images/pages/hymenoplasty/hymenoplasty.jpg",
+    alt: "Woman holding a flower, representing confidential intimate care",
+    tag: "Confidential Care",
+  },
   card: {
     eyebrow: "Procedure at a Glance",
     title: "Vaginal Tightening",

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Breadcrumb from "@/components/treatment/Breadcrumb";
 import TreatmentHero from "@/components/treatment/TreatmentHero";
+import BeforeAfter from "@/components/treatment/BeforeAfter";
 import CardGrid from "@/components/treatment/CardGrid";
 import TreatmentOverview from "@/components/treatment/TreatmentOverview";
 import CalloutBanner from "@/components/treatment/CalloutBanner";
@@ -18,6 +19,7 @@ import {
   lipAugmentationVideos,
 } from "@/data/treatments/lip-augmentation";
 import { treatmentsCrumb } from "@/data/treatments/shared";
+import { beforeAfter } from "@/data/treatments/beforeAfter";
 import ui from "@/components/shared/ui.module.css";
 
 export const metadata: Metadata = {
@@ -30,6 +32,7 @@ export default function LipAugmentationPage() {
     <main className={ui.page}>
       <Breadcrumb current={lipAugmentationHero.breadcrumb} trail={treatmentsCrumb} />
       <TreatmentHero data={lipAugmentationHero} />
+      <BeforeAfter data={beforeAfter["lip-augmentation"]} />
       <TreatmentOverview data={lipAugmentationBenefits} />
       <CardGrid data={lipAugmentationTypes} tone="ivory" />
       <CalloutBanner data={lipAugmentationCost} />

@@ -274,6 +274,11 @@
   box-shadow: 0 24px 48px rgb(15 23 42 / 0.16);
 }
 
+/* Photo + "at a glance" card: a landscape photo keeps the column close to the copy's height */
+.photoWide {
+  aspect-ratio: 4 / 3;
+}
+
 .scrim {
   position: absolute;
   inset: 0;
@@ -311,7 +316,7 @@
 }
 
 .captionText {
-  margin-top: 0.25rem;
+  padding-top: 0.25rem;
   font-size: 13px;
   line-height: 20px;
   color: #cbd5e1;
@@ -354,7 +359,7 @@
   color: #64748b;
 }
 
-/* Credential card (pages without a hero photo) */
+/* "At a glance" card: on its own, or layered over the bottom of the hero photo */
 
 .card {
   padding: 2rem;
@@ -400,10 +405,43 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin: 1.5rem 0;
   font-size: 14px;
   line-height: 20px;
   color: #1e293b;
+}
+
+/* Higher specificity than ui.page's `ul { margin: 0 }` reset */
+.card .checklist {
+  margin: 1.5rem 0;
+}
+
+/* Sits inside the photo's width (the photo is capped at 30rem below 1024px) */
+.cardOverlap {
+  position: relative;
+  z-index: 1;
+  width: calc(100% - 2rem);
+  max-width: 28rem;
+  margin: -3rem auto 0;
+  padding: 1.25rem;
+}
+
+.cardOverlap .checklist {
+  gap: 0.75rem;
+  margin: 1rem 0 0;
+}
+
+@media (min-width: 640px) {
+  .cardOverlap {
+    width: calc(100% - 3rem);
+    max-width: 27rem;
+    padding: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .cardOverlap {
+    max-width: none;
+  }
 }
 
 .checklist li {

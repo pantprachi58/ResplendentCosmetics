@@ -1,6 +1,18 @@
+import type { ImageRef } from "./treatments/types";
+
+/*
+ * Home-page "Clinical Gallery" cases, shown as draggable before/after sliders.
+ * Rhinoplasty and hair restoration use real clinic pairs; the other two are stand-ins
+ * (`sample: true`) until real pairs are supplied. To replace one, point before/after at the
+ * photos (same framing) and delete `sample`.
+ */
 export type CaseStudy = {
-  image: string;
-  imageAlt: string;
+  before: ImageRef;
+  after: ImageRef;
+  /** Stand-in photo: greys out the before side and shows a "Sample" badge */
+  sample?: boolean;
+  /** CSS object-position for both photos */
+  focus?: string;
   tag: string;
   badgeTone: "primary" | "emerald";
   badge: string;
@@ -12,10 +24,9 @@ export type CaseStudy = {
 
 export const results: CaseStudy[] = [
   {
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuB_QHmL03DS62NjTERKNaW3TWQTN7zMM9YV0RKE2T5Twcd1zJ-s1OoVJGJk8W9WbfB3IRSmjGOjzd5qiPDidLFhJ8ao9EIP0k9Pizkdwzljt69cXoeYvpVeFL-mAPDEB_UFEdrMRY90jb7DW_2xcrtg0cxrAhXFUxQ9ttiMfjem4nWmXrrPDYu92D_AVFxvg0k6V239gKyG6VtEIMPWArcSXH5VB3pV3HbcOBvE-9O_N7Q1tdDvDDAg",
-    imageAlt:
-      "Monochrome profile medical before and after aesthetic comparison of Rhinoplasty showing reduced dorsal hump and refined natural nasal tip.",
+    before: { src: "/images/pages/rhinoplasty/before-after/before.jpg", alt: "Rhinoplasty patient profile before surgery" },
+    after: { src: "/images/pages/rhinoplasty/before-after/after.jpg", alt: "Rhinoplasty patient profile after surgery" },
+    focus: "75% 50%",
     tag: "Rhinoplasty",
     badgeTone: "primary",
     badge: "12 Months Post-Op",
@@ -26,10 +37,9 @@ export const results: CaseStudy[] = [
     note: "Closed Technique",
   },
   {
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBYgUBX8i3CrPurTNt1pPbHr2gOBX2c4aS4UktAhl9eby01fvwYWifCMSJXk6neQRI1J9AB4b7x-khNv62-sbJRb29_iVuBdzMrIRobrA5n1pPe-7QRIA6FMnY9OxhWkmEUR2ep0shKANHqqNilesRb-KxbZHY3IlQzDTuE238_VsGWE2-COgz2oe7kJJROHVgNKZZP0ICObXQ1w6cn9nqE44fyrE8Us0A7-p-NicDyHfcPy7nf0ExK",
-    imageAlt:
-      "Before and after clinical comparison of FUE hair transplant showing reconstructed temporal peak, natural hairline density, and thick follicle restoration.",
+    before: { src: "/images/pages/hair-transplant/before-after/before.jpg", alt: "Hair transplant patient's thinning crown and hairline before treatment" },
+    after: { src: "/images/pages/hair-transplant/before-after/after.jpg", alt: "Hair transplant patient's restored hair coverage after treatment" },
+    focus: "50% 30%",
     tag: "FUE Hairline",
     badgeTone: "primary",
     badge: "3,400 Grafts",
@@ -40,9 +50,9 @@ export const results: CaseStudy[] = [
     note: "9 Months Post-Op",
   },
   {
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBWYPxZiW4wky18NPuUpe9wFLlYrnGXopnr-feWlhjyrdWo9ysbxcD4Dphk_herac3hd8iHRE6rYFmRx9YofoX6mCP0q-suRvp8OC_KWZuktOsNrAVYeTVPiy7x2QOrJWfrvlGLl6Cwmj2AdlSdrMfueZlgYuZspHwU0J1UVD-8N3XAhi1ITENlRW4x7OSy9QaWdF_AKRs7PqEaBD99pD1NMPabdTsy2UOs98UHIzZNUt_7pYjvXQuw6Eu2FrpUcUgq-A",
-    imageAlt: "Body Contouring",
+    before: { src: "/images/procedures/8.png", alt: "Sample image of a defined abdomen, before view" },
+    after: { src: "/images/procedures/8.png", alt: "Sample image of a defined abdomen, after view" },
+    sample: true,
     tag: "VASER 4D",
     badgeTone: "emerald",
     badge: "High-Def Result",
@@ -53,9 +63,9 @@ export const results: CaseStudy[] = [
     note: "4 Months Post-Op",
   },
   {
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBiKSY5L1b0x43c2nmFOfZtg1ck5_FIdikBQLGzxLnlNpBaQ7Dy_ukLEdBi0ubbHrKp1X9rrJsvv8JG0baAMLxdjmGS08iMTVMHN2MkgwSLf_OKa4g2lkITvOcZYn7ysLdKzPP8ibcHOvfro-apKCYC8iDK0MNyIyRpHFj9xMXJN0VnLPa94JKew4s-fAar_h0M1tpEh-1PEYBuvy5FzzWbAFdVOUsC2iBzvRMCmuG5mX5b3i0N5BJI7jz1mDV33f3Hsw",
-    imageAlt: "Facial Rejuvenation",
+    before: { src: "/images/procedures/3.png", alt: "Sample image of the jawline and neck, before view" },
+    after: { src: "/images/procedures/3.png", alt: "Sample image of the jawline and neck, after view" },
+    sample: true,
     tag: "SMAS Lift",
     badgeTone: "primary",
     badge: "Deep Plane",

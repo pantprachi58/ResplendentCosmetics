@@ -32,6 +32,11 @@ export const vaginoplastyHero: TreatmentHeroData = {
   ],
   primaryCta: bookConsultationCta("Book a Private Consultation"),
   secondaryCta: { label: "Watch Dr. Sukhbir Explain", href: "#videos", iconLeading: "play_circle" },
+  image: {
+    src: "/images/pages/hymenoplasty/hymenoplasty.jpg",
+    alt: "Woman holding a flower, representing confidential intimate care",
+    tag: "Confidential Care",
+  },
   card: {
     eyebrow: "Procedure at a Glance",
     title: "Vaginoplasty",

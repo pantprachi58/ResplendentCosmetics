@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Breadcrumb from "@/components/treatment/Breadcrumb";
 import TreatmentHero from "@/components/treatment/TreatmentHero";
+import BeforeAfter from "@/components/treatment/BeforeAfter";
 import CardGrid from "@/components/treatment/CardGrid";
 import ProcessSteps from "@/components/treatment/ProcessSteps";
 import CalloutBanner from "@/components/treatment/CalloutBanner";
@@ -16,6 +17,7 @@ import {
   otoplastyProcess,
 } from "@/data/treatments/otoplasty";
 import { treatmentsCrumb } from "@/data/treatments/shared";
+import { beforeAfter } from "@/data/treatments/beforeAfter";
 import ui from "@/components/shared/ui.module.css";
 
 export const metadata: Metadata = {
@@ -28,6 +30,7 @@ export default function OtoplastyPage() {
     <main className={ui.page}>
       <Breadcrumb current={otoplastyHero.breadcrumb} trail={treatmentsCrumb} />
       <TreatmentHero data={otoplastyHero} />
+      <BeforeAfter data={beforeAfter.otoplasty} />
       <CardGrid data={otoplastyIndications} />
       <ProcessSteps data={otoplastyProcess} />
       <CalloutBanner data={otoplastyAftercare} />

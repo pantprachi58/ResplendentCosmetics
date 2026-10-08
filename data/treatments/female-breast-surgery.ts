@@ -3,16 +3,14 @@ import type {
   CardGridData,
   CtaBandData,
   FaqData,
-  MediaCardGridData,
   TreatmentHeroData,
   VideoGalleryData,
 } from "./types";
 import { bookConsultationCta, clinicMeta } from "./shared";
 
 // Content sourced from https://www.resplendentcosmetics.com/female-breast-surgery.php.
-// Before/after photos are the live page's images/female-breast/1-3.jpg, stored locally.
-
-const IMG = "/images/pages/female-breast-surgery";
+// The live page's before/after photos carry another clinic's watermark and are not used; the
+// before/after slider (data/treatments/beforeAfter.ts) shows a clean clinic pair instead.
 
 export const breastSurgeryMeta = {
   title: "Female Breast Surgery in Delhi NCR | Augmentation, Lift & Reduction | Resplendent Aesthetics",
@@ -34,6 +32,11 @@ export const breastSurgeryHero: TreatmentHeroData = {
   ],
   primaryCta: bookConsultationCta("Book a Breast Consultation"),
   secondaryCta: { label: "Explore the Procedures", href: "#procedures" },
+  image: {
+    src: "/images/procedures/12.png",
+    alt: "Woman in a sports top, representing breast and body contouring",
+    tag: "Women's Aesthetic Surgery",
+  },
   card: {
     eyebrow: "Procedures",
     title: "Breast Surgery",
@@ -155,18 +158,6 @@ export const breastReductionFaq: FaqData = {
         "It is usually a day-care procedure, with discharge the same day or the next morning. Rest for 2–3 days until the drains are removed; you can resume normal activities in 5–7 days and normal walking in 10–12 days. Avoid heavy exercise, gym, swimming and lifting heavy weights for 6–8 weeks.",
     },
   ],
-};
-
-export const breastSurgeryResults: MediaCardGridData = {
-  id: "results",
-  eyebrow: "Patient Results",
-  title: "Female Breast Surgery Before & After",
-  note: "Individual results vary",
-  columns: 3,
-  fit: "contain",
-  cards: [1, 2, 3].map((n) => ({
-    image: { src: `${IMG}/before-after-${n}.jpg`, alt: `Female breast surgery patient ${n}, before and after` },
-  })),
 };
 
 export const breastSurgeryVideos: VideoGalleryData = {

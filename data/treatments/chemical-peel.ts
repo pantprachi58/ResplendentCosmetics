@@ -23,6 +23,11 @@ export const chemicalPeelHero: TreatmentHeroData = {
   ],
   primaryCta: bookConsultationCta("Book a Skin Consultation"),
   secondaryCta: { label: "Explore Peel Types", href: "#peel-types" },
+  image: {
+    src: "/images/pages/body-tightening/accutite.webp",
+    alt: "Doctor assessing a patient's facial skin",
+    tag: "Skin Assessment",
+  },
   card: {
     eyebrow: "When to Consider a Peel",
     title: "Chemical Peel",
