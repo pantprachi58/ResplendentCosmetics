@@ -29,7 +29,7 @@ app/
                       ear-lobe-repair, otoplasty, eyelid-surgery, dermal-fillers, prp-therapy,
                       microdermabrasion, thread-lift, buttock-calf-augmentation, gender-reassignment,
                       laser-hair-removal, body-tightening, rf-microneedling, fat-grafting, tummy-tuck,
-                      breast-surgery (#augmentation/#lift/#reduction), hymenoplasty, penile-enlargement,
+                      female-breast-surgery (#augmentation/#lift/#reduction), hymenoplasty, penile-enlargement,
                       gynecomastia, six-pack-abs, lip-augmentation)
   book-consultation/ contact/ doctors/ why-choose-us/   Standalone pages (page.tsx + page.module.css)
   gallery/ achievements/   Videos + event photos; publications list (data in data/gallery.ts, data/achievements.ts)
