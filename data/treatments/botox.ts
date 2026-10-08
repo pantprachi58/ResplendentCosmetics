@@ -24,11 +24,11 @@ export const botox: TreatmentPageData = {
     ],
     primaryCta: bookConsultationCta("Book Botox Consultation"),
     secondaryCta: { label: "View Dosage & Areas", href: "#dosage-zones" },
-    surgeon: {
-      name: "Clinical Leadership Directive",
-      initials: "R",
-      credentials: "Administered strictly by Dr. Ananya Roy (MD Derm) & Dr. Sukhbir Singh (MS, MCh Plastic Surgery)",
-    },
+    // surgeon: {
+    //   name: "Clinical Leadership Directive",
+    //   initials: "R",
+    //   credentials: "Administered strictly by Dr. Ananya Roy (MD Derm) & Dr. Sukhbir Singh (MS, MCh Plastic Surgery)",
+    // },
     image: {
       src: `${IMG}/01-close-up-high-end-medical.jpg`,
       alt: "Doctor marking dynamic injection points on a patient's forehead",

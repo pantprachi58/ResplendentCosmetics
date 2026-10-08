@@ -6,24 +6,31 @@
   margin-top: -2.5rem;
   width: 100%;
   max-width: 1320px;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .root {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
 }
 
 .columns {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 2rem;
+  gap: 1rem;
   border-radius: 1rem;
   border-width: 1px;
   --tw-border-opacity: 1;
   border-color: rgb(226 232 240 / var(--tw-border-opacity, 1));
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
   --tw-shadow:
     0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   --tw-shadow-colored:
@@ -34,9 +41,20 @@
     var(--tw-shadow);
 }
 
+@media (min-width: 640px) {
+  .columns {
+    gap: 1.5rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
 @media (min-width: 768px) {
   .columns {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2rem;
   }
 }
 
@@ -55,9 +73,15 @@
 }
 
 .label {
-  font-size: 40px;
+  font-size: 32px;
   font-weight: 700;
   line-height: 1.25;
+}
+
+@media (min-width: 480px) {
+  .label {
+    font-size: 36px;
+  }
 }
 
 @media (min-width: 640px) {
