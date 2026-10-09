@@ -24,8 +24,8 @@ export type CaseStudy = {
 
 export const results: CaseStudy[] = [
   {
-    before: { src: "/images/pages/rhinoplasty/before-after/before.jpg", alt: "Rhinoplasty patient profile before surgery" },
-    after: { src: "/images/pages/rhinoplasty/before-after/after.jpg", alt: "Rhinoplasty patient profile after surgery" },
+    before: { src: "/images/pages/rhinoplasty/before-after/after.jpg", alt: "Rhinoplasty patient profile before surgery" },
+    after: { src: "/images/pages/rhinoplasty/before-after/before.jpg", alt: "Rhinoplasty patient profile after surgery" },
     focus: "75% 50%",
     tag: "Rhinoplasty",
     badgeTone: "primary",
