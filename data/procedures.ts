@@ -134,10 +134,10 @@ export const procedures: Procedure[] = [
   {
     cardTone: "blue",
     image: "/images/procedures/13.png",
-    imageAlt: "Gender Affirmation Surgery",
+    imageAlt: "Regenerative Medicine Surgery",
     badgeTone: "slate",
     badge: "Affirming",
-    title: "Gender Affirmation",
+    title: "Regenerative Medicine",
     description:
       "Facial feminization/masculinization and top surgery with absolute empathy.",
   },
