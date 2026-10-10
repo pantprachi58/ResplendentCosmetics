@@ -208,7 +208,8 @@ export const beforeAfter = {
       "Compression garments support healing and skin retraction",
     ],
     cta: bookConsultationCta("Ask About Liposuction"),
-    ...samplePair("/images/procedures/12.png", "liposuction"),
+    before: { src: "/images/Liposuction/lipo-before.jpg", alt: "Liposuction patient before treatment" },
+    after: { src: "/images/Liposuction/Lipo after.jpeg", alt: "Liposuction patient after treatment" },
   },
   "buttock-calf-augmentation": {
     eyebrow: "Body Contouring Surgery",

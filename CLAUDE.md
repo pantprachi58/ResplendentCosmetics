@@ -5,6 +5,7 @@ Marketing website for **Resplendent Aesthetics**, a plastic & cosmetic surgery c
 ## Stack & commands
 
 - Next.js 16 (App Router), React 19, TypeScript 7 (strict), plain **CSS Modules**. No Tailwind, no UI library, no state library.
+- MongoDB (`mongodb` driver) for blog posts, admin accounts/sessions and uploaded images (GridFS). TipTap for the admin editor, `sanitize-html` for article HTML, `bcryptjs` for passwords.
 - No test suite, no ESLint config. Prettier is installed but has no config file (defaults).
 
 ```bash
@@ -12,13 +13,21 @@ npm install
 npm run dev      # http://localhost:3000
 npm run build    # also the main type-check; run it after changes
 npm start
+npm run admin:create -- --email a@b.com --name "Name"   # create admin / reset its password (prompts; or NEW_ADMIN_PASSWORD from the shell)
+npm run blog:seed                                        # insert missing original articles (never touches existing posts)
 ```
 
 ## Layout
 
 ```
 app/
-  layout.tsx          Root layout: metadata, Google Fonts <link>s, <Header/> + <Footer/> + floating <WhatsAppButton/>
+  layout.tsx          Root layout: metadata, Google Fonts <link>s, <body> only (no site chrome)
+  (site)/layout.tsx   Public site chrome: <Header/> + <Footer/> + floating <WhatsAppButton/>. Every public route
+                      below lives in app/(site)/ (route group, URLs unchanged); paths are listed relative to it
+  admin/              Blog CMS (own chrome, noindex). login/ is public; (panel)/ requires a session:
+                      page.tsx posts table, posts/new, posts/[id] (editor), account (change password)
+  api/admin/          session (POST login / DELETE logout), password, posts, posts/[id] (PUT/DELETE), media (upload)
+  media/[id]/         Serves uploaded images from GridFS (immutable cache)
   globals.css         Reset only (Tailwind-preflight-derived; the --tw-* vars are leftovers, harmless)
   page.tsx            Home page: Hero, TrustBar, Procedures, TreatmentChoice, Results, Doctors,
                       Facility, Testimonials, InternationalDesk, AppointmentCta (in that order)
@@ -34,14 +43,15 @@ app/
                       gynecomastia, six-pack-abs, lip-augmentation)
   book-consultation/ contact/ doctors/ why-choose-us/   Standalone pages (page.tsx + page.module.css)
   gallery/ achievements/   Videos + event photos; publications list (data in data/gallery.ts, data/achievements.ts)
-  blog/page.tsx       Blog index: PageIntro + components/blog/BlogExplorer (client; All/Face/Body/Women/Men filter,
+  blog/page.tsx       Blog index (server, ISR): posts from lib/blog/repository → components/blog/BlogExplorer (client; All/Face/Body/Women/Men filter,
                       mirrored in ?category=, "Show more" adds BLOG_PAGE_SIZE cards)
-  blog/[slug]/        Article page, statically generated from data/blog.ts (dynamicParams = false → unknown slugs 404)
+  blog/[slug]/        Article page from MongoDB (ISR 5 min + on-demand revalidation on admin save; new slugs render
+                      on first request, unknown/draft slugs 404). TOC is built from the article's <h2>s
 components/
   <Section>.tsx + <Section>.module.css   one pair per home-page section
   WhatsAppButton.tsx  Floating wa.me link rendered on every page (from layout.tsx)
   Icon.tsx            Material Symbols wrapper: <Icon name="call" filled? className? />
-  about/*             About-page section components (currently NOT used by app/about/page.tsx)
+  about/*             About-page section components (currently NOT used by app/(site)/about/page.tsx)
   shared/ui.module.css  Shared primitives for content pages: .page (main wrapper w/ header offset),
                       .container, .section, .eyebrow, .title, .btn*, .media/.cover, form .input
   shared/CtaLink.tsx  Pill button; next/link for "/" routes, <a> for tel:/# (external http links open in a new tab)
@@ -55,7 +65,16 @@ components/
                       BeforeAfter (treatment section wrapping shared/CompareSlider)
   blog/BlogCard.tsx   Article card (stretched title link); blog/BlogExplorer.tsx  client filter + show more
   booking/BookingWizard.tsx  Client 4-step booking flow; contact/ContactForm.tsx  Client form
-data/blog.ts          Blog posts (category, sections, consultation questions, linked treatment) + helpers
+data/blog.ts          Blog categories/filters + the original articles: only the seed and the DB-down fallback, not live content
+lib/mongodb.ts        Shared client (MONGODB_URI, optional MONGODB_DB); also used by scripts/
+lib/blog/             types, store (collection + doc mapping), repository (server-only reads/writes, public reads fall back
+                      to data/blog.ts), seed (insert-only, once per DB via `migrations`), content (sanitise, TOC, read time),
+                      validation, slug, revalidate
+lib/auth/             users (bcrypt, admin_users), session (hashed tokens in admin_sessions + httpOnly cookie, guards,
+                      same-origin check), rate-limit (in-memory, failed logins)
+lib/media.ts          GridFS image save/read + magic-byte type sniffing (no SVG)
+components/admin/     AdminNav, LoginForm, PostsTable, PostEditor, RichTextEditor (TipTap), ChangePasswordForm, SignOutButton
+scripts/              create-admin.ts, seed-blog.ts (run with tsx; env.ts loads .env like Next)
 data/*.ts             Typed content arrays (procedures, doctors, results, testimonials,
                       stats, navigation, treatmentCategories, footer, facility, about, internationalDesk,
                       doctorProfiles, whyChooseUs, contact, booking)
@@ -80,13 +99,13 @@ Path alias: `@/*` → repo root (e.g. `@/components/Icon`, `@/data/procedures`).
 
 - **Content lives in `data/*.ts`** as exported typed arrays (`export type X = {...}; export const xs: X[] = [...]`). Components import and map over them; don't hardcode lists in components.
 - **Styling**: each component imports `styles from "./Name.module.css"`. Colors are hardcoded hex (no CSS variables). Main palette: navy `#0a192f` / `#1a1a2e` / `#1e293b`, accent blue `#2d6a9f`, slate greys `#f1f5f9` `#e2e8f0` `#94a3b8`. Mobile-first: media queries use `min-width` at 640 / 768 / 1024 / 1280px. Content container max-width is ~1320px.
-- Tone variants are typed string unions mapped to CSS classes (e.g. `badgeTone: "navy" | "blue" | ...` → `badgeToneClass` record in `app/treatments/page.tsx` and `components/Procedures.tsx`).
+- Tone variants are typed string unions mapped to CSS classes (e.g. `badgeTone: "navy" | "blue" | ...` → `badgeToneClass` record in `app/(site)/treatments/page.tsx` and `components/Procedures.tsx`).
 - Fonts: Inter + Plus Jakarta Sans, and Material Symbols Outlined, loaded via `<link>` in `app/layout.tsx` (not `next/font`). The icon font is pinned to `opsz 24, wght 400, GRAD 0` with only `FILL 0..1` variable (~450 KB instead of ~3.9 MB) and uses `display=block`; `globals.css` clips `.material-symbols-outlined` to a 1em box so ligature names never flash as text. If you need another weight/grade/size axis, widen the URL. Don't add per-module font `@import`s.
-- Server components by default; add `"use client"` only when needed (currently `Header`, `Procedures` (home filter tabs), `app/treatments/page.tsx`, `FaqAccordion`, `ConsultationForm`, `BookingWizard`, `ContactForm`).
+- Server components by default; add `"use client"` only when needed (currently `Header`, `Procedures` (home filter tabs), `app/(site)/treatments/page.tsx`, `FaqAccordion`, `ConsultationForm`, `BookingWizard`, `ContactForm`, `BlogExplorer` and the `components/admin/*` forms).
 - Images: `next/image`. The older home/about sections (`Hero`, `Doctors`, `Facility`, `about/*`, `data/results.ts`, `data/doctors.ts`, `data/about.ts`) still use remote images from `lh3.googleusercontent.com`, the only allowed remote host in `next.config.mjs`. Newer pages use local files only. Logos use plain `<img>` with an eslint-disable comment.
 - Commented section headers in JSX (`{/* Hero Section */}`) are the norm in page files.
 
-- **New treatment pages**: add `data/treatments/<slug>.ts` (typed `TreatmentPageData` + any extra section data) and an `app/treatments/<slug>/page.tsx` that composes `components/treatment/*` sections inside `<main className={ui.page}>`. Put images in `public/images/pages/<slug>/`, never hotlink. Palette for these pages is blue/green: `#0052cc` / `#003d9b` / `#10b981` / navy `#002244` / charcoal `#0f172a`.
+- **New treatment pages**: add `data/treatments/<slug>.ts` (typed `TreatmentPageData` + any extra section data) and an `app/(site)/treatments/<slug>/page.tsx` that composes `components/treatment/*` sections inside `<main className={ui.page}>`. Put images in `public/images/pages/<slug>/`, never hotlink. Palette for these pages is blue/green: `#0052cc` / `#003d9b` / `#10b981` / navy `#002244` / charcoal `#0f172a`.
 - Legacy URLs (`/rhinoplasty`, `/hair-transplant`, ... and old production `*.php` pages) 308-redirect to `/treatments/<slug>` via `next.config.mjs`. When porting a page from the live PHP site, add its `.php` URL there.
 - Live-site photos must also be checked for stock images posing as results and identifiable patients (one gallery photo showed patients on OT tables and was excluded).
 - Live-site photos must be checked before use: several carry another clinic's watermark ("Pure Aesthetic Surgery") and were deliberately not used.
@@ -104,11 +123,12 @@ Path alias: `@/*` → repo root (e.g. `@/components/Icon`, `@/data/procedures`).
 - `/treatments/eyelid-surgery` (ported from live) and `/treatments/blepharoplasty` (template) cover the same procedure; consolidate into one before launch to avoid duplicate SEO content.
 - Pages not reachable from the header menu: `hydrafacial`, `chin-jawline`, `blepharoplasty` (overlaps `eyelid-surgery`), `hair-transplant` and `/why-choose-us` (the last two are still linked from the footer).
 - Before/after sliders: only rhinoplasty, gynecomastia, female-breast-surgery, thread-lift (split from live result-03) and eyelid-surgery (low-res 400px) use real clinic pairs; the other 24 show `sample` stand-ins until real photos are supplied.
-- Blog articles in `data/blog.ts` are original drafts (the live `blog.php` couldn't be retrieved; it now 308-redirects to `/blog`). They need clinic review; keep them free of stats, prices and guarantees.
+- The original articles in `data/blog.ts` are general-information drafts (the live `blog.php` couldn't be retrieved; it now 308-redirects to `/blog`). They need clinic review; keep posts free of stats, prices and guarantees.
+- Blog CMS: the login rate limit is per process (in memory); replacing or removing an image doesn't delete the old GridFS file; there is no post preview before publishing (save as draft, then publish).
+- Secrets live in `.env.local` (gitignored; template in `.env.example`). Never commit env files.
 - Forms (contact, booking, consultation) have no backend; they only show a client-side confirmation.
-- `README.md` is partly stale (says `/about-us` and `/treatments` don't exist).
-- `app/treatments/page.tsx` derives categories by matching `procedure.badge` strings against hardcoded lists; adding a procedure with a new badge value means updating those lists (filter map and the surgical/non-surgical counts).
-- `components/about/*` and `data/about.ts` duplicate content that `app/about/page.tsx` defines inline; pick one source when editing the About page.
+- `app/(site)/treatments/page.tsx` derives categories by matching `procedure.badge` strings against hardcoded lists; adding a procedure with a new badge value means updating those lists (filter map and the surgical/non-surgical counts).
+- `components/about/*` and `data/about.ts` duplicate content that `app/(site)/about/page.tsx` defines inline; pick one source when editing the About page.
 - Contact details (phone `+91 99103 91229`, Greater Kailash address, hours) are hardcoded in many places: components (`Header`, `Footer`, `Hero`, `AppointmentCta`, `InternationalDesk`, `Facility`, `treatment/CtaBand`, `booking/BookingWizard`, `contact/ContactForm`, `about/*`), pages (`about`, `book-consultation`, `why-choose-us`, ...) and data files (`contact`, `booking`, `doctorProfiles`, `whyChooseUs`, `treatments/shared` and several `treatments/*.ts`). Grep for `99103` / `Greater Kailash` and update them all together.
 - `components/WhatsAppButton.tsx` uses a **placeholder** number (`919876543210`). Replace it with the real WhatsApp number before launch.
-- The home `Procedures` filter splits cards by `cardTone` (`blue` = surgical, `emerald` = dermatology), not by `badge` like `app/treatments/page.tsx` does.
+- The home `Procedures` filter splits cards by `cardTone` (`blue` = surgical, `emerald` = dermatology), not by `badge` like `app/(site)/treatments/page.tsx` does.

@@ -1,10 +1,10 @@
 import type { ImageRef } from "./treatments/types";
 
 /*
- * Blog content: patient-education guides grouped by the same Face / Body / Women / Men
- * categories as the Treatments menu. The live site's blog.php could not be retrieved, so these
- * articles are original, general-information drafts for the clinic to review. Keep them free of
- * statistics, prices and outcome guarantees, and link each one to its treatment page.
+ * Blog categories and the original (pre-CMS) articles, exactly as published on the live site.
+ * Posts are now stored in MongoDB and edited in /admin; `blogPosts` below is only the seed
+ * that lib/blog/seed.ts inserts for slugs the database doesn't have yet, and the read-only
+ * fallback when the database is unreachable. Edit live posts in the admin panel, not here.
  */
 
 export type BlogCategory = "face" | "body" | "women" | "men";
@@ -33,6 +33,7 @@ export type BlogSection = {
   bullets?: string[];
 };
 
+/** A seed article in its original structured form (converted to HTML when inserted) */
 export type BlogPost = {
   slug: string;
   title: string;
@@ -688,19 +689,3 @@ export const blogPosts: BlogPost[] = [
     ],
   },
 ];
-
-/** Reading time from the article text at about 200 words a minute, rounded up */
-export function readMinutes(post: BlogPost) {
-  const text = [post.excerpt, ...post.sections.flatMap((s) => [s.heading, ...s.paragraphs, ...(s.bullets ?? [])]), ...post.questions].join(" ");
-  return Math.max(1, Math.ceil(text.split(/\s+/).length / 200));
-}
-
-export function getBlogPost(slug: string) {
-  return blogPosts.find((post) => post.slug === slug);
-}
-
-/** Up to `count` other posts, same category first */
-export function relatedPosts(post: BlogPost, count = 3) {
-  const others = blogPosts.filter((p) => p.slug !== post.slug);
-  return [...others.filter((p) => p.category === post.category), ...others.filter((p) => p.category !== post.category)].slice(0, count);
-}

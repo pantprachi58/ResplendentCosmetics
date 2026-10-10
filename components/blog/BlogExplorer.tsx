@@ -3,17 +3,15 @@
 import { useEffect, useState } from "react";
 import Icon from "@/components/Icon";
 import BlogCard from "./BlogCard";
-import { BLOG_PAGE_SIZE, blogFilters, blogPosts, type BlogFilter } from "@/data/blog";
+import { BLOG_PAGE_SIZE, blogFilters, type BlogFilter } from "@/data/blog";
+import type { PostSummary } from "@/lib/blog/types";
 import ui from "@/components/shared/ui.module.css";
 import styles from "./BlogExplorer.module.css";
 
 const isFilter = (value: string | null): value is BlogFilter => blogFilters.some((f) => f.id === value);
 
-const postsFor = (filter: BlogFilter) =>
-  filter === "all" ? blogPosts : blogPosts.filter((post) => post.category === filter);
-
 /** Category tabs + card grid with "Show more". The active category is mirrored in ?category= so it can be linked. */
-export default function BlogExplorer() {
+export default function BlogExplorer({ posts: allPosts }: { posts: PostSummary[] }) {
   const [filter, setFilter] = useState<BlogFilter>("all");
   const [visible, setVisible] = useState(BLOG_PAGE_SIZE);
 
@@ -31,6 +29,9 @@ export default function BlogExplorer() {
     else url.searchParams.set("category", next);
     window.history.replaceState(null, "", url);
   };
+
+  const postsFor = (category: BlogFilter) =>
+    category === "all" ? allPosts : allPosts.filter((post) => post.category === category);
 
   const posts = postsFor(filter);
   const shown = posts.slice(0, visible);
@@ -66,13 +67,17 @@ export default function BlogExplorer() {
           </p>
         </div>
 
-        <ul className={styles.grid}>
-          {shown.map((post) => (
-            <li key={post.slug}>
-              <BlogCard post={post} />
-            </li>
-          ))}
-        </ul>
+        {shown.length > 0 ? (
+          <ul className={styles.grid}>
+            {shown.map((post) => (
+              <li key={post.slug}>
+                <BlogCard post={post} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className={styles.empty}>No articles in this category yet.</p>
+        )}
 
         {remaining > 0 && (
           <div className={styles.more}>

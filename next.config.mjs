@@ -3,6 +3,25 @@ const nextConfig = {
   images: {
     remotePatterns: [{ protocol: "https", hostname: "lh3.googleusercontent.com" }],
   },
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+        ],
+      },
+      {
+        // Admin panel: never framed (clickjacking) or cached by shared caches
+        source: "/(admin|api/admin)/:path*",
+        headers: [
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "Cache-Control", value: "no-store" },
+        ],
+      },
+    ];
+  },
   // Legacy top-level treatment URLs → canonical /treatments/<slug> pages
   async redirects() {
     return [

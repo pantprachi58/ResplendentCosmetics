@@ -1,0 +1,296 @@
+/* TipTap editor chrome + content styles (content mirrors the public article's .prose look). */
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.75rem;
+  background-color: #ffffff;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.editor:focus-within {
+  border-color: #0052cc;
+  box-shadow: 0 0 0 3px rgb(0 82 204 / 0.15);
+}
+
+.invalid {
+  border-color: #dc2626;
+}
+
+/* Toolbar stays visible while scrolling long articles */
+.toolbarWrap {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  border-bottom: 1px solid #e2e8f0;
+  border-radius: 0.75rem 0.75rem 0 0;
+  background-color: #f8fafc;
+}
+
+.toolbar {
+  display: flex;
+  min-height: 3rem;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.5rem;
+  padding: 0.5rem;
+}
+
+.group {
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+  padding-left: 0.5rem;
+  border-left: 1px solid #e2e8f0;
+}
+
+.blockSelect {
+  height: 2.25rem;
+  padding: 0 0.5rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  background-color: #ffffff;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.tool {
+  display: inline-flex;
+  width: 2.25rem;
+  height: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: #334155;
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.tool :global(.material-symbols-outlined) {
+  font-size: 20px;
+}
+
+.tool:hover:not(:disabled) {
+  background-color: #e2e8f0;
+  color: #0f172a;
+}
+
+.tool:focus-visible {
+  outline: 2px solid #0052cc;
+  outline-offset: 1px;
+}
+
+.tool:disabled {
+  color: #cbd5e1;
+  cursor: default;
+}
+
+.toolActive,
+.toolActive:hover:not(:disabled) {
+  background-color: #dbe6ff;
+  color: #0052cc;
+}
+
+.panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem 0.75rem;
+  color: #64748b;
+}
+
+.panelInput {
+  min-width: 12rem;
+  flex: 1;
+  height: 2.25rem;
+  padding: 0 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  font: inherit;
+  font-size: 14px;
+  color: #0f172a;
+}
+
+.panelInput:focus {
+  border-color: #0052cc;
+  outline: none;
+}
+
+.panelButton,
+.panelButtonGhost {
+  height: 2.25rem;
+  padding: 0 0.875rem;
+  border-radius: 0.5rem;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.panelButton {
+  border: 0;
+  background-color: #0052cc;
+  color: #ffffff;
+}
+
+.panelButton:disabled {
+  opacity: 0.6;
+}
+
+.panelButtonGhost {
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #334155;
+}
+
+.panelError {
+  width: 100%;
+  margin: 0;
+  font-size: 13px;
+  color: #b91c1c;
+}
+
+.surface {
+  flex: 1;
+}
+
+.content {
+  min-height: 32rem;
+  padding: 1.5rem 1.25rem;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #334155;
+  outline: none;
+}
+
+@media (min-width: 768px) {
+  .content {
+    padding: 2rem 2.5rem;
+    font-size: 17px;
+  }
+}
+
+.content > * + * {
+  margin-top: 1rem;
+}
+
+.content h2 {
+  margin-top: 2.25rem;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 26px;
+  line-height: 1.3;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.content h3 {
+  margin-top: 1.75rem;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 20px;
+  line-height: 1.4;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.content h4 {
+  margin-top: 1.5rem;
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.content > :first-child {
+  margin-top: 0;
+}
+
+.content ul,
+.content ol {
+  padding-left: 1.5rem;
+}
+
+.content ul {
+  list-style: disc;
+}
+
+.content ol {
+  list-style: decimal;
+}
+
+.content li + li {
+  margin-top: 0.375rem;
+}
+
+.content li::marker {
+  color: #10b981;
+}
+
+.content ol li::marker {
+  font-weight: 700;
+  color: #0052cc;
+}
+
+.content blockquote {
+  padding: 0.75rem 1.25rem;
+  border-left: 4px solid #0052cc;
+  background-color: #f1f5ff;
+  font-style: italic;
+}
+
+.content a {
+  color: #0052cc;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.content strong {
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.content hr {
+  border: 0;
+  border-top: 1px solid #e2e8f0;
+}
+
+.content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+}
+
+.content img:global(.ProseMirror-selectednode) {
+  outline: 3px solid #0052cc;
+}
+
+/* Placeholder (TipTap adds .is-editor-empty + data-placeholder to the first empty node) */
+.content :global(p.is-editor-empty:first-child::before) {
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  padding: 0.625rem 1rem;
+  border-top: 1px solid #e2e8f0;
+  border-radius: 0 0 0.75rem 0.75rem;
+  background-color: #f8fafc;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.hint {
+  color: #94a3b8;
+}

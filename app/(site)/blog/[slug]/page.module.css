@@ -1,0 +1,541 @@
+/* Spacing between text blocks uses flex gaps / padding: ui.page resets margins on h1–h4, p and ul. */
+
+/* Header */
+.header {
+  padding-top: 3rem;
+  background: linear-gradient(180deg, #eef4ff 0%, #f8fafc 70%);
+}
+
+/* Left edge lines up with the hero image and article body; line length is capped per element */
+.headerInner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+.headerTags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.categoryLink {
+  padding: 0.375rem 0.875rem;
+  border-radius: 9999px;
+  background-color: #0052cc;
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-decoration: none;
+  transition: background-color 150ms ease;
+}
+
+.categoryLink:hover {
+  background-color: #003d9b;
+}
+
+.topic {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #10b981;
+}
+
+.title {
+  /* max-width: 52rem; */
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 25px;
+  line-height: 40px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+}
+
+.lead {
+  max-width: 46rem;
+  font-size: 16px;
+  line-height: 28px;
+  color: #475569;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  font-size: 13px;
+  line-height: 20px;
+  color: #64748b;
+}
+
+.meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.meta :global(.material-symbols-outlined) {
+  font-size: 18px;
+  color: #0052cc;
+}
+
+.heroWrap {
+  padding-top: 2.5rem;
+}
+
+.hero {
+  aspect-ratio: 16 / 10;
+  border-radius: 1rem;
+  box-shadow: 0 24px 48px rgb(15 23 42 / 0.12);
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 25px;
+    line-height: 48px;
+  }
+
+  .hero {
+    aspect-ratio: 21 / 9;
+    border-radius: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .header {
+    padding-top: 4rem;
+  }
+
+  .title {
+    font-size: 30px;
+    line-height: 56px;
+  }
+}
+
+/* Body layout */
+.bodySection {
+  padding-top: 3rem;
+  padding-bottom: 4rem;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 3rem;
+}
+
+@media (min-width: 1024px) {
+  .bodySection {
+    padding-top: 4rem;
+    padding-bottom: 5.5rem;
+  }
+
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 20rem;
+    gap: 4rem;
+    align-items: start;
+  }
+}
+
+.article {
+  display: flex;
+  max-width: 46rem;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+/* Article HTML from the CMS. Selectors are doubled (.article .prose) to outrank ui.page's margin/list resets. */
+.prose {
+  font-size: 16px;
+  line-height: 28px;
+  color: #334155;
+}
+
+@media (min-width: 768px) {
+  .prose {
+    font-size: 17px;
+    line-height: 30px;
+  }
+}
+
+.article .prose > * + * {
+  margin-top: 1rem;
+}
+
+.article .prose > h2:not(:first-child) {
+  margin-top: 2.5rem;
+}
+
+.article .prose > h3:not(:first-child),
+.article .prose > h4:not(:first-child) {
+  margin-top: 1.75rem;
+}
+
+.prose h2 {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #0f172a;
+}
+
+@media (min-width: 768px) {
+  .prose h2 {
+    font-size: 28px;
+    line-height: 36px;
+  }
+}
+
+.prose h3 {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.prose h4 {
+  font-size: 17px;
+  line-height: 26px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.prose strong,
+.prose b {
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.prose a {
+  color: #0052cc;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.prose a:hover {
+  color: #003d9b;
+}
+
+/* Bulleted lists: green check icons, as on the original static articles */
+.article .prose ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0;
+  list-style: none;
+}
+
+.prose ul > li {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.prose ul > li::before {
+  content: "check_circle";
+  position: absolute;
+  top: 0.3em;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  overflow: hidden;
+  font-family: "Material Symbols Outlined";
+  font-size: 20px;
+  line-height: 1;
+  font-variation-settings: "FILL" 1;
+  color: #10b981;
+}
+
+.article .prose ol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-left: 1.5rem;
+  list-style: decimal;
+}
+
+.prose ol > li::marker {
+  font-weight: 700;
+  color: #0052cc;
+}
+
+.prose li > p + p {
+  margin-top: 0.5rem;
+}
+
+.prose blockquote {
+  padding: 1rem 1.25rem;
+  border-left: 4px solid #0052cc;
+  border-radius: 0 0.75rem 0.75rem 0;
+  background-color: #f1f5ff;
+  font-style: italic;
+  color: #1e293b;
+}
+
+.prose hr {
+  border: 0;
+  border-top: 1px solid #e2e8f0;
+}
+
+.prose img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+}
+
+.prose code {
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  background-color: #f1f5f9;
+  font-size: 0.9em;
+}
+
+.prose pre {
+  overflow-x: auto;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background-color: #0f172a;
+  color: #e2e8f0;
+}
+
+.prose pre code {
+  padding: 0;
+  background: none;
+}
+
+/* Questions checklist */
+.questions {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.75rem;
+  border-radius: 1rem;
+  border: 1px solid #dbe6ff;
+  background-color: #f1f5ff;
+}
+
+@media (min-width: 640px) {
+  .questions {
+    padding: 2rem 2.25rem;
+  }
+}
+
+.questionsTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.questionsTitle :global(.material-symbols-outlined) {
+  font-size: 26px;
+  color: #0052cc;
+}
+
+.questionList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: question;
+}
+
+.questionList li {
+  position: relative;
+  padding-left: 2.5rem;
+  font-size: 15px;
+  line-height: 24px;
+  color: #1e293b;
+  counter-increment: question;
+}
+
+.questionList li::before {
+  content: counter(question);
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 1.75rem;
+  height: 1.75rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: #0052cc;
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.disclaimer {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e2e8f0;
+  font-size: 13px;
+  line-height: 20px;
+  color: #64748b;
+}
+
+.disclaimer :global(.material-symbols-outlined) {
+  margin-top: 1px;
+  font-size: 18px;
+}
+
+/* Sidebar */
+.aside {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .aside {
+    position: sticky;
+    top: 9rem;
+  }
+}
+
+.asideLabel {
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.toc {
+  display: none;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+}
+
+/* The contents list only helps beside the article; on phones it would sit after it */
+@media (min-width: 1024px) {
+  .toc {
+    display: block;
+  }
+}
+
+.toc ol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.toc a {
+  display: block;
+  padding: 0.375rem 0.75rem;
+  border-left: 2px solid #e2e8f0;
+  font-size: 14px;
+  line-height: 20px;
+  color: #334155;
+  text-decoration: none;
+  transition: border-color 150ms ease, color 150ms ease;
+}
+
+.toc a:hover,
+.toc a:focus-visible {
+  border-color: #0052cc;
+  color: #0052cc;
+}
+
+.treatmentCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #002244 0%, #0f172a 100%);
+  color: #ffffff;
+}
+
+.treatmentCard .asideLabel {
+  color: #34d399;
+}
+
+.treatmentName {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 22px;
+  line-height: 30px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.treatmentText {
+  font-size: 14px;
+  line-height: 22px;
+  color: #cbd5e1;
+}
+
+.treatmentActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+}
+
+/* Related */
+.related {
+  border-top: 1px solid #e2e8f0;
+}
+
+.allLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  color: #0052cc;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.allLink:hover {
+  text-decoration: underline;
+}
+
+.allLink :global(.material-symbols-outlined) {
+  font-size: 18px;
+}
+
+.relatedGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .relatedGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .relatedGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem;
+  }
+}
