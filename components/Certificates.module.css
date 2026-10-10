@@ -1,0 +1,61 @@
+/* Certificates Component - Seamless Grid Without Spacing */
+.certificates {
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+  gap: 5px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* Responsive grid columns */
+@media (min-width: 640px) {
+  .gridCols2,
+  .gridCols3,
+  .gridCols4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .gridCols3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .gridCols4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Certificate Item */
+.certificate {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Image Container */
+.imageContainer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background-color: #f8fafc;
+  overflow: hidden;
+}
+
+.image {
+  object-fit: fill;
+  transition: transform 400ms ease;
+}
+
+.certificate:hover .image {
+  transform: scale(1.05);
+}
+
+/* Responsive adjustments */
+@media (min-width: 1024px) {
+  .imageContainer {
+    aspect-ratio: 1 / 1;
+  }
+}

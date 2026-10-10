@@ -690,8 +690,16 @@ export const blogPosts: BlogPost[] = [
 ];
 
 /** Reading time from the article text at about 200 words a minute, rounded up */
-export function readMinutes(post: BlogPost) {
-  const text = [post.excerpt, ...post.sections.flatMap((s) => [s.heading, ...s.paragraphs, ...(s.bullets ?? [])]), ...post.questions].join(" ");
+export function readMinutes(post: BlogPost | any) {
+  // Handle new content format (HTML string)
+  if (typeof post.content === 'string') {
+    const text = [post.title, post.excerpt, post.content].join(" ");
+    const plainText = text.replace(/<[^>]*>/g, ' '); // Strip HTML tags
+    return Math.max(1, Math.ceil(plainText.split(/\s+/).length / 200));
+  }
+  
+  // Handle old sections format
+  const text = [post.excerpt, ...post.sections?.flatMap((s: any) => [s.heading, ...s.paragraphs, ...(s.bullets ?? [])]) || [], ...post.questions || []].join(" ");
   return Math.max(1, Math.ceil(text.split(/\s+/).length / 200));
 }
 
@@ -700,7 +708,8 @@ export function getBlogPost(slug: string) {
 }
 
 /** Up to `count` other posts, same category first */
-export function relatedPosts(post: BlogPost, count = 3) {
-  const others = blogPosts.filter((p) => p.slug !== post.slug);
+export function relatedPosts(post: BlogPost | any, postsArray?: BlogPost[] | any[], count = 3) {
+  const posts = postsArray || blogPosts;
+  const others = posts.filter((p) => p.slug !== post.slug);
   return [...others.filter((p) => p.category === post.category), ...others.filter((p) => p.category !== post.category)].slice(0, count);
 }

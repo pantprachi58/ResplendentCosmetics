@@ -4,7 +4,9 @@ import Breadcrumb from "@/components/treatment/Breadcrumb";
 import PageIntro from "@/components/shared/PageIntro";
 import CalloutBanner from "@/components/treatment/CalloutBanner";
 import CtaBand from "@/components/treatment/CtaBand";
+import Certificates from "@/components/Certificates";
 import { RESEARCHGATE_URL, articles, books } from "@/data/achievements";
+import { certificates } from "@/data/certificates";
 import ui from "@/components/shared/ui.module.css";
 import styles from "./page.module.css";
 
@@ -73,6 +75,17 @@ export default function AchievementsPage() {
               </li>
             ))}
           </ol>
+        </div>
+      </section>
+
+      {/* Certificates */}
+      <section className={`${ui.section} ${ui.white}`}>
+        <div className={ui.container}>
+          <div className={ui.header}>
+            <span className={ui.eyebrow}>Professional Credentials</span>
+            <h2 className={ui.title}>Certifications & Memberships</h2>
+          </div>
+          <Certificates certificates={certificates} columns={3} />
         </div>
       </section>
 

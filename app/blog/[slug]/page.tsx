@@ -7,43 +7,66 @@ import CtaLink from "@/components/shared/CtaLink";
 import Breadcrumb from "@/components/treatment/Breadcrumb";
 import CtaBand from "@/components/treatment/CtaBand";
 import BlogCard from "@/components/blog/BlogCard";
-import { blogCategoryLabel, blogPosts, getBlogPost, readMinutes, relatedPosts } from "@/data/blog";
+import AdminToolbar from "@/components/blog/AdminToolbar";
 import { bookConsultationCta, clinicMeta } from "@/data/treatments/shared";
+import { getPostBySlug, getPublishedPosts, BLOG_CATEGORIES } from "@/lib/db/blog";
 import ui from "@/components/shared/ui.module.css";
 import styles from "./page.module.css";
 
+// Helper to get related posts
+function relatedPosts(currentPost: any, allPosts: any[]) {
+  return allPosts
+    .filter((p) => p.slug !== currentPost.slug && p.category === currentPost.category)
+    .slice(0, 3);
+}
+
 type Props = { params: Promise<{ slug: string }> };
 
-// Only the slugs in data/blog.ts exist; anything else is a 404.
-export const dynamicParams = false;
+// Allow dynamic params since posts can be added via admin
+export const dynamicParams = true;
+export const dynamic = "force-dynamic";
 
-export function generateStaticParams() {
-  return blogPosts.map((post) => ({ slug: post.slug }));
+export async function generateStaticParams() {
+  try {
+    const posts = await getPublishedPosts();
+    return posts.map((post) => ({ slug: post.slug }));
+  } catch (error) {
+    console.error("Error generating static params:", error);
+    return [];
+  }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const post = getBlogPost((await params).slug);
+  const post = await getPostBySlug((await params).slug);
   if (!post) return {};
+  
   return {
     title: `${post.title} | Resplendent Aesthetics Blog`,
     description: post.excerpt,
-    openGraph: { title: post.title, description: post.excerpt, type: "article", images: [post.image.src] },
+    openGraph: { 
+      title: post.title, 
+      description: post.excerpt, 
+      type: "article", 
+      images: post.coverImage ? [post.coverImage] : [] 
+    },
   };
 }
 
 export default async function BlogPostPage({ params }: Props) {
-  const post = getBlogPost((await params).slug);
-  if (!post) notFound();
+  const post = await getPostBySlug((await params).slug);
+  if (!post || post.status !== "published") notFound();
 
-  const category = blogCategoryLabel[post.category];
-  const related = relatedPosts(post);
+  // Fetch all published posts for related posts
+  const allPosts = await getPublishedPosts();
+  const related = relatedPosts(post, allPosts);
+  
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: post.title,
     description: post.excerpt,
-    image: post.image.src,
-    author: { "@type": "Organization", name: "Resplendent Aesthetics" },
+    image: post.coverImage,
+    author: { "@type": "Organization", name: post.author?.name || "Resplendent Aesthetics" },
     publisher: { "@type": "Organization", name: "Resplendent Aesthetics" },
   };
 
@@ -52,76 +75,51 @@ export default async function BlogPostPage({ params }: Props) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <Breadcrumb current={post.title} trail={[{ label: "Blog", href: "/blog" }]} />
 
+      {/* Admin Toolbar - only visible to admins */}
+      <AdminToolbar postSlug={post.slug} />
+
       {/* Article header */}
       <header className={styles.header}>
         <div className={`${ui.container} ${styles.headerInner}`}>
           <div className={styles.headerTags}>
             <Link href={`/blog?category=${post.category}`} className={styles.categoryLink}>
-              {category}
+              {post.category}
             </Link>
-            <span className={styles.topic}>{post.topic}</span>
           </div>
           <h1 className={styles.title}>{post.title}</h1>
           <p className={styles.lead}>{post.excerpt}</p>
           <div className={styles.meta}>
             <span>
               <Icon name="schedule" />
-              {readMinutes(post)} min read
+              {post.readingTime}
             </span>
             <span>
               <Icon name="edit_note" />
-              Resplendent Aesthetics team
+              {post.author?.name || "Resplendent Aesthetics team"}
             </span>
           </div>
         </div>
-        <div className={`${ui.container} ${styles.heroWrap}`}>
-          <div className={`${ui.media} ${styles.hero}`}>
-            <Image
-              src={post.image.src}
-              alt={post.image.alt}
-              fill
-              priority
-              sizes="(min-width: 1320px) 1272px, 100vw"
-              className={ui.cover}
-            />
+        {post.coverImage && (
+          <div className={`${ui.container} ${styles.heroWrap}`}>
+            <div className={`${ui.media} ${styles.hero}`}>
+              <Image
+                src={post.coverImage}
+                alt={post.title}
+                fill
+                priority
+                sizes="(min-width: 1320px) 1272px, 100vw"
+                className={ui.cover}
+              />
+            </div>
           </div>
-        </div>
+        )}
       </header>
 
       {/* Article body */}
       <section className={styles.bodySection}>
         <div className={`${ui.container} ${styles.layout}`}>
           <article className={styles.article}>
-            {post.sections.map((section) => (
-              <section key={section.id} id={section.id} className={styles.block}>
-                <h2 className={styles.blockTitle}>{section.heading}</h2>
-                {section.paragraphs.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
-                ))}
-                {section.bullets && (
-                  <ul className={styles.bullets}>
-                    {section.bullets.map((bullet) => (
-                      <li key={bullet}>
-                        <Icon name="check_circle" filled className={styles.bulletIcon} />
-                        <span>{bullet}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </section>
-            ))}
-
-            <section id="questions" className={styles.questions}>
-              <h2 className={styles.questionsTitle}>
-                <Icon name="quiz" />
-                Questions to ask at your consultation
-              </h2>
-              <ol className={styles.questionList}>
-                {post.questions.map((question) => (
-                  <li key={question}>{question}</li>
-                ))}
-              </ol>
-            </section>
+            <div dangerouslySetInnerHTML={{ __html: post.content }} />
 
             <p className={styles.disclaimer}>
               <Icon name="info" />
@@ -131,63 +129,41 @@ export default async function BlogPostPage({ params }: Props) {
           </article>
 
           <aside className={styles.aside}>
-            <nav className={styles.toc} aria-label="In this article">
-              <p className={styles.asideLabel}>In this article</p>
-              <ol>
-                {post.sections.map((section) => (
-                  <li key={section.id}>
-                    <a href={`#${section.id}`}>{section.heading}</a>
-                  </li>
-                ))}
-                <li>
-                  <a href="#questions">Questions to ask</a>
-                </li>
-              </ol>
-            </nav>
-
-            <div className={styles.treatmentCard}>
-              <p className={styles.asideLabel}>Related treatment</p>
-              <p className={styles.treatmentName}>{post.treatment.label}</p>
-              <p className={styles.treatmentText}>
-                Read how the procedure works, recovery and FAQs, or speak to Dr. Sukhbir Singh directly.
-              </p>
-              <div className={styles.treatmentActions}>
-                <CtaLink cta={{ label: `View ${post.treatment.label}`, href: post.treatment.href, icon: "arrow_forward" }} block />
-                <CtaLink cta={bookConsultationCta("Book a Consultation")} variant="secondary" block />
-              </div>
-            </div>
+            {/* Additional sidebar content can go here */}
           </aside>
         </div>
       </section>
 
       {/* Related articles */}
-      <section className={`${ui.section} ${ui.white} ${styles.related}`}>
-        <div className={ui.container}>
-          <div className={ui.headerSplit}>
-            <div>
-              <span className={ui.eyebrow}>Keep Reading</span>
-              <h2 className={ui.title}>Related Guides</h2>
+      {related.length > 0 && (
+        <section className={`${ui.section} ${ui.white} ${styles.related}`}>
+          <div className={ui.container}>
+            <div className={ui.headerSplit}>
+              <div>
+                <span className={ui.eyebrow}>Keep Reading</span>
+                <h2 className={ui.title}>Related Guides</h2>
+              </div>
+              <Link href={`/blog?category=${post.category}`} className={styles.allLink}>
+                View all {post.category.toLowerCase()} articles
+                <Icon name="arrow_forward" />
+              </Link>
             </div>
-            <Link href={`/blog?category=${post.category}`} className={styles.allLink}>
-              View all {category.toLowerCase()} articles
-              <Icon name="arrow_forward" />
-            </Link>
+            <ul className={styles.relatedGrid}>
+              {related.map((item) => (
+                <li key={item.slug}>
+                  <BlogCard post={item} />
+                </li>
+              ))}
+            </ul>
           </div>
-          <ul className={styles.relatedGrid}>
-            {related.map((item) => (
-              <li key={item.slug}>
-                <BlogCard post={item} />
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* CTA */}
       <CtaBand
         data={{
-          eyebrow: `${category} Treatments • Greater Kailash Part 1`,
-          title: `Considering ${post.treatment.label}?`,
+          eyebrow: `${post.category} Treatments • Greater Kailash Part 1`,
+          title: "Considering Treatment?",
           text: "Book a private consultation with Dr. Sukhbir Singh to discuss your goals, suitability and recovery.",
           primaryCta: bookConsultationCta("Book a Consultation"),
           meta: clinicMeta.slice(0, 1),

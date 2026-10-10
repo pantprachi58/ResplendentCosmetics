@@ -1,0 +1,140 @@
+.toolbar {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  align-self: flex-end;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(0.9);
+  }
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: white;
+  border-radius: 0.75rem;
+  padding: 0.5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.editBtn,
+.dashboardBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.editBtn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.editBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.dashboardBtn {
+  background: #f7fafc;
+  color: #4a5568;
+}
+
+.dashboardBtn:hover {
+  background: #edf2f7;
+  color: #2d3748;
+}
+
+.editBtn .material-symbols-outlined,
+.dashboardBtn .material-symbols-outlined {
+  font-size: 1.25rem;
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+  .toolbar {
+    bottom: 1rem;
+    right: 1rem;
+    left: 1rem;
+  }
+
+  .actions {
+    flex-direction: row;
+  }
+
+  .editBtn,
+  .dashboardBtn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .editBtn span:last-child,
+  .dashboardBtn span:last-child {
+    display: none;
+  }
+
+  .badge {
+    align-self: center;
+  }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .toolbar {
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+}

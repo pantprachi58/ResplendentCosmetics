@@ -50,8 +50,8 @@
 }
 
 .section {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
 
 @media (min-width: 1024px) {

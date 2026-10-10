@@ -3,7 +3,9 @@ import Image from "next/image";
 import Icon from "@/components/Icon";
 import Breadcrumb from "@/components/treatment/Breadcrumb";
 import CtaBand from "@/components/treatment/CtaBand";
+import Certificates from "@/components/Certificates";
 import type { CtaBandData } from "@/data/treatments/types";
+import { certificates } from "@/data/certificates";
 import ui from "@/components/shared/ui.module.css";
 import styles from "./page.module.css";
 
@@ -311,6 +313,22 @@ export default function AboutPage() {
               </li>
             ))}
           </ol>
+        </div>
+      </section>
+
+      {/* Certificates */}
+      <section className={`${ui.section} ${ui.ivory}`}>
+        <div className={ui.container}>
+          <div className={ui.headerCenter}>
+            <span className={ui.eyebrow}>Credentials & Recognition</span>
+            <h2 className={ui.title}>Certifications & Professional Memberships</h2>
+            <div className={`${styles.divider} ${styles.dividerCenter}`} />
+            <p className={styles.heroLead} style={{ paddingTop: '1rem', maxWidth: '48rem' }}>
+              Board-certified and internationally trained, Dr. Sukhbir Singh holds prestigious memberships 
+              and fellowships from leading plastic surgery organizations worldwide.
+            </p>
+          </div>
+          <Certificates certificates={certificates} columns={3} />
         </div>
       </section>
 
