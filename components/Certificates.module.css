@@ -5,7 +5,7 @@
 
 .grid {
   display: grid;
-  gap: 5px;
+  gap: 16px;
   grid-template-columns: minmax(0, 1fr);
 }
 
