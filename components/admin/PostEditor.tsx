@@ -1,567 +1,473 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import {
-  BlogPost,
-  BlogPostInput,
-  BLOG_CATEGORIES,
-  DEFAULT_AUTHOR,
-  slugify,
-} from "@/lib/blog-types";
+import { useRouter } from "next/navigation";
 import Icon from "@/components/Icon";
-import styles from "./PostEditor.module.css";
-import ui from "@/components/shared/ui.module.css";
-import articleStyles from "@/app/blog/[slug]/page.module.css";
+import { blogFilters } from "@/data/blog";
+import { treatmentCategories } from "@/data/treatmentCategories";
+import { slugify } from "@/lib/blog/slug";
+import type { BlogCategory, Post, PostInput, PostStatus } from "@/lib/blog/types";
+import RichTextEditor from "./RichTextEditor";
+import { formatDateTime } from "./format";
+import { uploadImage } from "./upload";
+import styles from "./admin.module.css";
 
-interface PostEditorProps {
-  initialData?: BlogPost;
-  isEditing?: boolean;
-}
+type FieldErrors = Partial<Record<string, string>>;
 
-export default function PostEditor({ initialData, isEditing = false }: PostEditorProps) {
+type Props = {
+  /** Existing post to edit; omitted for a new post */
+  post?: Post;
+  /** One-off message shown on load, e.g. after creating the post */
+  notice?: string;
+};
+
+const EXCERPT_MAX = 320;
+
+const emptyInput: PostInput = {
+  slug: "",
+  title: "",
+  excerpt: "",
+  category: "face",
+  topic: "",
+  coverImage: { src: "", alt: "" },
+  treatment: null,
+  content: "",
+  questions: [],
+  status: "draft",
+};
+
+const toInput = (post: Post): PostInput => ({
+  slug: post.slug,
+  title: post.title,
+  excerpt: post.excerpt,
+  category: post.category,
+  topic: post.topic,
+  coverImage: { ...post.coverImage },
+  treatment: post.treatment ? { ...post.treatment } : null,
+  content: post.content,
+  questions: [...post.questions],
+  status: post.status,
+});
+
+export default function PostEditor({ post, notice }: Props) {
   const router = useRouter();
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const [title, setTitle] = useState(initialData?.title || "");
-  const [slug, setSlug] = useState(initialData?.slug || "");
-  const [isCustomSlug, setIsCustomSlug] = useState(!!initialData?.slug);
-  const [excerpt, setExcerpt] = useState(initialData?.excerpt || "");
-  const [category, setCategory] = useState(initialData?.category || BLOG_CATEGORIES[0]);
-  const [tags, setTags] = useState(initialData?.tags ? initialData.tags.join(", ") : "");
-  const [coverImage, setCoverImage] = useState(
-    initialData?.coverImage ||
-      "https://lh3.googleusercontent.com/p/AF1QipNkJW8f7U2_Z1E87P2c9Hh94iWvYVkWtqB0WzY=s1360-w1360-h1020"
+  const isNew = !post;
+  const [values, setValues] = useState<PostInput>(() => (post ? toInput(post) : emptyInput));
+  const [saved, setSaved] = useState(() => JSON.stringify(post ? toInput(post) : emptyInput));
+  const [savedStatus, setSavedStatus] = useState<PostStatus | null>(post?.status ?? null);
+  const [updatedAt, setUpdatedAt] = useState(post?.updatedAt ?? null);
+  const [slugTouched, setSlugTouched] = useState(!isNew);
+  const [errors, setErrors] = useState<FieldErrors>({});
+  const [message, setMessage] = useState<{ tone: "success" | "error"; text: string } | null>(
+    notice ? { tone: "success", text: notice } : null
   );
-  const [content, setContent] = useState(
-    initialData?.content ||
-      `<h2>Introduction</h2>\n<p>Start writing your clinical article here...</p>\n\n<h3>Key Clinical Takeaways</h3>\n<ul>\n  <li>First point</li>\n  <li>Second point</li>\n</ul>`
-  );
-  const [status, setStatus] = useState<"published" | "draft">(
-    initialData?.status || "published"
-  );
-  const [authorName, setAuthorName] = useState(
-    initialData?.author?.name || DEFAULT_AUTHOR.name
-  );
-  const [authorRole, setAuthorRole] = useState(
-    initialData?.author?.role || DEFAULT_AUTHOR.role
-  );
-
-  const [activeTab, setActiveTab] = useState<"edit" | "preview">("edit");
-  const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState<PostStatus | null>(null);
   const [uploading, setUploading] = useState(false);
-  const [error, setError] = useState("");
+  const coverFileRef = useRef<HTMLInputElement>(null);
 
-  const handleTitleChange = (val: string) => {
-    setTitle(val);
-    if (!isCustomSlug) {
-      setSlug(slugify(val));
-    }
+  const dirty = JSON.stringify(values) !== saved;
+
+  // Warn before leaving with unsaved changes
+  useEffect(() => {
+    if (!dirty) return;
+    const warn = (e: BeforeUnloadEvent) => e.preventDefault();
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [dirty]);
+
+  const set = <K extends keyof PostInput>(key: K, value: PostInput[K]) => {
+    setValues((v) => ({ ...v, [key]: value }));
+    setErrors((e) => ({ ...e, [key]: undefined }));
   };
 
-  const handleInsertTag = (tagOpen: string, tagClose: string = "") => {
-    const textarea = document.getElementById("content-textarea") as HTMLTextAreaElement;
-    if (!textarea) return;
-
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const selected = content.substring(start, end);
-    const replacement = `${tagOpen}${selected || "Text"}${tagClose}`;
-
-    const newContent =
-      content.substring(0, start) + replacement + content.substring(end);
-    setContent(newContent);
-
-    setTimeout(() => {
-      textarea.focus();
-      textarea.setSelectionRange(
-        start + tagOpen.length,
-        start + tagOpen.length + (selected.length || 4)
-      );
-    }, 50);
+  const setTitle = (title: string) => {
+    setValues((v) => ({ ...v, title, slug: slugTouched ? v.slug : slugify(title) }));
+    setErrors((e) => ({ ...e, title: undefined, slug: slugTouched ? e.slug : undefined }));
   };
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const setCover = (patch: Partial<PostInput["coverImage"]>) => {
+    setValues((v) => ({ ...v, coverImage: { ...v.coverImage, ...patch } }));
+    setErrors((e) => ({ ...e, ...("src" in patch ? { "coverImage.src": undefined } : {}), ...("alt" in patch ? { "coverImage.alt": undefined } : {}) }));
+  };
+
+  const uploadCover = async (file: File | undefined) => {
     if (!file) return;
-
+    setUploading(true);
     try {
-      setUploading(true);
-      const formData = new FormData();
-      formData.append("file", file);
-
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Upload failed");
-
-      setCoverImage(data.url);
-    } catch (err: unknown) {
-      alert("Image upload failed: " + (err instanceof Error ? err.message : String(err)));
+      setCover({ src: await uploadImage(file) });
+    } catch (err) {
+      setErrors((e) => ({ ...e, "coverImage.src": err instanceof Error ? err.message : "Upload failed" }));
     } finally {
       setUploading(false);
+      if (coverFileRef.current) coverFileRef.current.value = "";
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-
-    if (!title.trim() || !excerpt.trim() || !content.trim()) {
-      setError("Please fill in Title, Excerpt, and Content.");
-      setLoading(false);
-      return;
-    }
-
-    const payload: BlogPostInput = {
-      title,
-      slug: slug || slugify(title),
-      excerpt,
-      content,
-      category,
-      tags,
-      coverImage,
-      author: {
-        name: authorName,
-        role: authorRole,
-      },
-      status,
-    };
-
+  const save = async (status: PostStatus) => {
+    const payload: PostInput = { ...values, status, questions: values.questions.map((q) => q.trim()).filter(Boolean) };
+    setSaving(status);
+    setMessage(null);
     try {
-      let res;
-      if (isEditing && initialData?._id) {
-        res = await fetch(`/api/blog/${initialData._id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-      } else {
-        res = await fetch("/api/blog", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
+      const res = await fetch(isNew ? "/api/admin/posts" : `/api/admin/posts/${post.id}`, {
+        method: isNew ? "POST" : "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.status === 401) {
+        setMessage({ tone: "error", text: "Your session has expired. Sign in again in another tab, then save." });
+        return;
+      }
+      if (!res.ok) {
+        setErrors(data.fields ?? {});
+        setMessage({ tone: "error", text: data.error || "The post couldn't be saved" });
+        return;
       }
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to save post");
-
-      router.push("/admin");
+      setErrors({});
+      if (isNew) {
+        setSaved(JSON.stringify(payload)); // so the redirect doesn't trigger the unsaved-changes prompt
+        router.replace(`/admin/posts/${data.post.id}?created=${status}`);
+        return;
+      }
+      setValues(payload);
+      setSaved(JSON.stringify(payload));
+      setSavedStatus(status);
+      setUpdatedAt(new Date().toISOString());
+      setMessage({ tone: "success", text: status === "published" ? "Saved and live on the website." : "Saved as a draft." });
       router.refresh();
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Save failed");
+    } catch {
+      setMessage({ tone: "error", text: "Network error: the post wasn't saved. Check your connection and try again." });
     } finally {
-      setLoading(false);
+      setSaving(null);
     }
   };
 
-  return (
-    <div className={styles.editorContainer}>
-      <div className={styles.topRow}>
-        <Link href="/admin" className={styles.backLink}>
-          <Icon name="arrow_back" style={{ fontSize: 16 }} />
-          <span>Back to Dashboard</span>
-        </Link>
-        <div style={{ display: "flex", gap: "0.5rem" }}>
-          {isEditing && initialData?.slug && initialData.status === "published" && (
-            <Link
-              href={`/blog/${initialData.slug}`}
-              target="_blank"
-              className={`${ui.btn} ${ui.btnSecondary}`}
-              style={{ fontSize: 12, padding: "0.5rem 1rem" }}
-            >
-              <Icon name="visibility" />
-              View Live
-            </Link>
-          )}
-        </div>
-      </div>
+  const treatmentOptions = useMemo(() => {
+    const known = treatmentCategories.flatMap((c) => c.items.map((i) => i.href));
+    const current = values.treatment && !known.includes(values.treatment.href) ? values.treatment : null;
+    return { current };
+  }, [values.treatment]);
 
-      {error && (
-        <div
-          style={{
-            backgroundColor: "#fef2f2",
-            border: "1px solid #fecaca",
-            color: "#b91c1c",
-            padding: "0.75rem 1rem",
-            borderRadius: "0.5rem",
-            marginBottom: "1.5rem",
-            display: "flex",
-            alignItems: "center",
-            gap: "0.5rem",
-          }}
-        >
-          <Icon name="error" />
-          <span>{error}</span>
+  const chooseTreatment = (href: string) => {
+    if (!href) return set("treatment", null);
+    const item = treatmentCategories.flatMap((c) => c.items).find((i) => i.href === href);
+    const label = item ? item.name.replace(/\s*\(Non-Surgical\)$/, "") : (values.treatment?.label ?? "");
+    set("treatment", { href, label });
+  };
+
+  const isPublished = savedStatus === "published";
+  const error = (key: string) =>
+    errors[key] ? (
+      <p className={styles.fieldError} id={`${key.replace(".", "-")}-error`}>
+        {errors[key]}
+      </p>
+    ) : null;
+  const invalid = (key: string) => (errors[key] ? { "aria-invalid": true, "aria-describedby": `${key.replace(".", "-")}-error` } : {});
+
+  return (
+    <form className={styles.editorPage} onSubmit={(e) => e.preventDefault()} noValidate>
+      {/* Header */}
+      <header className={styles.editorHeader}>
+        <div className={styles.editorHeading}>
+          <Link href="/admin" className={styles.backLink}>
+            <Icon name="arrow_back" />
+            All posts
+          </Link>
+          <h1 className={styles.pageTitle}>{isNew ? "New post" : "Edit post"}</h1>
+          <p className={styles.editorMeta}>
+            {savedStatus && (
+              <span className={isPublished ? styles.badgePublished : styles.badgeDraft}>{isPublished ? "Published" : "Draft"}</span>
+            )}
+            {updatedAt && <span>Last saved {formatDateTime(updatedAt)}</span>}
+            {dirty && <span className={styles.unsaved}>Unsaved changes</span>}
+          </p>
         </div>
+        <div className={styles.editorActions}>
+          {isPublished && post && (
+            <a href={`/blog/${post.slug}`} target="_blank" rel="noopener" className={`${styles.button} ${styles.buttonGhost}`}>
+              <Icon name="open_in_new" />
+              View live
+            </a>
+          )}
+          <button type="button" className={`${styles.button} ${styles.buttonSecondary}`} onClick={() => save("draft")} disabled={saving !== null}>
+            <Icon name={isPublished ? "unpublished" : "save"} />
+            {saving === "draft" ? "Saving…" : isPublished ? "Unpublish" : "Save draft"}
+          </button>
+          <button type="button" className={`${styles.button} ${styles.buttonPrimary}`} onClick={() => save("published")} disabled={saving !== null}>
+            <Icon name="publish" />
+            {saving === "published" ? "Publishing…" : isPublished ? "Update" : "Publish"}
+          </button>
+        </div>
+      </header>
+
+      {message && (
+        <p className={message.tone === "success" ? styles.alertSuccess : styles.alertError} role={message.tone === "error" ? "alert" : "status"}>
+          <Icon name={message.tone === "success" ? "check_circle" : "error"} />
+          {message.text}
+        </p>
       )}
 
-      <form onSubmit={handleSubmit}>
-        <div className={styles.formGrid}>
-          {/* Main Column: Content & Metadata */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-            <div className={styles.card}>
-              <h2 className={styles.sectionTitle}>
-                {isEditing ? "Edit Article" : "Write New Article"}
-              </h2>
+      <div className={styles.editorGrid}>
+        {/* Main column */}
+        <div className={styles.editorMain}>
+          <section className={styles.card}>
+            <label className={styles.field}>
+              <span className={styles.label}>Title</span>
+              <input
+                className={`${styles.input} ${styles.inputTitle}`}
+                value={values.title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="e.g. Rhinoplasty: Appearance, Breathing and Recovery"
+                maxLength={160}
+                {...invalid("title")}
+              />
+              {error("title")}
+            </label>
 
-              {/* Title */}
-              <div className={ui.field}>
-                <label className={ui.label} htmlFor="post-title">
-                  Article Title *
-                </label>
+            <div className={styles.field}>
+              <label className={styles.label} htmlFor="post-slug">
+                URL
+              </label>
+              <div className={styles.slugRow}>
+                <span className={styles.slugPrefix}>/blog/</span>
                 <input
-                  id="post-title"
-                  type="text"
-                  required
-                  className={ui.input}
-                  placeholder="e.g. Understanding Rhinoplasty Recovery: Week-by-Week Guide"
-                  value={title}
-                  onChange={(e) => handleTitleChange(e.target.value)}
-                />
-              </div>
-
-              {/* Slug Preview & Edit */}
-              <div className={ui.field}>
-                <label className={ui.label} htmlFor="post-slug">
-                  Clean URL Slug *
-                </label>
-                <div style={{ display: "flex", gap: "0.5rem" }}>
-                  <input
-                    id="post-slug"
-                    type="text"
-                    required
-                    className={ui.input}
-                    placeholder="e.g. rhinoplasty-recovery-guide-delhi"
-                    value={slug}
-                    onChange={(e) => {
-                      setIsCustomSlug(true);
-                      setSlug(slugify(e.target.value));
-                    }}
-                  />
-                  <button
-                    type="button"
-                    className={`${ui.btn} ${ui.btnSecondary}`}
-                    style={{ fontSize: 11, padding: "0.4rem 0.8rem", whiteSpace: "nowrap" }}
-                    onClick={() => {
-                      setIsCustomSlug(false);
-                      setSlug(slugify(title));
-                    }}
-                  >
-                    Reset Slug
-                  </button>
-                </div>
-                <div className={styles.slugPreview}>
-                  <Icon name="link" style={{ fontSize: 14 }} />
-                  <span>Public URL: /blog/{slug || "your-slug-here"}</span>
-                </div>
-              </div>
-
-              {/* Excerpt */}
-              <div className={ui.field}>
-                <label className={ui.label} htmlFor="post-excerpt">
-                  Short Excerpt / SEO Meta Summary *
-                </label>
-                <textarea
-                  id="post-excerpt"
-                  required
-                  rows={3}
-                  className={ui.input}
-                  placeholder="Brief 1-2 sentence clinical summary for cards and search engine results..."
-                  value={excerpt}
-                  onChange={(e) => setExcerpt(e.target.value)}
-                />
-                <span style={{ fontSize: 11, color: "#64748b" }}>
-                  {excerpt.length} characters (Recommended: 120-160 characters)
-                </span>
-              </div>
-            </div>
-
-            {/* Rich Content Editor */}
-            <div className={styles.card}>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  borderBottom: "1px solid #f1f5f9",
-                  paddingBottom: "0.75rem",
-                }}
-              >
-                <h2 className={styles.sectionTitle} style={{ borderBottom: "none", paddingBottom: 0 }}>
-                  Article Content (HTML / Markdown) *
-                </h2>
-                <div className={styles.tabButtons}>
-                  <button
-                    type="button"
-                    className={`${styles.tabBtn} ${
-                      activeTab === "edit" ? styles.tabBtnActive : ""
-                    }`}
-                    onClick={() => setActiveTab("edit")}
-                  >
-                    Editor
-                  </button>
-                  <button
-                    type="button"
-                    className={`${styles.tabBtn} ${
-                      activeTab === "preview" ? styles.tabBtnActive : ""
-                    }`}
-                    onClick={() => setActiveTab("preview")}
-                  >
-                    Live Preview
-                  </button>
-                </div>
-              </div>
-
-              {activeTab === "edit" ? (
-                <div>
-                  {/* Formatting Toolbar */}
-                  <div className={styles.toolbar}>
-                    <button
-                      type="button"
-                      className={styles.toolBtn}
-                      onClick={() => handleInsertTag("<h2>", "</h2>")}
-                    >
-                      H2
-                    </button>
-                    <button
-                      type="button"
-                      className={styles.toolBtn}
-                      onClick={() => handleInsertTag("<h3>", "</h3>")}
-                    >
-                      H3
-                    </button>
-                    <button
-                      type="button"
-                      className={styles.toolBtn}
-                      onClick={() => handleInsertTag("<strong>", "</strong>")}
-                    >
-                      <strong>B</strong>
-                    </button>
-                    <button
-                      type="button"
-                      className={styles.toolBtn}
-                      onClick={() => handleInsertTag("<em>", "</em>")}
-                    >
-                      <em>I</em>
-                    </button>
-                    <button
-                      type="button"
-                      className={styles.toolBtn}
-                      onClick={() => handleInsertTag("<ul>\n  <li>", "</li>\n</ul>")}
-                    >
-                      List
-                    </button>
-                    <button
-                      type="button"
-                      className={styles.toolBtn}
-                      onClick={() =>
-                        handleInsertTag(
-                          "<blockquote>\n  ",
-                          "\n  <footer>— Dr. Sukhbir Singh</footer>\n</blockquote>"
-                        )
-                      }
-                    >
-                      Quote
-                    </button>
-                  </div>
-                  <textarea
-                    id="content-textarea"
-                    required
-                    className={styles.textarea}
-                    placeholder="Enter formatted HTML or Markdown content here..."
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                  />
-                </div>
-              ) : (
-                <div className={styles.previewBox}>
-                  <div
-                    className={articleStyles.articleBody}
-                    dangerouslySetInnerHTML={{ __html: content }}
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Sidebar Column: Settings, Image, Category & Publishing */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-            {/* Publish Actions Card */}
-            <div className={styles.card}>
-              <h2 className={styles.sectionTitle}>Publishing</h2>
-
-              <div className={ui.field}>
-                <label className={ui.label}>Post Status</label>
-                <div style={{ display: "flex", gap: "1rem" }}>
-                  <label style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: 13, cursor: "pointer" }}>
-                    <input
-                      type="radio"
-                      name="status"
-                      value="published"
-                      checked={status === "published"}
-                      onChange={() => setStatus("published")}
-                    />
-                    <span style={{ fontWeight: 600, color: "#065f46" }}>Published Live</span>
-                  </label>
-                  <label style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: 13, cursor: "pointer" }}>
-                    <input
-                      type="radio"
-                      name="status"
-                      value="draft"
-                      checked={status === "draft"}
-                      onChange={() => setStatus("draft")}
-                    />
-                    <span style={{ fontWeight: 600, color: "#92400e" }}>Draft</span>
-                  </label>
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                disabled={loading}
-                className={`${ui.btn} ${ui.btnPrimary} ${ui.btnBlock}`}
-              >
-                {loading ? (
-                  <span>Saving to MongoDB...</span>
-                ) : (
-                  <>
-                    <Icon name="save" />
-                    <span>{isEditing ? "Update Article" : "Publish Article"}</span>
-                  </>
-                )}
-              </button>
-            </div>
-
-            {/* Category & Tags Card */}
-            <div className={styles.card}>
-              <h2 className={styles.sectionTitle}>Categorization</h2>
-
-              <div className={ui.field}>
-                <label className={ui.label} htmlFor="post-category">
-                  Clinical Category *
-                </label>
-                <select
-                  id="post-category"
-                  className={ui.input}
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                >
-                  {BLOG_CATEGORIES.map((cat) => (
-                    <option key={cat} value={cat}>
-                      {cat}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className={ui.field}>
-                <label className={ui.label} htmlFor="post-tags">
-                  Tags (Comma separated)
-                </label>
-                <input
-                  id="post-tags"
-                  type="text"
-                  className={ui.input}
-                  placeholder="e.g. Rhinoplasty, Recovery, Delhi, Surgery"
-                  value={tags}
-                  onChange={(e) => setTags(e.target.value)}
-                />
-              </div>
-            </div>
-
-            {/* Cover Image Card */}
-            <div className={styles.card}>
-              <h2 className={styles.sectionTitle}>Featured Cover Image</h2>
-
-              <div className={ui.field}>
-                <label className={ui.label} htmlFor="cover-image-url">
-                  Image URL
-                </label>
-                <input
-                  id="cover-image-url"
-                  type="text"
-                  className={ui.input}
-                  placeholder="https://... or /images/..."
-                  value={coverImage}
-                  onChange={(e) => setCoverImage(e.target.value)}
-                />
-              </div>
-
-              <div className={styles.uploadRow}>
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  style={{ display: "none" }}
-                  accept="image/*"
-                  onChange={handleFileUpload}
+                  id="post-slug"
+                  className={`${styles.input} ${styles.slugInput}`}
+                  value={values.slug}
+                  onChange={(e) => {
+                    setSlugTouched(true);
+                    set("slug", e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "-"));
+                  }}
+                  onBlur={() => set("slug", slugify(values.slug))}
+                  placeholder="rhinoplasty-recovery-guide"
+                  maxLength={120}
+                  {...invalid("slug")}
                 />
                 <button
                   type="button"
-                  disabled={uploading}
-                  className={`${ui.btn} ${ui.btnSecondary} ${ui.btnBlock}`}
-                  style={{ fontSize: 12, padding: "0.5rem 1rem" }}
-                  onClick={() => fileInputRef.current?.click()}
+                  className={`${styles.button} ${styles.buttonGhost} ${styles.buttonSmall}`}
+                  onClick={() => {
+                    setSlugTouched(false);
+                    set("slug", slugify(values.title));
+                  }}
+                  title="Generate the URL from the title"
                 >
-                  <Icon name="upload" />
-                  <span>{uploading ? "Uploading..." : "Upload New Image"}</span>
+                  <Icon name="autorenew" />
+                  From title
                 </button>
               </div>
-
-              {coverImage && (
-                <div>
-                  <span style={{ fontSize: 11, color: "#64748b", fontWeight: 700, textTransform: "uppercase" }}>
-                    Image Preview
-                  </span>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={coverImage}
-                    alt="Cover preview"
-                    className={styles.imagePreview}
-                  />
-                </div>
+              {error("slug")}
+              {!isNew && post && values.slug !== post.slug && (
+                <p className={styles.fieldHint}>
+                  <Icon name="warning" /> Changing the URL of a published post breaks existing links to it.
+                </p>
               )}
             </div>
 
-            {/* Author Settings Card */}
-            <div className={styles.card}>
-              <h2 className={styles.sectionTitle}>Author Details</h2>
+            <label className={styles.field}>
+              <span className={styles.labelRow}>
+                <span className={styles.label}>Summary</span>
+                <span className={`${styles.counter} ${values.excerpt.length > 160 ? styles.counterWarn : ""}`}>
+                  {values.excerpt.length}/{EXCERPT_MAX}
+                </span>
+              </span>
+              <textarea
+                className={styles.input}
+                rows={3}
+                value={values.excerpt}
+                onChange={(e) => set("excerpt", e.target.value)}
+                placeholder="One or two sentences shown on blog cards, under the title and in Google results."
+                maxLength={EXCERPT_MAX}
+                {...invalid("excerpt")}
+              />
+              <span className={styles.fieldHint}>Aim for 120–160 characters so search results don’t cut it off.</span>
+              {error("excerpt")}
+            </label>
+          </section>
 
-              <div className={ui.field}>
-                <label className={ui.label} htmlFor="author-name">
-                  Author Name
-                </label>
-                <input
-                  id="author-name"
-                  type="text"
-                  className={ui.input}
-                  value={authorName}
-                  onChange={(e) => setAuthorName(e.target.value)}
-                />
-              </div>
-
-              <div className={ui.field}>
-                <label className={ui.label} htmlFor="author-role">
-                  Credentials / Role
-                </label>
-                <input
-                  id="author-role"
-                  type="text"
-                  className={ui.input}
-                  value={authorRole}
-                  onChange={(e) => setAuthorRole(e.target.value)}
-                />
-              </div>
+          <section className={styles.card}>
+            <div className={styles.cardHeader}>
+              <h2 className={styles.cardTitle}>Article</h2>
             </div>
-          </div>
+            <RichTextEditor
+              initialHtml={values.content}
+              onChange={(html) => set("content", html)}
+              invalid={Boolean(errors.content)}
+              describedBy={errors.content ? "content-error" : undefined}
+            />
+            {error("content")}
+          </section>
+
+          <section className={styles.card}>
+            <div className={styles.cardHeader}>
+              <h2 className={styles.cardTitle}>Questions to ask at your consultation</h2>
+              <p className={styles.cardSubtitle}>Optional checklist shown at the end of the article.</p>
+            </div>
+            {values.questions.length > 0 && (
+              <ol className={styles.questionList}>
+                {values.questions.map((question, index) => (
+                  <li key={index} className={styles.questionItem}>
+                    <span className={styles.questionNumber}>{index + 1}</span>
+                    <input
+                      className={styles.input}
+                      value={question}
+                      onChange={(e) => set("questions", values.questions.map((q, i) => (i === index ? e.target.value : q)))}
+                      placeholder="e.g. How long does swelling usually take to settle?"
+                      maxLength={300}
+                      aria-label={`Question ${index + 1}`}
+                    />
+                    <button
+                      type="button"
+                      className={`${styles.iconButton} ${styles.iconButtonDanger}`}
+                      onClick={() => set("questions", values.questions.filter((_, i) => i !== index))}
+                      title="Remove question"
+                    >
+                      <Icon name="close" />
+                      <span className={styles.srOnly}>Remove question {index + 1}</span>
+                    </button>
+                  </li>
+                ))}
+              </ol>
+            )}
+            {values.questions.length < 20 && (
+              <button
+                type="button"
+                className={`${styles.button} ${styles.buttonGhost} ${styles.buttonSmall}`}
+                onClick={() => set("questions", [...values.questions, ""])}
+              >
+                <Icon name="add" />
+                Add question
+              </button>
+            )}
+            {error("questions")}
+          </section>
         </div>
-      </form>
-    </div>
+
+        {/* Sidebar */}
+        <aside className={styles.editorSide}>
+          <section className={styles.card}>
+            <h2 className={styles.cardTitle}>Category</h2>
+            <label className={styles.field}>
+              <span className={styles.label}>Blog filter</span>
+              <select className={styles.select} value={values.category} onChange={(e) => set("category", e.target.value as BlogCategory)} {...invalid("category")}>
+                {blogFilters
+                  .filter((f) => f.id !== "all")
+                  .map((f) => (
+                    <option key={f.id} value={f.id}>
+                      {f.label}
+                    </option>
+                  ))}
+              </select>
+              {error("category")}
+            </label>
+            <label className={styles.field}>
+              <span className={styles.label}>Topic label</span>
+              <input
+                className={styles.input}
+                value={values.topic}
+                onChange={(e) => set("topic", e.target.value)}
+                placeholder="e.g. Rhinoplasty guide"
+                maxLength={60}
+                {...invalid("topic")}
+              />
+              <span className={styles.fieldHint}>Small green label above the title. Optional.</span>
+              {error("topic")}
+            </label>
+          </section>
+
+          <section className={styles.card}>
+            <h2 className={styles.cardTitle}>Cover image</h2>
+            <div className={`${styles.coverPreview} ${errors["coverImage.src"] ? styles.coverPreviewInvalid : ""}`}>
+              {values.coverImage.src ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={values.coverImage.src} alt="" />
+              ) : (
+                <span>
+                  <Icon name="image" />
+                  No image yet
+                </span>
+              )}
+            </div>
+            <input
+              ref={coverFileRef}
+              type="file"
+              accept="image/jpeg,image/png,image/webp,image/avif,image/gif"
+              hidden
+              onChange={(e) => uploadCover(e.target.files?.[0])}
+            />
+            <button
+              type="button"
+              className={`${styles.button} ${styles.buttonSecondary} ${styles.buttonBlock}`}
+              onClick={() => coverFileRef.current?.click()}
+              disabled={uploading}
+            >
+              <Icon name="upload" />
+              {uploading ? "Uploading…" : values.coverImage.src ? "Replace image" : "Upload image"}
+            </button>
+            <span className={styles.fieldHint}>JPEG, PNG, WebP or AVIF, up to 5 MB. Landscape (16:10) works best.</span>
+            {error("coverImage.src")}
+            <label className={styles.field}>
+              <span className={styles.label}>Image description (alt text)</span>
+              <input
+                className={styles.input}
+                value={values.coverImage.alt}
+                onChange={(e) => setCover({ alt: e.target.value })}
+                placeholder="e.g. Side profile of a natural-looking nose"
+                maxLength={200}
+                {...invalid("coverImage.alt")}
+              />
+              {error("coverImage.alt")}
+            </label>
+            <details className={styles.details}>
+              <summary>Use an image already on the site</summary>
+              <label className={styles.field}>
+                <span className={styles.label}>Image path</span>
+                <input
+                  className={styles.input}
+                  value={values.coverImage.src}
+                  onChange={(e) => setCover({ src: e.target.value.trim() })}
+                  placeholder="/images/procedures/2.png"
+                />
+              </label>
+            </details>
+          </section>
+
+          <section className={styles.card}>
+            <h2 className={styles.cardTitle}>Related treatment</h2>
+            <label className={styles.field}>
+              <span className={styles.label}>Treatment page</span>
+              <select className={styles.select} value={values.treatment?.href ?? ""} onChange={(e) => chooseTreatment(e.target.value)} {...invalid("treatment")}>
+                <option value="">None</option>
+                {treatmentOptions.current && <option value={treatmentOptions.current.href}>{treatmentOptions.current.label}</option>}
+                {treatmentCategories.map((group) => (
+                  <optgroup key={group.category} label={group.category}>
+                    {group.items.map((item) => (
+                      <option key={item.href} value={item.href}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+            </label>
+            {values.treatment && (
+              <label className={styles.field}>
+                <span className={styles.label}>Name shown on the article</span>
+                <input
+                  className={styles.input}
+                  value={values.treatment.label}
+                  onChange={(e) => set("treatment", { href: values.treatment!.href, label: e.target.value })}
+                  maxLength={80}
+                />
+              </label>
+            )}
+            <span className={styles.fieldHint}>Adds a “Related treatment” card beside the article and sets the closing call to action.</span>
+            {error("treatment")}
+          </section>
+        </aside>
+      </div>
+    </form>
   );
 }

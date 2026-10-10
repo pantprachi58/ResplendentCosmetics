@@ -1,43 +1,50 @@
-import { MongoClient, Db } from "mongodb";
+import { MongoClient, type Db } from "mongodb";
 
-const uri = process.env.MONGODB_URI || "mongodb://localhost:27017/resplendent_cosmetics";
-const options = {
-  serverSelectionTimeoutMS: 2500,
-  connectTimeoutMS: 2500,
-};
-
-let client: MongoClient | null = null;
-let clientPromise: Promise<MongoClient> | null = null;
+/*
+ * Shared MongoDB connection. One client per process (cached on globalThis so dev hot reloads
+ * don't open a new pool each time). Also imported by the scripts in scripts/, so no Next-only APIs here.
+ */
 
 declare global {
   // eslint-disable-next-line no-var
-  var _mongoClientPromise: Promise<MongoClient> | undefined;
+  var __mongoClientPromise: Promise<MongoClient> | undefined;
 }
 
-export function getClientPromise(): Promise<MongoClient> {
-  if (process.env.NODE_ENV === "development") {
-    if (!global._mongoClientPromise) {
-      client = new MongoClient(uri, options);
-      global._mongoClientPromise = client.connect();
-    }
-    return global._mongoClientPromise;
-  } else {
-    if (!clientPromise) {
-      client = new MongoClient(uri, options);
-      clientPromise = client.connect();
-    }
-    return clientPromise;
+export class DatabaseNotConfiguredError extends Error {
+  constructor() {
+    super("MONGODB_URI is not set");
+    this.name = "DatabaseNotConfiguredError";
   }
 }
 
-export async function getDatabase(dbName?: string): Promise<Db | null> {
-  try {
-    const connectedClient = await getClientPromise();
-    return connectedClient.db(dbName);
-  } catch (err) {
-    console.warn("MongoDB connection unavailable (using fallback JSON store):", (err as Error).message);
-    return null;
-  }
+export function isDatabaseConfigured() {
+  return Boolean(process.env.MONGODB_URI);
 }
 
-export default getClientPromise;
+function clientPromise(): Promise<MongoClient> {
+  const uri = process.env.MONGODB_URI;
+  if (!uri) throw new DatabaseNotConfiguredError();
+
+  if (!globalThis.__mongoClientPromise) {
+    const client = new MongoClient(uri, { serverSelectionTimeoutMS: 5000, appName: "resplendent-web" });
+    globalThis.__mongoClientPromise = client.connect().catch((err) => {
+      // Don't cache a failed connection; the next request retries.
+      globalThis.__mongoClientPromise = undefined;
+      throw err;
+    });
+  }
+  return globalThis.__mongoClientPromise;
+}
+
+/** The app database: the one named in MONGODB_URI, or MONGODB_DB if set. */
+export async function getDb(): Promise<Db> {
+  const client = await clientPromise();
+  return client.db(process.env.MONGODB_DB || undefined);
+}
+
+/** Closes the shared client (for scripts; the app keeps it open). */
+export async function closeDb() {
+  const promise = globalThis.__mongoClientPromise;
+  globalThis.__mongoClientPromise = undefined;
+  if (promise) await (await promise).close();
+}
