@@ -137,7 +137,7 @@ export const procedures: Procedure[] = [
     imageAlt: "Regenerative Medicine Surgery",
     badgeTone: "slate",
     badge: "Affirming",
-    title: "Regenerative Medicine",
+    title: "Regenerative Medicine ",
     description:
       "Facial feminization/masculinization and top surgery with absolute empathy.",
   },
