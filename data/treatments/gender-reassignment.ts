@@ -6,17 +6,17 @@ import { bookConsultationCta, clinicMeta } from "./shared";
 // describe specific operations, outcomes or timelines the clinic has not published.
 
 export const genderReassignmentMeta = {
-  title: "Gender Reassignment Surgery in Delhi | Resplendent Aesthetics",
+  title: "Regenerative Medicine in Delhi | Resplendent Aesthetics",
   description:
-    "Confidential guidance on gender reassignment (male-to-female and female-to-male) with Dr. Sukhbir Singh in Greater Kailash, New Delhi, combining surgical and hormonal treatment over time.",
+    "Confidential guidance on Regenerative Medicine (male-to-female and female-to-male) with Dr. Sukhbir Singh in Greater Kailash, New Delhi, combining surgical and hormonal treatment over time.",
 };
 
 export const genderReassignmentHero: TreatmentHeroData = {
-  breadcrumb: "Gender Reassignment",
+  breadcrumb: "Regenerative Medicine",
   eyebrow: "Gender-Affirming Care",
-  title: "Gender Reassignment ",
+  title: "Regenerative Medicine ",
   highlight: "Surgery",
-  lead: "Gender reassignment—male-to-female or female-to-male—combines surgical and hormonal treatments over a period of time. Before treatment begins, medico-legal formalities, including psychiatric opinions, are completed. Consult us so we can guide you through each step.",
+  lead: "Advanced regenerative treatments designed to support natural healing, improve tissue health, and restore vitality through personalized, patient-centered care.",
   pills: [
     { icon: "lock", label: "Confidential Consultation" },
     { icon: "psychology", label: "Psychiatric Evaluation" },
@@ -25,7 +25,7 @@ export const genderReassignmentHero: TreatmentHeroData = {
   ],
   primaryCta: bookConsultationCta("Book a Confidential Consultation"),
   image: {
-    src: "/images/procedures/13.png",
+    src: "/images/Regenerative.jpeg",
     alt: "Male torso representing gender-affirming body contouring",
     tag: "Gender-Affirming Care",
   },

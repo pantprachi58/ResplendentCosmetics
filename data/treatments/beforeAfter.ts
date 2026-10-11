@@ -224,16 +224,16 @@ export const beforeAfter = {
     ...samplePair("/images/procedures/12.png", "buttock and calf reshaping"),
   },
   "gender-reassignment": {
-    eyebrow: "Gender-Affirming Care",
-    title: "Gender-Affirming Surgery Before & After",
-    text: "Drag the slider to compare body contour before and after gender-affirming surgery.",
+    eyebrow: "Regenerative MedicineCare",
+    title: "Regenerative MedicineSurgery Before & After",
+    text: "Drag the slider to compare body contour before and after Regenerative Medicinesurgery.",
     points: [
       "Surgery is planned as part of a broader, supportive care pathway",
       "Procedures are staged and tailored to your goals",
       "Your privacy is protected at every step",
     ],
     cta: bookConsultationCta("Book a Private Consultation"),
-    ...samplePair("/images/procedures/13.png", "gender-affirming surgery"),
+    ...samplePair("/images/Regenerative.jpeg", "Regenerative Medicinesurgery"),
   },
   "laser-hair-removal": {
     eyebrow: "Laser Aesthetics",

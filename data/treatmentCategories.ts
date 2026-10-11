@@ -36,7 +36,7 @@ export const treatmentCategories: TreatmentCategory[] = [
       { name: "Liposuction Surgery", href: "/treatments/liposuction" },
       // The live "Body Lift" item links to the buttock & calf augmentation page.
       { name: "Body Lift", href: "/treatments/buttock-calf-augmentation" },
-      { name: "Gender Reassignment Surgery", href: "/treatments/gender-reassignment" },
+      { name: "Regenerative Medicine", href: "/treatments/gender-reassignment" },
       { name: "Laser Hair Removal", href: "/treatments/laser-hair-removal" },
       { name: "Body Tightening", href: "/treatments/body-tightening" },
       { name: "Microneedling RF (Morpheus8)", href: "/treatments/rf-microneedling" },
