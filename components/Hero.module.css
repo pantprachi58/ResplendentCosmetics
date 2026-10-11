@@ -1,14 +1,22 @@
 .root {
   position: relative;
-  margin-top: -120px;
+  margin-top: -80px;
   width: 100%;
   overflow: hidden;
   --tw-bg-opacity: 1;
   background-color: rgb(10 25 47 / var(--tw-bg-opacity, 1));
-  padding-top: 148px;
-  padding-bottom: 6rem;
+  padding-top: 100px;
+  padding-bottom: 3rem;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+}
+
+@media (min-width: 640px) {
+  .root {
+    margin-top: -120px;
+    padding-top: 148px;
+    padding-bottom: 6rem;
+  }
 }
 
 @media (min-width: 768px) {
@@ -82,9 +90,17 @@
   max-width: 1320px;
   grid-template-columns: repeat(1, minmax(0, 1fr));
   align-items: center;
-  gap: 3rem;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  gap: 2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .columns {
+    gap: 3rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -100,21 +116,20 @@
 
 .stack > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
-  margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
+  margin-top: calc(1.25rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(1.25rem * var(--tw-space-y-reverse));
+}
+
+@media (min-width: 640px) {
+  .stack > :not([hidden]) ~ :not([hidden]) {
+    margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
+  }
 }
 
 @media (min-width: 1024px) {
   .stack {
     grid-column: span 7 / span 7;
-  }
-}
-@media (min-width: 360px) {
-  .stack{
-    gap: 10px;
-  }
-  .label3{
-    font-size: 13px;
   }
 }
 
@@ -163,22 +178,28 @@
 }
 
 .label {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.15em;
   --tw-text-opacity: 1;
   color: rgb(110 231 183 / var(--tw-text-opacity, 1));
+}
+
+@media (min-width: 640px) {
+  .label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+  }
 }
 
 .title {
   font-family:
     Plus Jakarta Sans,
     sans-serif;
-  font-size: 2.25rem;
-  line-height: 2.5rem;
+  font-size: 1.75rem;
+  line-height: 1.2;
   font-weight: 700;
-  line-height: 1.12;
   letter-spacing: -0.025em;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
@@ -186,8 +207,15 @@
 
 @media (min-width: 640px) {
   .title {
+    font-size: 2.25rem;
+    line-height: 1.15;
+  }
+}
+
+@media (min-width: 768px) {
+  .title {
     font-size: 3rem;
-    line-height: 1;
+    line-height: 1.12;
   }
 }
 
@@ -213,15 +241,21 @@
 
 .text {
   max-width: 36rem;
-  font-size: 1rem;
-  line-height: 1.5rem;
+  font-size: 0.9375rem;
+  line-height: 1.55;
   font-weight: 400;
-  line-height: 1.625;
   --tw-text-opacity: 1;
   color: rgb(203 213 225 / var(--tw-text-opacity, 1));
 }
 
 @media (min-width: 640px) {
+  .text {
+    font-size: 1rem;
+    line-height: 1.625;
+  }
+}
+
+@media (min-width: 768px) {
   .text {
     font-size: 1.125rem;
     line-height: 1.75rem;
@@ -245,15 +279,16 @@
 .button {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   border-radius: 9999px;
   --tw-bg-opacity: 1;
   background-color: rgb(0 82 204 / var(--tw-bg-opacity, 1));
-  padding-left: 2rem;
-  padding-right: 2rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  font-size: 12px;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 0.875rem;
+  padding-bottom: 0.875rem;
+  font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -272,6 +307,17 @@
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 300ms;
+  white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+  .button {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    font-size: 12px;
+  }
 }
 
 .button:hover {
@@ -296,16 +342,17 @@
 .button2 {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   border-radius: 9999px;
   border-width: 1px;
   border-color: rgb(255 255 255 / 0.15);
   background-color: rgb(255 255 255 / 0.1);
-  padding-left: 2rem;
-  padding-right: 2rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  font-size: 12px;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 0.875rem;
+  padding-bottom: 0.875rem;
+  font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -325,6 +372,17 @@
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 300ms;
+  white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+  .button2 {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    font-size: 12px;
+  }
 }
 
 .button2:hover {
@@ -337,11 +395,20 @@
 
 .row3 {
   display: flex;
-  align-items: center;
-  gap: 1.5rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
   padding-top: 1rem;
   --tw-text-opacity: 1;
   color: rgb(203 213 225 / var(--tw-text-opacity, 1));
+}
+
+@media (min-width: 640px) {
+  .row3 {
+    flex-direction: row;
+    align-items: center;
+    gap: 1.5rem;
+  }
 }
 
 .row4 {
@@ -357,9 +424,15 @@
 }
 
 .label3 {
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   line-height: 1rem;
   font-weight: 500;
+}
+
+@media (min-width: 480px) {
+  .label3 {
+    font-size: 0.75rem;
+  }
 }
 
 @media (min-width: 640px) {
@@ -373,6 +446,13 @@
   height: 1rem;
   width: 1px;
   background-color: rgb(255 255 255 / 0.2);
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .box {
+    display: block;
+  }
 }
 
 .row5 {
@@ -431,10 +511,22 @@
 
 .box3 {
   position: relative;
-  height: 480px;
+  height: 360px;
   width: 100%;
   overflow: hidden;
   border-radius: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .box3 {
+    height: 420px;
+  }
+}
+
+@media (min-width: 768px) {
+  .box3 {
+    height: 480px;
+  }
 }
 
 .image {

@@ -6,24 +6,31 @@
   margin-top: -2.5rem;
   width: 100%;
   max-width: 1320px;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .root {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
 }
 
 .columns {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 2rem;
+  gap: 1.25rem;
   border-radius: 1rem;
   border-width: 1px;
   --tw-border-opacity: 1;
   border-color: rgb(226 232 240 / var(--tw-border-opacity, 1));
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
   --tw-shadow:
     0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   --tw-shadow-colored:
@@ -32,6 +39,16 @@
   box-shadow:
     var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
     var(--tw-shadow);
+}
+
+@media (min-width: 640px) {
+  .columns {
+    gap: 2rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
 }
 
 @media (min-width: 768px) {
@@ -52,15 +69,35 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-}
-
-.label {
-  font-size: 40px;
-  font-weight: 700;
-  line-height: 1.25;
+  gap: 0.125rem;
 }
 
 @media (min-width: 640px) {
+  .stat {
+    gap: 0.25rem;
+  }
+}
+
+.label {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+@media (min-width: 480px) {
+  .label {
+    font-size: 36px;
+  }
+}
+
+@media (min-width: 640px) {
+  .label {
+    font-size: 40px;
+    line-height: 1.25;
+  }
+}
+
+@media (min-width: 768px) {
   .label {
     font-size: 44px;
   }
@@ -77,9 +114,9 @@
 }
 
 .label2 {
-  margin-top: 0.25rem;
-  font-size: 0.75rem;
-  line-height: 1rem;
+  margin-top: 0.125rem;
+  font-size: 0.6875rem;
+  line-height: 1;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -87,10 +124,26 @@
   color: rgb(30 41 59 / var(--tw-text-opacity, 1));
 }
 
+@media (min-width: 640px) {
+  .label2 {
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+}
+
 .label3 {
-  margin-top: 0.125rem;
-  font-size: 0.75rem;
-  line-height: 1rem;
+  margin-top: 0.0625rem;
+  font-size: 0.625rem;
+  line-height: 0.875rem;
   --tw-text-opacity: 1;
   color: rgb(100 116 139 / var(--tw-text-opacity, 1));
+}
+
+@media (min-width: 640px) {
+  .label3 {
+    margin-top: 0.125rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
 }

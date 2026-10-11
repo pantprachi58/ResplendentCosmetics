@@ -6,6 +6,7 @@ export type Procedure = {
   badge: string;
   title: string;
   description: string;
+  href: string;
 };
 
 export const procedures: Procedure[] = [
@@ -19,6 +20,7 @@ export const procedures: Procedure[] = [
     title: "Hair Transplant",
     description:
       "Advanced FUE & DHI micro-follicular restoration for hairline precision.",
+    href: "/treatments/hair-transplant",
   },
   {
     cardTone: "blue",
@@ -30,6 +32,7 @@ export const procedures: Procedure[] = [
     title: "Rhinoplasty",
     description:
       "Preservation and structural nose reshaping in balance with facial symmetry.",
+    href: "/treatments/rhinoplasty",
   },
   {
     cardTone: "blue",
@@ -40,6 +43,7 @@ export const procedures: Procedure[] = [
     title: "Face & Neck Lift",
     description:
       "Deep-plane SMAS suspension restoring jawline sharpness and cervical tone.",
+    href: "/treatments/face-neck-lift",
   },
   {
     cardTone: "blue",
@@ -50,6 +54,7 @@ export const procedures: Procedure[] = [
     title: "Blepharoplasty",
     description:
       "Upper & lower eyelid surgery removing redundant tissue and tired bags.",
+    href: "/treatments/blepharoplasty",
   },
   {
     cardTone: "blue",
@@ -60,6 +65,7 @@ export const procedures: Procedure[] = [
     title: "Otoplasty",
     description:
       "Cosmetic ear pinning and structural cartilage remodeling for symmetry.",
+    href: "/treatments/otoplasty",
   },
   {
     cardTone: "blue",
@@ -70,6 +76,7 @@ export const procedures: Procedure[] = [
     title: "Ear Lobe Repair",
     description:
       "Surgical restoration of torn, split, or elongated ear lobes with sutureless finish.",
+    href: "/treatments/ear-lobe-repair",
   },
   {
     cardTone: "blue",
@@ -80,6 +87,7 @@ export const procedures: Procedure[] = [
     title: "Dimple Creation",
     description:
       "Bespoke dynamic cheek dimpleplasty created from internal mucosal approach.",
+    href: "/treatments/dimple-creation",
   },
   {
     cardTone: "blue",
@@ -90,6 +98,7 @@ export const procedures: Procedure[] = [
     title: "Liposuction & 6-Pack",
     description:
       "VASER ultrasound-assisted 4D abdominal definition and muscular etching.",
+    href: "/treatments/liposuction",
   },
   {
     cardTone: "blue",
@@ -100,6 +109,7 @@ export const procedures: Procedure[] = [
     title: "Buttock Enhancement",
     description:
       "Brazilian Butt Lift (BBL) and natural autologous micro-fat grafting.",
+    href: "/treatments/buttock-calf-augmentation",
   },
   {
     cardTone: "blue",
@@ -110,6 +120,7 @@ export const procedures: Procedure[] = [
     title: "Abdominoplasty",
     description:
       "Tummy tuck with muscle diastasis repair and complete waistline tapering.",
+    href: "/treatments/tummy-tuck",
   },
   {
     cardTone: "blue",
@@ -120,6 +131,7 @@ export const procedures: Procedure[] = [
     title: "Gynecomastia",
     description:
       "Male chest reduction combining glandular excision & laser lipolysis.",
+    href: "/treatments/gynecomastia",
   },
   {
     cardTone: "blue",
@@ -130,16 +142,18 @@ export const procedures: Procedure[] = [
     title: "Breast Augmentation",
     description:
       "US-FDA cohesive silicone implants and mastopexy for voluptuous lift.",
+    href: "/treatments/female-breast-surgery",
   },
   {
     cardTone: "blue",
-    image: "/images/procedures/13.png",
+    image: "/images/Regenerative.jpeg",
     imageAlt: "Regenerative Medicine Surgery",
     badgeTone: "slate",
     badge: "Affirming",
-    title: "Regenerative Medicine ",
+    title: "Regenerative Medicine",
     description:
-      "Facial feminization/masculinization and top surgery with absolute empathy.",
+      "Advanced treatments designed to support natural healing, improve tissue health.",
+    href: "/treatments/gender-reassignment",
   },
   {
     cardTone: "emerald",
@@ -150,6 +164,7 @@ export const procedures: Procedure[] = [
     title: "Botox & Neurotoxins",
     description:
       "Expression-preserving micro-dosing for crow's feet, forehead, and masseter.",
+    href: "/treatments/botox",
   },
   {
     cardTone: "emerald",
@@ -160,6 +175,7 @@ export const procedures: Procedure[] = [
     title: "Dermal Fillers",
     description:
       "Hyaluronic acid volumization for lips, tear troughs, cheekbones, and chin.",
+    href: "/treatments/dermal-fillers",
   },
   {
     cardTone: "emerald",
@@ -170,6 +186,7 @@ export const procedures: Procedure[] = [
     title: "RF Microneedling",
     description:
       "Deep dermal fractional radiofrequency delivering instant tightening & scar reduction.",
+    href: "/treatments/rf-microneedling",
   },
   {
     cardTone: "emerald",
@@ -180,6 +197,7 @@ export const procedures: Procedure[] = [
     title: "Microdermabrasion",
     description:
       "Medical hydra-exfoliation infused with peptide serums for glass skin radiance.",
+    href: "/treatments/microdermabrasion",
   },
   {
     cardTone: "emerald",
@@ -190,6 +208,7 @@ export const procedures: Procedure[] = [
     title: "Laser Resurfacing",
     description:
       "Fractional CO2 and Q-Switched Nd:YAG laser systems for pigmentation & pores.",
+    href: "/treatments/laser-hair-removal",
   },
   {
     cardTone: "emerald",
@@ -201,6 +220,7 @@ export const procedures: Procedure[] = [
     title: "PDO Thread Lift",
     description:
       "Barbed bio-absorbable threads repositioning sagging cheek fat pads instantly.",
+    href: "/treatments/thread-lift",
   },
   {
     cardTone: "emerald",
@@ -212,5 +232,6 @@ export const procedures: Procedure[] = [
     title: "PRP Scalp Therapy",
     description:
       "High-concentration autologous growth factors stimulating dormant hair follicles.",
+    href: "/treatments/prp-therapy",
   },
 ];

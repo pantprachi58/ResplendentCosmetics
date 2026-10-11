@@ -1,9 +1,9 @@
 .whatsappButton {
   position: fixed;
   bottom: 24px;
-  right: 6px;
-  width: 45px;
-  height: 45px;
+  right: 14px;
+  width: 60px;
+  height: 60px;
   background: #25D366;
   border-radius: 50%;
   display: flex;
@@ -13,6 +13,7 @@
   transition: all 0.3s ease;
   z-index: 1000;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .whatsappButton:hover {
@@ -25,7 +26,7 @@
 }
 
 .icon {
-  width: 25px;
+  width: 36px;
   height: 36px;
   color: white;
 }
@@ -40,8 +41,8 @@
   }
 
   .icon {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
   }
 }
 

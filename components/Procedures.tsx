@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import Icon from "./Icon";
 import { procedures, type Procedure } from "@/data/procedures";
@@ -69,8 +70,9 @@ export default function Procedures() {
       </div>
       <div className={styles.columns}>
         {filteredProcedures.map((item) => (
-          <div
+          <Link
             key={item.title}
+            href={item.href}
             className={`${styles.card} ${styles.group} ${cardToneClass[item.cardTone]}`}
           >
             <div className={styles.box2}>
@@ -98,7 +100,7 @@ export default function Procedures() {
               </div>
             </div>
             <div className={styles.box3} />
-          </div>
+          </Link>
         ))}
       </div>
     </section>

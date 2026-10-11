@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './WhatsAppButton.module.css';
 
 const WhatsAppButton = () => {
-  const phoneNumber = '919876543210'; // Replace with actual WhatsApp number
+  const phoneNumber = '919910391229'; // Resplendent Aesthetics WhatsApp
   const message = 'Hello! I would like to book a consultation.';
   
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
@@ -14,6 +14,7 @@ const WhatsAppButton = () => {
       rel="noopener noreferrer"
       className={styles.whatsappButton}
       aria-label="Chat on WhatsApp"
+      title="Chat with us on WhatsApp"
     >
       <svg
         viewBox="0 0 32 32"

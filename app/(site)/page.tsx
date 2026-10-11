@@ -8,6 +8,7 @@ import Doctors from "@/components/Doctors";
 import Testimonials from "@/components/Testimonials";
 import InternationalDesk from "@/components/InternationalDesk";
 import AppointmentCta from "@/components/AppointmentCta";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import styles from "./page.module.css";
 
 export default function HomePage() {
@@ -25,6 +26,7 @@ export default function HomePage() {
         <InternationalDesk />
         <AppointmentCta />
       </div>
+      <WhatsAppButton />
     </main>
   );
 }

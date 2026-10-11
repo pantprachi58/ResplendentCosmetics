@@ -324,7 +324,7 @@ a.topBarItem:hover {
 }
 
 .bookButton {
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   gap: 0.375rem;
@@ -343,6 +343,7 @@ a.topBarItem:hover {
 
 @media (min-width: 640px) {
   .bookButton {
+    display: flex;
     padding: 0.625rem 1.5rem;
   }
 }

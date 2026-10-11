@@ -3,18 +3,46 @@
   margin-right: auto;
   width: 100%;
   max-width: 1320px;
-  padding-top: 50px;
-  padding-bottom: 50px;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .root {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .root {
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
 }
 
 .box {
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 4rem;
+  margin-bottom: 2.5rem;
   max-width: 48rem;
   text-align: center;
+}
+
+@media (min-width: 640px) {
+  .box {
+    margin-bottom: 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .box {
+    margin-bottom: 4rem;
+  }
 }
 
 .label {
@@ -63,7 +91,13 @@
 .columns {
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr));
-  gap: 1.5rem;
+  gap: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .columns {
+    gap: 1.5rem;
+  }
 }
 
 @media (min-width: 768px) {
@@ -179,7 +213,13 @@
   flex: 1 1 0%;
   flex-direction: column;
   justify-content: space-between;
-  padding: 1.25rem;
+  padding: 1rem;
+}
+
+@media (min-width: 640px) {
+  .stack {
+    padding: 1.25rem;
+  }
 }
 
 .subtitle {

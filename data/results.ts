@@ -50,9 +50,8 @@ export const results: CaseStudy[] = [
     note: "9 Months Post-Op",
   },
   {
-    before: { src: "/images/procedures/8.png", alt: "Sample image of a defined abdomen, before view" },
-    after: { src: "/images/procedures/8.png", alt: "Sample image of a defined abdomen, after view" },
-    sample: true,
+    before: { src: "/images/Liposuction/lipo-before.jpg", alt: "High-definition lipo-sculpture patient before treatment" },
+    after: { src: "/images/Liposuction/Lipo after.jpeg", alt: "High-definition lipo-sculpture result showing athletic torso definition" },
     tag: "VASER 4D",
     badgeTone: "emerald",
     badge: "High-Def Result",

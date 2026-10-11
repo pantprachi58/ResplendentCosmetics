@@ -5,8 +5,16 @@
   max-width: 1320px;
   padding-top: 6rem;
   padding-bottom: 6rem;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  overflow-x: hidden;
+}
+
+@media (min-width: 640px) {
+  .root {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
 }
 
 .stack {
@@ -75,6 +83,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .label2 {
@@ -86,6 +95,14 @@
   letter-spacing: 0.05em;
   --tw-text-opacity: 1;
   color: rgb(51 65 85 / var(--tw-text-opacity, 1));
+  white-space: nowrap;
+}
+
+@media (max-width: 639px) {
+  .label2 {
+    width: 100%;
+    margin-bottom: 0.25rem;
+  }
 }
 
 .badge {
@@ -108,6 +125,16 @@
   box-shadow:
     var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
     var(--tw-shadow);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+@media (max-width: 639px) {
+  .badge {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    font-size: 0.6875rem;
+  }
 }
 
 .badge2 {
@@ -129,6 +156,16 @@
     color, background-color, border-color, text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+@media (max-width: 639px) {
+  .badge2 {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    font-size: 0.6875rem;
+  }
 }
 
 .badge2:hover {
@@ -138,8 +175,11 @@
 
 .columns {
   display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.subtitle{
+  font-size: 14px !important;
 }
 
 @media (min-width: 640px) {
@@ -385,10 +425,4 @@
 }
 
 .group {
-}
-@media (min-width: 360px) {
-  .badge{
-    padding: 10px;
-    font-size: 10px ;
-  }
 }
