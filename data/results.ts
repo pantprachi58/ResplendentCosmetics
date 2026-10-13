@@ -62,9 +62,8 @@ export const results: CaseStudy[] = [
     note: "4 Months Post-Op",
   },
   {
-    before: { src: "/images/procedures/3.png", alt: "Sample image of the jawline and neck, before view" },
-    after: { src: "/images/procedures/3.png", alt: "Sample image of the jawline and neck, after view" },
-    sample: true,
+    before: { src: "/images/pages/gynecomastia/before-after/before.jpg", alt: "Face & neck lift with blepharoplasty patient before surgery" },
+    after: { src: "/images/pages/gynecomastia/before-after/after.jpg", alt: "Face & neck lift with blepharoplasty patient after surgery" },
     tag: "SMAS Lift",
     badgeTone: "primary",
     badge: "Deep Plane",

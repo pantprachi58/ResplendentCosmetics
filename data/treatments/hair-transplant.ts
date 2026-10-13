@@ -13,9 +13,9 @@ export const hairTransplant: TreatmentPageData = {
     eyebrow: "Surgical Hair Restoration & Follicular Bio-Preservation",
     title: "Hair Transplant — ",
     highlight: "FUE & DHI",
-    lead: "Permanent, undetectable follicular restoration engineered with millimeter micro-precision by international plastic surgery fellows at our clinical sanctuary in Greater Kailash 1, New Delhi.",
+    lead: "Undetectable follicular restoration engineered with millimeter micro-precision by internationally and nationally accredited surgeon performs procedure at our clinical sanctuary in Greater Kailash 1, New Delhi.",
     pills: [
-      { icon: "adjust", label: "0.7mm Micro-Punches" },
+      { icon: "adjust", label: "0.8/ 0.9 mm depending on follicular size" },
       { icon: "verified", label: "Zero Linear Scarring" },
       { icon: "vital_signs", label: "98.4% Follicle Survival" },
       { icon: "ac_unit", label: "Chilled Peptide Bio-Bath" },

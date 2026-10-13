@@ -51,10 +51,10 @@ export default function Hero() {
             </a>
           </div>
           <div className={styles.row3}>
-            <div className={styles.row4}>
+            {/* <div className={styles.row4}>
               <Icon name="verified" className={styles.icon3} />
               <span className={styles.label3}>NABH-Accredited OT</span>
-            </div>
+            </div> */}
             <div className={styles.box} />
             <div className={styles.row4}>
               <Icon name="lock" className={styles.icon3} />

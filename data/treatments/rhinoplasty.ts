@@ -13,7 +13,7 @@ export const rhinoplasty: TreatmentPageData = {
     eyebrow: "Structural & Preservation Facial Sculpting",
     title: "Rhinoplasty — Nose Reshaping & ",
     highlight: "Facial Harmony",
-    lead: "Bespoke preservation rhinoplasty and structural nasal remodeling engineered with millimeter precision by international plastic surgery fellows at our clinical sanctuary in Greater Kailash 1, New Delhi.",
+    lead: "Bespoke preservation rhinoplasty and structural nasal remodeling engineered with millimeter precision by internationally and nationally accredited surgeon performs procedure at our clinical sanctuary in Greater Kailash 1, New Delhi.",
     pills: [
       { icon: "straighten", label: "Preservation & Structural Anatomy" },
       { icon: "air", label: "Preserved Natural Airway Dynamics" },
