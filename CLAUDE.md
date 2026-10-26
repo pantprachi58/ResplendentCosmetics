@@ -28,6 +28,9 @@ app/
                       page.tsx posts table, posts/new, posts/[id] (editor), account (change password)
   api/admin/          session (POST login / DELETE logout), password, posts, posts/[id] (PUT/DELETE), media (upload)
   media/[id]/         Serves uploaded images from GridFS (immutable cache)
+  sitemap.ts robots.ts  /sitemap.xml (static pages + hardcoded treatment slug list + published blog posts, ISR 5 min,
+                      refreshed by revalidateBlog) and /robots.txt (disallows /admin, /api/). Origin from lib/site.ts
+                      (NEXT_PUBLIC_SITE_URL, default https://www.resplendentcosmetics.com). Add new pages to sitemap.ts
   globals.css         Reset only (Tailwind-preflight-derived; the --tw-* vars are leftovers, harmless)
   page.tsx            Home page: Hero, TrustBar, Procedures, TreatmentChoice, Results, Doctors,
                       Facility, Testimonials, InternationalDesk, AppointmentCta (in that order)

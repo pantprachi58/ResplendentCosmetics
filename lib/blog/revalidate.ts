@@ -5,5 +5,6 @@ import { revalidatePath } from "next/cache";
 export function revalidateBlog(...slugs: string[]) {
   revalidatePath("/blog");
   revalidatePath("/blog/[slug]", "page");
+  revalidatePath("/sitemap.xml");
   for (const slug of new Set(slugs)) revalidatePath(`/blog/${slug}`);
 }

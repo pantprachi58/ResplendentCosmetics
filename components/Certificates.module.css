@@ -1,4 +1,4 @@
-/* Certificates Component - Seamless Grid Without Spacing */
+/* Certificates Component - certificate scans with captions */
 .certificates {
   width: 100%;
 }
@@ -31,8 +31,36 @@
 /* Certificate Item */
 .certificate {
   position: relative;
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  margin: 0;
   overflow: hidden;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background-color: #ffffff;
+}
+
+/* Caption */
+.caption {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px 16px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.title {
+  color: #0f172a;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.organization {
+  color: #64748b;
+  font-size: 0.85rem;
+  line-height: 1.4;
 }
 
 /* Image Container */
@@ -45,7 +73,7 @@
 }
 
 .image {
-  object-fit: fill;
+  object-fit: contain;
   transition: transform 400ms ease;
 }
 

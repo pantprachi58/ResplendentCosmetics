@@ -29,17 +29,24 @@ export default function Certificates({
         }`}
       >
         {certificates.map((cert) => (
-          <div key={cert.id} className={styles.certificate}>
+          <figure key={cert.id} className={styles.certificate}>
             <div className={styles.imageContainer}>
               <Image
                 src={cert.imageUrl}
-                alt={cert.title}
+                alt={`${cert.title} certificate, ${cert.organization}`}
                 fill
                 sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                 className={styles.image}
               />
             </div>
-          </div>
+            <figcaption className={styles.caption}>
+              <span className={styles.title}>{cert.title}</span>
+              <span className={styles.organization}>
+                {cert.organization}
+                {cert.year && ` · ${cert.year}`}
+              </span>
+            </figcaption>
+          </figure>
         ))}
       </div>
     </div>
