@@ -1,11 +1,28 @@
 import type { Metadata } from "next";
+import { siteUrl } from "@/lib/site";
+import { defaultShareImage, siteName } from "@/lib/seo";
 import "./globals.css";
 
+// Site-wide defaults. Public pages override title/description/canonical/openGraph via lib/seo pageMetadata;
+// no canonical here, it would be inherited by every page that forgets its own.
 export const metadata: Metadata = {
-  title:
-    "Resplendent Aesthetics | Plastic & Cosmetic Surgery, Greater Kailash, New Delhi",
+  metadataBase: new URL(siteUrl),
+  title: `${siteName} | Plastic & Cosmetic Surgery, Greater Kailash, New Delhi`,
   description:
     "Bespoke aesthetic and reconstructive surgery led by Senior Plastic Surgeon Dr. Sukhbir Singh in Greater Kailash Part 1, South Delhi.",
+  applicationName: siteName,
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
+  },
+  openGraph: {
+    type: "website",
+    siteName,
+    locale: "en_IN",
+    images: [{ url: defaultShareImage.src, alt: defaultShareImage.alt }],
+  },
+  twitter: { card: "summary_large_image" },
   icons: {
     icon: "/svg/favicon.png",
   },

@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import Icon from "@/components/Icon";
 import Breadcrumb from "@/components/treatment/Breadcrumb";
@@ -15,12 +14,14 @@ import {
 import { MAPS_URL } from "@/data/contact";
 import ui from "@/components/shared/ui.module.css";
 import styles from "./page.module.css";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Book a Consultation | Resplendent Aesthetics",
   description:
     "Schedule a confidential in-person or virtual consultation with our plastic surgeons and aesthetic dermatologists in Greater Kailash, New Delhi.",
-};
+  path: "/book-consultation",
+});
 
 export default function BookConsultationPage() {
   return (

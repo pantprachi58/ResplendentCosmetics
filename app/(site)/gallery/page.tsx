@@ -1,16 +1,17 @@
-import type { Metadata } from "next";
 import Breadcrumb from "@/components/treatment/Breadcrumb";
 import PageIntro from "@/components/shared/PageIntro";
 import VideoGallery from "@/components/treatment/VideoGallery";
 import MediaCardGrid from "@/components/treatment/MediaCardGrid";
 import { galleryPhotos, galleryVideos } from "@/data/gallery";
 import ui from "@/components/shared/ui.module.css";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Gallery | Resplendent Aesthetics",
   description:
     "Photo gallery from Dr. Sukhbir Singh and Resplendent Aesthetics—conference highlights including IACD 5.0, WCAM 2026, and Haircon 2026.",
-};
+  path: "/gallery",
+});
 
 export default function GalleryPage() {
   return (

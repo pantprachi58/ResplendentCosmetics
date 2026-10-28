@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Breadcrumb from "@/components/treatment/Breadcrumb";
 import TreatmentHero from "@/components/treatment/TreatmentHero";
 import TreatmentOverview from "@/components/treatment/TreatmentOverview";
@@ -12,11 +11,16 @@ import CtaBand from "@/components/treatment/CtaBand";
 import { blepharoplasty as page, blepharoplastyCallout, blepharoplastyForm } from "@/data/treatments/blepharoplasty";
 import { treatmentsCrumb } from "@/data/treatments/shared";
 import ui from "@/components/shared/ui.module.css";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: page.metaTitle,
   description: page.metaDescription,
-};
+  path: "/treatments/blepharoplasty",
+  // Same procedure as eyelid-surgery: consolidate ranking signals there until the pages are merged
+  canonical: "/treatments/eyelid-surgery",
+  image: page.hero.image,
+});
 
 export default function BlepharoplastyPage() {
   return (

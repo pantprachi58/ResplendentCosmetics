@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Breadcrumb from "@/components/treatment/Breadcrumb";
 import PageIntro from "@/components/shared/PageIntro";
 import BlogExplorer from "@/components/blog/BlogExplorer";
@@ -6,12 +5,14 @@ import CtaBand from "@/components/treatment/CtaBand";
 import { bookConsultationCta, clinicMeta } from "@/data/treatments/shared";
 import { listPublishedPosts } from "@/lib/blog/repository";
 import ui from "@/components/shared/ui.module.css";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Blog & Treatment Guides | Resplendent Aesthetics",
   description:
     "Patient guides on face, body, women's and men's aesthetic treatments from Resplendent Aesthetics, Greater Kailash, New Delhi: what to ask, what to expect and how to prepare.",
-};
+  path: "/blog",
+});
 
 // Rebuilt at most every 5 minutes; saving a post in /admin refreshes it straight away.
 export const revalidate = 300;

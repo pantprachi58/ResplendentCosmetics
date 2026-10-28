@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import Icon from "@/components/Icon";
 import CtaLink from "@/components/shared/CtaLink";
@@ -15,12 +14,14 @@ import {
 } from "@/data/contact";
 import ui from "@/components/shared/ui.module.css";
 import styles from "./page.module.css";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Contact Us | Resplendent Aesthetics",
   description:
     "Contact Resplendent Aesthetics at R-9, Greater Kailash Part 1, New Delhi. Confidential surgical inquiries, international patient guidance and directions.",
-};
+  path: "/contact",
+});
 
 export default function ContactPage() {
   return (

@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Breadcrumb from "@/components/treatment/Breadcrumb";
 import TreatmentHero from "@/components/treatment/TreatmentHero";
 import BeforeAfter from "@/components/treatment/BeforeAfter";
@@ -12,11 +11,14 @@ import { browLift as page } from "@/data/treatments/brow-lift";
 import { treatmentsCrumb } from "@/data/treatments/shared";
 import { beforeAfter } from "@/data/treatments/beforeAfter";
 import ui from "@/components/shared/ui.module.css";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: page.metaTitle,
   description: page.metaDescription,
-};
+  path: "/treatments/brow-lift",
+  image: page.hero.image,
+});
 
 export default function BrowLiftPage() {
   return (

@@ -11,6 +11,7 @@ import { blogCategoryLabel } from "@/data/blog";
 import { bookConsultationCta, clinicMeta } from "@/data/treatments/shared";
 import { prepareArticle } from "@/lib/blog/content";
 import { getPublishedPost, listPublishedPosts } from "@/lib/blog/repository";
+import { pageMetadata } from "@/lib/seo";
 import type { Post, PostSummary } from "@/lib/blog/types";
 import ui from "@/components/shared/ui.module.css";
 import styles from "./page.module.css";
@@ -27,13 +28,14 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getPublishedPost((await params).slug);
-  if (!post) return {};
-  return {
+  if (!post) return { robots: { index: false, follow: false } };
+  return pageMetadata({
     title: `${post.title} | Resplendent Aesthetics Blog`,
     description: post.excerpt,
-    alternates: { canonical: `/blog/${post.slug}` },
-    openGraph: { title: post.title, description: post.excerpt, type: "article", images: [post.coverImage.src] },
-  };
+    path: `/blog/${post.slug}`,
+    image: post.coverImage,
+    article: { publishedTime: post.publishedAt ?? undefined, modifiedTime: post.updatedAt },
+  });
 }
 
 /** Up to `count` other posts, same category first */

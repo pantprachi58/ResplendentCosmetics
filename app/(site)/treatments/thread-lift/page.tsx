@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Breadcrumb from "@/components/treatment/Breadcrumb";
 import TreatmentHero from "@/components/treatment/TreatmentHero";
 import BeforeAfter from "@/components/treatment/BeforeAfter";
@@ -17,11 +16,14 @@ import {
 import { treatmentsCrumb } from "@/data/treatments/shared";
 import { beforeAfter } from "@/data/treatments/beforeAfter";
 import ui from "@/components/shared/ui.module.css";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: threadLiftMeta.title,
   description: threadLiftMeta.description,
-};
+  path: "/treatments/thread-lift",
+  image: threadLiftHero.image,
+});
 
 export default function ThreadLiftPage() {
   return (

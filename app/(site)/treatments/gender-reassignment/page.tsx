@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Breadcrumb from "@/components/treatment/Breadcrumb";
 import TreatmentHero from "@/components/treatment/TreatmentHero";
 import BeforeAfter from "@/components/treatment/BeforeAfter";
@@ -15,11 +14,14 @@ import {
 import { treatmentsCrumb } from "@/data/treatments/shared";
 import { beforeAfter } from "@/data/treatments/beforeAfter";
 import ui from "@/components/shared/ui.module.css";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: genderReassignmentMeta.title,
   description: genderReassignmentMeta.description,
-};
+  path: "/treatments/gender-reassignment",
+  image: genderReassignmentHero.image,
+});
 
 export default function GenderReassignmentPage() {
   return (

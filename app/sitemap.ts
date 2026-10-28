@@ -21,8 +21,8 @@ const pages: Entry[] = [
 ];
 
 // One entry per app/(site)/treatments/<slug>/ page. Keep in sync when adding or removing a page.
+// blepharoplasty is left out: its canonical is /treatments/eyelid-surgery (see lib/seo pageMetadata).
 const treatmentSlugs = [
-  "blepharoplasty",
   "body-tightening",
   "botox",
   "brow-lift",

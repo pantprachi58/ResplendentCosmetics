@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Breadcrumb from "@/components/treatment/Breadcrumb";
 import TreatmentHero from "@/components/treatment/TreatmentHero";
 import TreatmentOverview from "@/components/treatment/TreatmentOverview";
@@ -12,11 +11,14 @@ import CtaBand from "@/components/treatment/CtaBand";
 import { hairTransplant as page, hairExosomeProtocol } from "@/data/treatments/hair-transplant";
 import { treatmentsCrumb } from "@/data/treatments/shared";
 import ui from "@/components/shared/ui.module.css";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: page.metaTitle,
   description: page.metaDescription,
-};
+  path: "/treatments/hair-transplant",
+  image: page.hero.image,
+});
 
 export default function HairTransplantPage() {
   return (

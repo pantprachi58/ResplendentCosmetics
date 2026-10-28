@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import Icon from "@/components/Icon";
 import CtaLink from "@/components/shared/CtaLink";
@@ -7,12 +6,14 @@ import CtaBand from "@/components/treatment/CtaBand";
 import { accreditations, doctorProfiles, philosophyPillars } from "@/data/doctorProfiles";
 import ui from "@/components/shared/ui.module.css";
 import styles from "./page.module.css";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Our Doctors | Resplendent Aesthetics",
   description:
     "Meet the plastic surgeons and aesthetic dermatologists behind Resplendent Aesthetics in Greater Kailash, New Delhi.",
-};
+  path: "/doctors",
+});
 
 export default function DoctorsPage() {
   return (

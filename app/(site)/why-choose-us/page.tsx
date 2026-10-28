@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import Icon from "@/components/Icon";
 import CtaLink from "@/components/shared/CtaLink";
@@ -16,12 +15,14 @@ import {
 } from "@/data/whyChooseUs";
 import ui from "@/components/shared/ui.module.css";
 import styles from "./page.module.css";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Why Choose Us | Resplendent Aesthetics",
   description:
     "Fellowship-trained surgeons, a zero-delegation pledge, Class-100 operating theatres and discreet private recovery in Greater Kailash, New Delhi.",
-};
+  path: "/why-choose-us",
+});
 
 export default function WhyChooseUsPage() {
   const { main, side } = facilityShowcase;

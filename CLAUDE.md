@@ -35,7 +35,7 @@ app/
   page.tsx            Home page: Hero, TrustBar, Procedures, TreatmentChoice, Results, Doctors,
                       Facility, Testimonials, InternationalDesk, AppointmentCta (in that order)
   about/page.tsx      About page (self-contained: data + markup inline)
-  treatments/page.tsx Client component; filterable grid over data/procedures.ts
+  treatments/page.tsx Server wrapper (metadata) around TreatmentsCatalog.tsx: client, filterable grid over data/procedures.ts
   treatments/<slug>/  Treatment detail pages (blepharoplasty, botox, brow-lift, chin-jawline,
                       face-neck-lift, hair-transplant, hydrafacial, liposuction, rhinoplasty,
                       vaginal-tightening, vaginoplasty, chemical-peel, dimple-creation,
@@ -76,6 +76,7 @@ lib/blog/             types, store (collection + doc mapping), repository (serve
 lib/auth/             users (bcrypt, admin_users), session (hashed tokens in admin_sessions + httpOnly cookie, guards,
                       same-origin check), rate-limit (in-memory, failed logins)
 lib/media.ts          GridFS image save/read + magic-byte type sniffing (no SVG)
+lib/seo.ts            pageMetadata(): title, description, canonical, Open Graph + Twitter for a public page; default share image
 components/admin/     AdminNav, LoginForm, PostsTable, PostEditor, RichTextEditor (TipTap), ChangePasswordForm, SignOutButton
 scripts/              create-admin.ts, seed-blog.ts (run with tsx; env.ts loads .env like Next)
 data/*.ts             Typed content arrays (procedures, doctors, results, testimonials,
@@ -100,15 +101,16 @@ Path alias: `@/*` → repo root (e.g. `@/components/Icon`, `@/data/procedures`).
 
 ## Conventions
 
+- **SEO metadata**: every public page exports `metadata` (or `generateMetadata`) built with `pageMetadata` from `lib/seo.ts`, so it gets its own canonical, og:url/og:title and Twitter tags. Next replaces a parent's `openGraph`/`twitter` objects instead of merging, so don't hand-write partial ones. The root layout sets `metadataBase` (from `lib/site.ts`), site-wide robots and fallback OG, and deliberately no canonical. Client pages can't export metadata: keep `page.tsx` a server wrapper. Titles and descriptions must be unique per page.
 - **Content lives in `data/*.ts`** as exported typed arrays (`export type X = {...}; export const xs: X[] = [...]`). Components import and map over them; don't hardcode lists in components.
 - **Styling**: each component imports `styles from "./Name.module.css"`. Colors are hardcoded hex (no CSS variables). Main palette: navy `#0a192f` / `#1a1a2e` / `#1e293b`, accent blue `#2d6a9f`, slate greys `#f1f5f9` `#e2e8f0` `#94a3b8`. Mobile-first: media queries use `min-width` at 640 / 768 / 1024 / 1280px. Content container max-width is ~1320px.
-- Tone variants are typed string unions mapped to CSS classes (e.g. `badgeTone: "navy" | "blue" | ...` → `badgeToneClass` record in `app/(site)/treatments/page.tsx` and `components/Procedures.tsx`).
+- Tone variants are typed string unions mapped to CSS classes (e.g. `badgeTone: "navy" | "blue" | ...` → `badgeToneClass` record in `app/(site)/treatments/TreatmentsCatalog.tsx` and `components/Procedures.tsx`).
 - Fonts: Inter + Plus Jakarta Sans, and Material Symbols Outlined, loaded via `<link>` in `app/layout.tsx` (not `next/font`). The icon font is pinned to `opsz 24, wght 400, GRAD 0` with only `FILL 0..1` variable (~450 KB instead of ~3.9 MB) and uses `display=block`; `globals.css` clips `.material-symbols-outlined` to a 1em box so ligature names never flash as text. If you need another weight/grade/size axis, widen the URL. Don't add per-module font `@import`s.
-- Server components by default; add `"use client"` only when needed (currently `Header`, `Procedures` (home filter tabs), `app/(site)/treatments/page.tsx`, `FaqAccordion`, `ConsultationForm`, `BookingWizard`, `ContactForm`, `BlogExplorer` and the `components/admin/*` forms).
+- Server components by default; add `"use client"` only when needed (currently `Header`, `Procedures` (home filter tabs), `app/(site)/treatments/TreatmentsCatalog.tsx`, `FaqAccordion`, `ConsultationForm`, `BookingWizard`, `ContactForm`, `BlogExplorer` and the `components/admin/*` forms).
 - Images: `next/image`. The older home/about sections (`Hero`, `Doctors`, `Facility`, `about/*`, `data/results.ts`, `data/doctors.ts`, `data/about.ts`) still use remote images from `lh3.googleusercontent.com`, the only allowed remote host in `next.config.mjs`. Newer pages use local files only. Logos use plain `<img>` with an eslint-disable comment.
 - Commented section headers in JSX (`{/* Hero Section */}`) are the norm in page files.
 
-- **New treatment pages**: add `data/treatments/<slug>.ts` (typed `TreatmentPageData` + any extra section data) and an `app/(site)/treatments/<slug>/page.tsx` that composes `components/treatment/*` sections inside `<main className={ui.page}>`. Put images in `public/images/pages/<slug>/`, never hotlink. Palette for these pages is blue/green: `#0052cc` / `#003d9b` / `#10b981` / navy `#002244` / charcoal `#0f172a`.
+- **New treatment pages**: add `data/treatments/<slug>.ts` (typed `TreatmentPageData` + any extra section data) and an `app/(site)/treatments/<slug>/page.tsx` that composes `components/treatment/*` sections inside `<main className={ui.page}>`. Export `metadata = pageMetadata({ title, description, path, image: hero.image })` and add the slug to `app/sitemap.ts`. Put images in `public/images/pages/<slug>/`, never hotlink. Palette for these pages is blue/green: `#0052cc` / `#003d9b` / `#10b981` / navy `#002244` / charcoal `#0f172a`.
 - Legacy URLs (`/rhinoplasty`, `/hair-transplant`, ... and old production `*.php` pages) 308-redirect to `/treatments/<slug>` via `next.config.mjs`. When porting a page from the live PHP site, add its `.php` URL there.
 - Live-site photos must also be checked for stock images posing as results and identifiable patients (one gallery photo showed patients on OT tables and was excluded).
 - Live-site photos must be checked before use: several carry another clinic's watermark ("Pure Aesthetic Surgery") and were deliberately not used.
@@ -123,15 +125,15 @@ Path alias: `@/*` → repo root (e.g. `@/components/Icon`, `@/data/procedures`).
 
 ## Known gaps
 
-- `/treatments/eyelid-surgery` (ported from live) and `/treatments/blepharoplasty` (template) cover the same procedure; consolidate into one before launch to avoid duplicate SEO content.
+- `/treatments/eyelid-surgery` (ported from live) and `/treatments/blepharoplasty` (template) cover the same procedure; consolidate into one before launch. Until then blepharoplasty sets its canonical to `/treatments/eyelid-surgery` and is left out of the sitemap.
 - Pages not reachable from the header menu: `hydrafacial`, `chin-jawline`, `blepharoplasty` (overlaps `eyelid-surgery`), `hair-transplant` and `/why-choose-us` (the last two are still linked from the footer).
 - Before/after sliders: only rhinoplasty, gynecomastia, female-breast-surgery, thread-lift (split from live result-03) and eyelid-surgery (low-res 400px) use real clinic pairs; the other 24 show `sample` stand-ins until real photos are supplied.
 - The original articles in `data/blog.ts` are general-information drafts (the live `blog.php` couldn't be retrieved; it now 308-redirects to `/blog`). They need clinic review; keep posts free of stats, prices and guarantees.
 - Blog CMS: the login rate limit is per process (in memory); replacing or removing an image doesn't delete the old GridFS file; there is no post preview before publishing (save as draft, then publish).
 - Secrets live in `.env.local` (gitignored; template in `.env.example`). Never commit env files.
 - Forms (contact, booking, consultation) have no backend; they only show a client-side confirmation.
-- `app/(site)/treatments/page.tsx` derives categories by matching `procedure.badge` strings against hardcoded lists; adding a procedure with a new badge value means updating those lists (filter map and the surgical/non-surgical counts).
+- `app/(site)/treatments/TreatmentsCatalog.tsx` derives categories by matching `procedure.badge` strings against hardcoded lists; adding a procedure with a new badge value means updating those lists (filter map and the surgical/non-surgical counts).
 - `components/about/*` and `data/about.ts` duplicate content that `app/(site)/about/page.tsx` defines inline; pick one source when editing the About page.
 - Contact details (phone `+91 99103 91229`, Greater Kailash address, hours) are hardcoded in many places: components (`Header`, `Footer`, `Hero`, `AppointmentCta`, `InternationalDesk`, `Facility`, `treatment/CtaBand`, `booking/BookingWizard`, `contact/ContactForm`, `about/*`), pages (`about`, `book-consultation`, `why-choose-us`, ...) and data files (`contact`, `booking`, `doctorProfiles`, `whyChooseUs`, `treatments/shared` and several `treatments/*.ts`). Grep for `99103` / `Greater Kailash` and update them all together.
 - `components/WhatsAppButton.tsx` uses a **placeholder** number (`919876543210`). Replace it with the real WhatsApp number before launch.
-- The home `Procedures` filter splits cards by `cardTone` (`blue` = surgical, `emerald` = dermatology), not by `badge` like `app/(site)/treatments/page.tsx` does.
+- The home `Procedures` filter splits cards by `cardTone` (`blue` = surgical, `emerald` = dermatology), not by `badge` like `app/(site)/treatments/TreatmentsCatalog.tsx` does.

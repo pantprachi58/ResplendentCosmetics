@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Icon from "@/components/Icon";
 import Breadcrumb from "@/components/treatment/Breadcrumb";
 import PageIntro from "@/components/shared/PageIntro";
@@ -9,12 +8,14 @@ import { RESEARCHGATE_URL, articles, books } from "@/data/achievements";
 import { certificates } from "@/data/certificates";
 import ui from "@/components/shared/ui.module.css";
 import styles from "./page.module.css";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Achievements & Publications | Dr. Sukhbir Singh | Resplendent Aesthetics",
   description:
     "Books and peer-reviewed articles published by Dr. Sukhbir Singh, plastic and cosmetic surgeon, on PRP, injection rhinoplasty, fillers, fat grafting and reconstructive surgery.",
-};
+  path: "/achievements",
+});
 
 const years = articles.map((article) => article.year);
 

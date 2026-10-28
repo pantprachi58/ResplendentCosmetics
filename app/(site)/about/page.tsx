@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import Icon from "@/components/Icon";
 import Breadcrumb from "@/components/treatment/Breadcrumb";
@@ -8,6 +7,7 @@ import type { CtaBandData } from "@/data/treatments/types";
 import { certificates } from "@/data/certificates";
 import ui from "@/components/shared/ui.module.css";
 import styles from "./page.module.css";
+import { pageMetadata } from "@/lib/seo";
 
 const DOCTOR_IMG =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuDSTJ5gTWMFzZv27HqAbUpkkDnbqAF_Iu46ZbbRkDtsPs_HM23XUzMh5-2MKBdMlyoeYcDLRNy5r3DBW7U88RjQZOPBCokOHarR2bZO8igf4FkAJR62zRrFrL-zk4dmqoZLAUwhlzwJF_IOcM1SLNf7RqbbRA0Eille2AjkOQG74se0oTscwKcaVfA3zAnJqbxu84o8mZGeXtblAFmUbJh_WiUu7bYl9tOUB23l0wB1sS9CAdJ1UQM0B44J_sTbQgUQhQ";
@@ -118,11 +118,12 @@ const CTA: CtaBandData = {
   primaryCta: { label: "Book Consultation", href: "/book-consultation", icon: "calendar_today" },
 };
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "About Us | Resplendent Aesthetics",
   description:
     "Founded by senior plastic surgeons to bring world-class aesthetic and reconstructive craftsmanship to Greater Kailash, New Delhi.",
-};
+  path: "/about",
+});
 
 export default function AboutPage() {
   return (
