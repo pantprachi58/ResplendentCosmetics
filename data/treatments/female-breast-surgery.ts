@@ -13,9 +13,9 @@ import { bookConsultationCta, clinicMeta } from "./shared";
 // before/after slider (data/treatments/beforeAfter.ts) shows a clean clinic pair instead.
 
 export const breastSurgeryMeta = {
-  title: "Female Breast Surgery in Delhi NCR | Augmentation, Lift & Reduction | Resplendent Aesthetics",
+  title: "Breast Augmentation, Lift & Reduction | Resplendent Aesthetics",
   description:
-    "Female breast surgery and breast enhancement in Greater Kailash, New Delhi: breast augmentation with implants or fat, breast lift (mastopexy) for sagging breasts, and breast reduction.",
+    "Breast augmentation with implants or fat, breast lift (mastopexy) for sagging breasts, and breast reduction in Greater Kailash, New Delhi.",
 };
 
 export const breastSurgeryHero: TreatmentHeroData = {

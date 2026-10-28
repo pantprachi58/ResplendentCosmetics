@@ -6,7 +6,7 @@ import { bookConsultationCta, clinicMeta } from "./shared";
 export const microdermabrasionMeta = {
   title: "Microdermabrasion Treatment in Delhi | Resplendent Aesthetics",
   description:
-    "Microdermabrasion in Greater Kailash, New Delhi: a 20–30 minute, non-chemical, non-invasive treatment for superficial acne scars, fine wrinkles, sunspots and uneven texture.",
+    "Microdermabrasion in Greater Kailash, New Delhi: a 20–30 minute non-invasive treatment for superficial acne scars, fine wrinkles, sunspots and uneven texture.",
 };
 
 export const microdermabrasionHero: TreatmentHeroData = {

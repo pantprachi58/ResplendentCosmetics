@@ -5,7 +5,7 @@ const IMG = "/images/pages/botox";
 
 export const botox: TreatmentPageData = {
   slug: "botox",
-  metaTitle: "Botox & Neurotoxins — Dynamic Wrinkle Softening | Resplendent Aesthetics",
+  metaTitle: "Botox for Wrinkles in Delhi | Resplendent Aesthetics",
   metaDescription:
     "Doctor-administered micro-dose Botox for forehead lines, crow's feet and frown lines with natural, expressive results in Greater Kailash, New Delhi.",
   hero: {

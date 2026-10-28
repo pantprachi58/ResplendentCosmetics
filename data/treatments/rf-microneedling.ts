@@ -7,7 +7,7 @@ import { bookConsultationCta, clinicMeta } from "./shared";
 export const rfMicroneedlingMeta = {
   title: "Microneedling RF (Morpheus8) in Delhi | Resplendent Aesthetics",
   description:
-    "Morpheus8 microneedling RF in Greater Kailash, New Delhi for acne scars, enlarged pores, wrinkles, skin tightening, stretch marks and cellulite—suitable for all skin types.",
+    "Morpheus8 RF microneedling in Greater Kailash, New Delhi for acne scars, enlarged pores, wrinkles, skin tightening, stretch marks and cellulite.",
 };
 
 export const rfMicroneedlingHero: TreatmentHeroData = {

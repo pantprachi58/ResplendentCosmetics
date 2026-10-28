@@ -15,7 +15,7 @@ import { bookConsultationCta, clinicMeta } from "./shared";
 const IMG = "/images/pages/lip-augmentation";
 
 export const lipAugmentationMeta = {
-  title: "Lip Augmentation (Lip Fillers & Lip Lift) in Delhi | Resplendent Aesthetics",
+  title: "Lip Fillers & Lip Augmentation in Delhi | Resplendent Aesthetics",
   description:
     "Lip augmentation in Greater Kailash, New Delhi: hyaluronic acid lip fillers, lip lift, lip implants and fat grafting for fuller, well-defined lips.",
 };

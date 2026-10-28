@@ -13,9 +13,9 @@ import { bookConsultationCta, clinicMeta } from "./shared";
 // The live before/after photos are watermarked by another clinic, so they are intentionally not used.
 
 export const dimpleCreationMeta = {
-  title: "Dimple Creation Surgery (Dimpleplasty) in Delhi | Resplendent Aesthetics",
+  title: "Dimple Creation Surgery in Delhi | Resplendent Aesthetics",
   description:
-    "Dimple creation surgery in Greater Kailash, New Delhi. A quick, almost painless 30-minute procedure under local anaesthesia, performed from inside the cheek with no visible scar.",
+    "Dimple creation surgery in Greater Kailash, New Delhi: a 30-minute procedure under local anaesthesia, done from inside the cheek with no visible scar.",
 };
 
 export const dimpleCreationHero: TreatmentHeroData = {

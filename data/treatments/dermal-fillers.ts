@@ -16,7 +16,7 @@ const IMG = "/images/pages/dermal-fillers";
 export const dermalFillersMeta = {
   title: "Dermal Fillers Treatment in Delhi | Resplendent Aesthetics",
   description:
-    "Injectable dermal fillers in Greater Kailash, New Delhi for wrinkles, lips, cheeks, under-eyes, jawline and non-surgical nose reshaping, with natural-looking results.",
+    "Dermal fillers in Greater Kailash, New Delhi for wrinkles, lips, cheeks, under-eyes, jawline and non-surgical nose reshaping, with natural-looking results.",
 };
 
 export const dermalFillersHero: TreatmentHeroData = {

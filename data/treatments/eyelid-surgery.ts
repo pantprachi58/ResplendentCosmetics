@@ -17,7 +17,7 @@ const IMG = "/images/pages/eyelid-surgery";
 export const eyelidSurgeryMeta = {
   title: "Eyelid Surgery (Blepharoplasty) in Delhi | Resplendent Aesthetics",
   description:
-    "Upper and lower eyelid surgery in Greater Kailash, New Delhi. A 30–45 minute day-care procedure under local anaesthesia to remove excess skin and fat for a fresher, more youthful look.",
+    "Upper and lower eyelid surgery in Greater Kailash, New Delhi: a 30–45 minute day-care procedure under local anaesthesia to remove excess skin and fat.",
 };
 
 export const eyelidSurgeryHero: TreatmentHeroData = {

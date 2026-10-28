@@ -11,9 +11,9 @@ import styles from "./page.module.css";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Achievements & Publications | Dr. Sukhbir Singh | Resplendent Aesthetics",
+  title: "Publications by Dr. Sukhbir Singh | Resplendent Aesthetics",
   description:
-    "Books and peer-reviewed articles published by Dr. Sukhbir Singh, plastic and cosmetic surgeon, on PRP, injection rhinoplasty, fillers, fat grafting and reconstructive surgery.",
+    "Books and peer-reviewed articles by plastic surgeon Dr. Sukhbir Singh on PRP, injection rhinoplasty, fillers, fat grafting and reconstructive surgery.",
   path: "/achievements",
 });
 

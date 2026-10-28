@@ -8,7 +8,7 @@ import { bookConsultationCta, clinicMeta } from "./shared";
 const IMG = "/images/pages/thread-lift";
 
 export const threadLiftMeta = {
-  title: "Thread Lift (Non-Surgical Face Lift) in Delhi | Resplendent Aesthetics",
+  title: "Non-Surgical Thread Lift in Delhi | Resplendent Aesthetics",
   description:
     "Non-surgical thread lift with fourth-generation double-needle PCLA threads in Greater Kailash, New Delhi, for jawline, cheek, neck and brow contouring.",
 };

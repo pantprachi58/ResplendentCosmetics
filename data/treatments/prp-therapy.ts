@@ -16,7 +16,7 @@ import { bookConsultationCta, clinicMeta } from "./shared";
 const IMG = "/images/pages/prp-therapy";
 
 export const prpTherapyMeta = {
-  title: "PRP Hair Treatment in Delhi | PRP Therapy Cost | Resplendent Aesthetics",
+  title: "PRP Therapy for Hair & Skin in Delhi | Resplendent Aesthetics",
   description:
     "Platelet-rich plasma (PRP) therapy for hair thinning and facial rejuvenation in Greater Kailash, New Delhi, using your own blood's growth factors.",
 };

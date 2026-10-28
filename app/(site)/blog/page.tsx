@@ -10,7 +10,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Blog & Treatment Guides | Resplendent Aesthetics",
   description:
-    "Patient guides on face, body, women's and men's aesthetic treatments from Resplendent Aesthetics, Greater Kailash, New Delhi: what to ask, what to expect and how to prepare.",
+    "Patient guides to face, body, women's and men's aesthetic treatments from Resplendent Aesthetics, New Delhi: what to ask, what to expect, how to prepare.",
   path: "/blog",
 });
 

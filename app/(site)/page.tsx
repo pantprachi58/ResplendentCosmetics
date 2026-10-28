@@ -13,7 +13,7 @@ import { pageMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
 export const metadata = pageMetadata({
-  title: "Resplendent Aesthetics | Plastic & Cosmetic Surgery, Greater Kailash, New Delhi",
+  title: "Plastic & Cosmetic Surgery in New Delhi | Resplendent Aesthetics",
   description:
     "Bespoke aesthetic and reconstructive surgery led by Senior Plastic Surgeon Dr. Sukhbir Singh in Greater Kailash Part 1, South Delhi.",
   path: "/",

@@ -15,7 +15,7 @@ import { bookConsultationCta, clinicMeta } from "./shared";
 export const vaginalTighteningMeta = {
   title: "Vaginal Tightening Surgery in Delhi NCR | Resplendent Aesthetics",
   description:
-    "Vaginal tightening is a surgical procedure that tightens and strengthens the vaginal muscles, perineum and surrounding tissues. Day-care procedure under local anaesthesia in Greater Kailash, New Delhi.",
+    "Vaginal tightening surgery in Greater Kailash, New Delhi to tighten the vaginal muscles, perineum and surrounding tissues. Day-care, under local anaesthesia.",
 };
 
 export const vaginalTighteningHero: TreatmentHeroData = {

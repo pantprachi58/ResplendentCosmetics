@@ -19,7 +19,7 @@ const IMG = "/images/pages/penile-enlargement";
 export const penileEnlargementMeta = {
   title: "Penile Enlargement Surgery in Delhi | Resplendent Aesthetics",
   description:
-    "Confidential penile enlargement in Greater Kailash, New Delhi: girth enhancement with fat grafting under local anaesthesia, penile lengthening and implant options.",
+    "Confidential penile enlargement in Greater Kailash, New Delhi: girth enhancement with fat grafting under local anaesthesia, lengthening and implant options.",
 };
 
 export const penileEnlargementHero: TreatmentHeroData = {

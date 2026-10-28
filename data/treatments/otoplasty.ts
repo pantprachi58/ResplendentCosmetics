@@ -5,9 +5,9 @@ import { bookConsultationCta, clinicMeta } from "./shared";
 // The live page's only photo is watermarked by another clinic, so it is intentionally not used.
 
 export const otoplastyMeta = {
-  title: "Otoplasty (Ear Reshaping Surgery) in Delhi NCR | Resplendent Aesthetics",
+  title: "Otoplasty (Ear Reshaping) in Delhi | Resplendent Aesthetics",
   description:
-    "Otoplasty in Greater Kailash, New Delhi to correct prominent (bat) ears and reshape the ears, with the incision hidden behind the ear. Local or general anaesthesia.",
+    "Otoplasty in Greater Kailash, New Delhi to correct prominent (bat) ears and reshape the ears, with the incision hidden behind the ear.",
 };
 
 export const otoplastyHero: TreatmentHeroData = {

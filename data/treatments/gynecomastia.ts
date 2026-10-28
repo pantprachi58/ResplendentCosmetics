@@ -14,7 +14,7 @@ import { bookConsultationCta, clinicMeta } from "./shared";
 // The stray "Read also: Hair Transplantation" link and self-promotional "best doctor" FAQ are omitted.
 
 export const gynecomastiaMeta = {
-  title: "Gynecomastia (Male Breast Reduction) Surgery in Delhi | Resplendent Aesthetics",
+  title: "Gynecomastia Surgery in Delhi | Resplendent Aesthetics",
   description:
     "Gynecomastia surgery in Greater Kailash, New Delhi: liposuction and gland excision for a flatter, masculine chest. Local anaesthesia from ₹50,000.",
 };

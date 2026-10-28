@@ -6,7 +6,7 @@ import { bookConsultationCta, clinicMeta } from "./shared";
 export const chemicalPeelMeta = {
   title: "Chemical Peel Treatment in Delhi NCR | Resplendent Aesthetics",
   description:
-    "Professional chemical peels in Greater Kailash, New Delhi for even-toned, fresh and smooth skin — treating pigmentation, acne, acne scars, open pores and fine lines.",
+    "Chemical peels in Greater Kailash, New Delhi for pigmentation, acne, acne scars, open pores and fine lines, for even-toned, fresh and smooth skin.",
 };
 
 export const chemicalPeelHero: TreatmentHeroData = {

@@ -5,7 +5,7 @@ const IMG = "/images/pages/liposuction";
 
 export const liposuction: TreatmentPageData = {
   slug: "liposuction",
-  metaTitle: "VASER® Liposuction & High-Definition Body Sculpting | Resplendent Aesthetics",
+  metaTitle: "VASER Liposuction in Delhi | Resplendent Aesthetics",
   metaDescription:
     "High-definition VASER® 4D liposculpture and MicroAire® body contouring with minimal downtime by Dr. Sukhbir Singh in Greater Kailash, New Delhi.",
   hero: {

@@ -7,9 +7,9 @@ import { bookConsultationCta, clinicMeta } from "./shared";
 const IMG = "/images/pages/hymenoplasty";
 
 export const hymenoplastyMeta = {
-  title: "Hymenoplasty (Hymen Restoration Surgery) in Delhi | Resplendent Aesthetics",
+  title: "Hymenoplasty Surgery in Delhi | Resplendent Aesthetics",
   description:
-    "Confidential hymenoplasty in Greater Kailash, New Delhi: a 30–60 minute day-care procedure under local anaesthesia with dissolvable stitches. Online or in-clinic consultation.",
+    "Confidential hymenoplasty in Greater Kailash, New Delhi: a 30–60 minute day-care procedure under local anaesthesia with dissolvable stitches.",
 };
 
 export const hymenoplastyHero: TreatmentHeroData = {

@@ -5,7 +5,7 @@ const IMG = "/images/pages/rhinoplasty";
 
 export const rhinoplasty: TreatmentPageData = {
   slug: "rhinoplasty",
-  metaTitle: "Rhinoplasty — Nose Reshaping & Facial Harmony | Resplendent Aesthetics",
+  metaTitle: "Rhinoplasty (Nose Reshaping) in Delhi | Resplendent Aesthetics",
   metaDescription:
     "Preservation and structural rhinoplasty with piezo ultrasonic precision and airway protection by Dr. Sukhbir Singh in Greater Kailash, New Delhi.",
   hero: {

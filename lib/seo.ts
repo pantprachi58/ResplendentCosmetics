@@ -20,6 +20,24 @@ type PageSeo = {
   article?: { publishedTime?: string; modifiedTime?: string };
 };
 
+/** Search results cut titles at ~60-65 characters and descriptions at ~160 */
+const TITLE_MAX = 65;
+const DESCRIPTION_MAX = 160;
+
+/** `title` with the longest suffix that keeps it within TITLE_MAX (the bare title if none fits) */
+export function titleWithSuffix(title: string, suffixes: string[]) {
+  const fitting = suffixes.find((suffix) => title.length + suffix.length <= TITLE_MAX);
+  return fitting ? title + fitting : title;
+}
+
+/** Cuts free text (e.g. a CMS excerpt) to DESCRIPTION_MAX at a word boundary */
+export function clampDescription(text: string) {
+  const clean = text.replace(/\s+/g, " ").trim();
+  if (clean.length <= DESCRIPTION_MAX) return clean;
+  const cut = clean.slice(0, DESCRIPTION_MAX - 1);
+  return `${cut.slice(0, cut.lastIndexOf(" ")).replace(/[\s,;:.–—-]+$/, "")}…`;
+}
+
 /**
  * Title, description, canonical, Open Graph and Twitter tags for a public page.
  * Relative URLs resolve against metadataBase (app/layout.tsx). Next replaces a parent's openGraph/twitter

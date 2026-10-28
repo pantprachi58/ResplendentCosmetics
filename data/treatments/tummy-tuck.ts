@@ -6,7 +6,7 @@ import { bookConsultationCta, clinicMeta } from "./shared";
 const IMG = "/images/pages/tummy-tuck";
 
 export const tummyTuckMeta = {
-  title: "Tummy Tuck (Abdominoplasty) Surgery in Delhi | Resplendent Aesthetics",
+  title: "Tummy Tuck (Abdominoplasty) in Delhi | Resplendent Aesthetics",
   description:
     "Full, mini and extended tummy tuck (abdominoplasty) in Greater Kailash, New Delhi to remove excess skin and fat and repair separated abdominal muscles.",
 };

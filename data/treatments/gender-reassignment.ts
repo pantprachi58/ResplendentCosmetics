@@ -8,7 +8,7 @@ import { bookConsultationCta, clinicMeta } from "./shared";
 export const genderReassignmentMeta = {
   title: "Regenerative Medicine in Delhi | Resplendent Aesthetics",
   description:
-    "Confidential guidance on Regenerative Medicine (male-to-female and female-to-male) with Dr. Sukhbir Singh in Greater Kailash, New Delhi, combining surgical and hormonal treatment over time.",
+    "Confidential gender-affirming care (male-to-female and female-to-male) with Dr. Sukhbir Singh in Greater Kailash, New Delhi, combining surgery and hormones.",
 };
 
 export const genderReassignmentHero: TreatmentHeroData = {

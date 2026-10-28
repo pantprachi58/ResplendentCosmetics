@@ -13,9 +13,9 @@ import { bookConsultationCta, clinicMeta } from "./shared";
 // The live page has no procedure imagery, so the page relies on icons and the clinic's own videos.
 
 export const vaginoplastyMeta = {
-  title: "Vaginoplasty & Vaginal Rejuvenation Surgery in Delhi NCR | Resplendent Aesthetics",
+  title: "Vaginoplasty & Vaginal Rejuvenation | Resplendent Aesthetics",
   description:
-    "Vaginoplasty and vaginal rejuvenation in Greater Kailash, New Delhi. A 30–45 minute procedure under local anaesthesia that tightens lax vaginal tissues using your own tissues and muscles.",
+    "Vaginoplasty in Greater Kailash, New Delhi: a 30–45 minute procedure under local anaesthesia that tightens lax vaginal tissues and muscles.",
 };
 
 export const vaginoplastyHero: TreatmentHeroData = {

@@ -11,7 +11,7 @@ import { blogCategoryLabel } from "@/data/blog";
 import { bookConsultationCta, clinicMeta } from "@/data/treatments/shared";
 import { prepareArticle } from "@/lib/blog/content";
 import { getPublishedPost, listPublishedPosts } from "@/lib/blog/repository";
-import { pageMetadata } from "@/lib/seo";
+import { clampDescription, pageMetadata, titleWithSuffix } from "@/lib/seo";
 import type { Post, PostSummary } from "@/lib/blog/types";
 import ui from "@/components/shared/ui.module.css";
 import styles from "./page.module.css";
@@ -30,8 +30,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getPublishedPost((await params).slug);
   if (!post) return { robots: { index: false, follow: false } };
   return pageMetadata({
-    title: `${post.title} | Resplendent Aesthetics Blog`,
-    description: post.excerpt,
+    title: titleWithSuffix(post.title, [" | Resplendent Aesthetics Blog", " | Resplendent Aesthetics"]),
+    description: clampDescription(post.excerpt),
     path: `/blog/${post.slug}`,
     image: post.coverImage,
     article: { publishedTime: post.publishedAt ?? undefined, modifiedTime: post.updatedAt },

@@ -5,7 +5,7 @@ import { bookConsultationCta, clinicMeta } from "./shared";
 // All live photos are watermarked by another clinic and are intentionally not used.
 
 export const buttockCalfMeta = {
-  title: "Buttock & Calf Augmentation (Brazilian Butt Lift) in Delhi | Resplendent Aesthetics",
+  title: "Buttock & Calf Augmentation in Delhi | Resplendent Aesthetics",
   description:
     "Buttock and calf augmentation with implants or fat transfer (Brazilian butt lift), plus pectoral and deltoid implants, in Greater Kailash, New Delhi.",
 };

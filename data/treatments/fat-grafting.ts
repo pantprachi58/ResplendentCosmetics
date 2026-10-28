@@ -6,9 +6,9 @@ import { bookConsultationCta, clinicMeta } from "./shared";
 // The live before/after photos are watermarked by another clinic and are not used.
 
 export const fatGraftingMeta = {
-  title: "Autologous Fat Grafting (Fat Transfer) in Delhi | Resplendent Aesthetics",
+  title: "Fat Grafting (Fat Transfer) in Delhi | Resplendent Aesthetics",
   description:
-    "Autologous fat grafting in Greater Kailash, New Delhi: your own fat, harvested by liposuction, transferred to restore volume and shape to the face, buttocks and other areas.",
+    "Autologous fat grafting in Greater Kailash, New Delhi: your own fat, harvested by liposuction, restores volume and shape to the face, buttocks and more.",
 };
 
 export const fatGraftingHero: TreatmentHeroData = {

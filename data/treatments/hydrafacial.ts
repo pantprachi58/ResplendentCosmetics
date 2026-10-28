@@ -4,7 +4,7 @@ const IMG = "/images/pages/hydrafacial";
 
 export const hydrafacial: TreatmentPageData = {
   slug: "hydrafacial",
-  metaTitle: "Medical HydraFacial — Deep Hydration & Radiance | Resplendent Aesthetics",
+  metaTitle: "Medical HydraFacial in Delhi | Resplendent Aesthetics",
   metaDescription:
     "Dermatologist-supervised medical HydraFacial with vortex extraction, peptide infusion and LED therapy, zero downtime, in Greater Kailash, New Delhi.",
   hero: {

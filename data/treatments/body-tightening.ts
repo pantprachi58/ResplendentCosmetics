@@ -13,7 +13,7 @@ import { bookConsultationCta, clinicMeta } from "./shared";
 const IMG = "/images/pages/body-tightening";
 
 export const bodyTighteningMeta = {
-  title: "FaceTite, BodyTite & AccuTite Skin Tightening in Delhi | Resplendent Aesthetics",
+  title: "FaceTite, BodyTite & AccuTite in Delhi | Resplendent Aesthetics",
   description:
     "Minimally invasive radiofrequency-assisted lipolysis (RFAL) for skin tightening and contouring—FaceTite, BodyTite and AccuTite—in Greater Kailash, New Delhi.",
 };

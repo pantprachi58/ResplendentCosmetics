@@ -16,7 +16,7 @@ import { bookConsultationCta, clinicMeta } from "./shared";
 const IMG = "/images/pages/six-pack-abs";
 
 export const sixPackAbsMeta = {
-  title: "6-Pack Abs Surgery (Abdominal Etching) in Delhi | Resplendent Aesthetics",
+  title: "Six-Pack Abs Surgery in Delhi | Resplendent Aesthetics",
   description:
     "Six-pack abs surgery (abdominal etching) in Greater Kailash, New Delhi: precise fat removal and muscle sculpting for defined abs. Indicative cost ₹1–1.75 lakh.",
 };
