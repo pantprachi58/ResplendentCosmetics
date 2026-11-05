@@ -162,11 +162,16 @@ export default function TreatmentsCatalog() {
                   </span>
                 </div>
                 <div className={styles.content}>
-                  <h3 className={styles.treatmentTitle}>{procedure.title}</h3>
+                  <h3 className={styles.treatmentTitle}>
+                    {/* Stretched link: its ::after covers the whole card */}
+                    <Link href={procedure.href} className={styles.cardLink}>
+                      {procedure.title}
+                    </Link>
+                  </h3>
                   <p className={styles.treatmentDescription}>
                     {procedure.description}
                   </p>
-                  <div className={styles.learnMore}>
+                  <div className={styles.learnMore} aria-hidden="true">
                     <span>Learn More</span>
                     <Icon name="arrow_forward" />
                   </div>
