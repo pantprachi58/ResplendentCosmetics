@@ -54,8 +54,8 @@ function relatedPosts(post: Post, all: PostSummary[], count = 4) {
   return [...others.filter((p) => p.category === post.category), ...others.filter((p) => p.category !== post.category)].slice(0, count);
 }
 
-/** Below this width the cover is shown at its own size instead of stretched across the main column (~860px wide) */
-const FULL_BANNER_MIN_WIDTH = 800;
+/** Cover width = main column: 864px from 1320px up, viewport minus sidebar + gutters from 1024px, else minus gutters */
+const COVER_SIZES = "(min-width: 1320px) 864px, (min-width: 1024px) calc(100vw - 26rem), calc(100vw - 2rem)";
 
 /** Article, breadcrumb and (when present) FAQ structured data for search engines */
 function structuredData(post: Post, url: string) {
@@ -115,7 +115,6 @@ export default async function BlogPostPage({ params }: Props) {
   const url = absoluteUrl(`/blog/${post.slug}`);
 
   const { width: coverWidth, height: coverHeight } = post.coverImage;
-  const compactCover = Boolean(coverWidth && coverHeight && coverWidth < FULL_BANNER_MIN_WIDTH);
 
   return (
     <main className={ui.page}>
@@ -159,28 +158,28 @@ export default async function BlogPostPage({ params }: Props) {
                   </span>
                 )}
               </div>
-              {compactCover ? (
-                // Small cover: full-width frame filled with a blurred copy, the sharp image centred at its own size (never upscaled)
-                <div className={`${ui.media} ${styles.hero} ${styles.heroFramed}`}>
-                  <Image src={post.coverImage.src} alt="" aria-hidden fill sizes="96px" className={styles.heroBackdrop} />
+              {coverWidth && coverHeight ? (
+                // Full image: column width, height from the image's own proportions (nothing cropped)
+                <div className={styles.hero}>
                   <Image
                     src={post.coverImage.src}
                     alt={post.coverImage.alt}
                     width={coverWidth}
                     height={coverHeight}
                     priority
-                    sizes={`(min-width: ${coverWidth! + 32}px) ${coverWidth}px, calc(100vw - 2rem)`}
+                    sizes={COVER_SIZES}
                     className={styles.heroImage}
                   />
                 </div>
               ) : (
-                <div className={`${ui.media} ${styles.hero}`}>
+                // Size unknown (a path typed in the admin): fixed 16:9 frame so the page doesn't jump while it loads
+                <div className={`${ui.media} ${styles.hero} ${styles.heroFixed}`}>
                   <Image
                     src={post.coverImage.src}
                     alt={post.coverImage.alt}
                     fill
                     priority
-                    sizes="(min-width: 1320px) 864px, (min-width: 1024px) calc(100vw - 26rem), calc(100vw - 2rem)"
+                    sizes={COVER_SIZES}
                     className={ui.cover}
                   />
                 </div>

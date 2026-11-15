@@ -56,8 +56,8 @@ app/
                       excerpt), BlogPosting + BreadcrumbList (+ FAQPage) JSON-LD, TOC from the article's <h2>s, FAQ as <details>,
                       tables wrapped in a scroll region. One grid: main column (header, cover, body; ~864px at 1440) + 22rem sidebar
                       (20rem at 1024–1279) that starts level with the title: TOC, treatment card, then "Related Guides" (4 compact
-                      rows, the only sticky block). Below 1024px the sidebar follows the article. Covers ≥800px fill the column at
-                      16:9; smaller ones are framed (blurred copy behind, sharp image centred at its own size, never upscaled)
+                      rows, the only sticky block). Below 1024px the sidebar follows the article. The cover is the whole image at
+                      100% column width, height auto (from its stored width/height); 16:9 cropped frame only if the size is unknown
 components/
   <Section>.tsx + <Section>.module.css   one pair per home-page section
   WhatsAppButton.tsx  Floating wa.me link rendered on every page (from layout.tsx)

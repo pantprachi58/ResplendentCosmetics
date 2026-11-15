@@ -136,35 +136,22 @@
 .hero {
   width: 100%;
   margin-top: 0.75rem;
-  aspect-ratio: 16 / 10;
+  overflow: hidden;
   border-radius: 1rem;
+  background-color: #e2e8f0;
   box-shadow: 0 20px 40px rgb(15 23 42 / 0.1);
 }
 
-/* Small covers (e.g. imported from the old site at 500px): same frame as a full cover, filled with a soft blurred
-   copy of the image; the sharp image sits centred at no more than its own size, so it is never upscaled. */
-.heroFramed {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-}
-
-.heroBackdrop {
-  object-fit: cover;
-  transform: scale(1.15);
-  filter: blur(28px) saturate(1.15);
-  opacity: 0.55;
-}
-
+/* The whole image at the column's width; its height follows the image's proportions */
 .heroImage {
-  position: relative;
-  width: auto;
-  max-width: 100%;
+  display: block;
+  width: 100%;
   height: auto;
-  max-height: 100%;
-  border-radius: 0.75rem;
-  box-shadow: 0 12px 32px rgb(15 23 42 / 0.18);
+}
+
+/* Fallback when the image size isn't stored: fixed frame, image cropped to fill it */
+.heroFixed {
+  aspect-ratio: 16 / 9;
 }
 
 @media (min-width: 768px) {
@@ -176,14 +163,6 @@
   .lead {
     font-size: 17px;
     line-height: 28px;
-  }
-
-  .hero {
-    aspect-ratio: 16 / 9;
-  }
-
-  .heroFramed {
-    padding: 1.5rem;
   }
 
   .hero {
