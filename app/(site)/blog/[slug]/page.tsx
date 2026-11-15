@@ -6,7 +6,6 @@ import Icon from "@/components/Icon";
 import CtaLink from "@/components/shared/CtaLink";
 import Breadcrumb from "@/components/treatment/Breadcrumb";
 import CtaBand from "@/components/treatment/CtaBand";
-import BlogCard from "@/components/blog/BlogCard";
 import { blogCategoryLabel } from "@/data/blog";
 import { bookConsultationCta, clinicMeta } from "@/data/treatments/shared";
 import { prepareArticle } from "@/lib/blog/content";
@@ -49,8 +48,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
-/** Up to `count` other posts, same category first */
-function relatedPosts(post: Post, all: PostSummary[], count = 3) {
+/** Up to `count` other posts, same category first (4 fit the sticky sidebar on a laptop screen) */
+function relatedPosts(post: Post, all: PostSummary[], count = 4) {
   const others = all.filter((p) => p.slug !== post.slug);
   return [...others.filter((p) => p.category === post.category), ...others.filter((p) => p.category !== post.category)].slice(0, count);
 }
@@ -248,34 +247,47 @@ export default async function BlogPostPage({ params }: Props) {
                 <CtaLink cta={bookConsultationCta("Book a Consultation")} variant={post.treatment ? "secondary" : "primary"} block />
               </div>
             </div>
+
+            {/* Related articles: sticky in the desktop sidebar (fills the column beside long articles); after the article on phones */}
+            {related.length > 0 && (
+              <section className={styles.related} aria-labelledby="related-heading">
+                <div className={styles.relatedHeader}>
+                  <span className={ui.eyebrow}>Keep Reading</span>
+                  <h2 id="related-heading" className={styles.relatedHeading}>
+                    Related Guides
+                  </h2>
+                </div>
+                <ul className={styles.relatedList}>
+                  {related.map((item) => (
+                    <li key={item.slug} className={styles.relatedItem}>
+                      <div className={`${ui.media} ${styles.relatedThumb}`}>
+                        {/* Decorative here: the title next to it names the article */}
+                        <Image src={item.coverImage.src} alt="" fill sizes="112px" className={ui.cover} />
+                      </div>
+                      <div className={styles.relatedBody}>
+                        <span className={styles.relatedMeta}>{item.topic || blogCategoryLabel[item.category]}</span>
+                        <h3 className={styles.relatedTitle}>
+                          <Link href={`/blog/${item.slug}`} className={styles.relatedLink}>
+                            {item.title}
+                          </Link>
+                        </h3>
+                        <span className={styles.relatedRead}>
+                          <Icon name="schedule" />
+                          {item.readMinutes} min read
+                        </span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+                <Link href={`/blog?category=${post.category}`} className={styles.allLink}>
+                  View all {category.toLowerCase()} articles
+                  <Icon name="arrow_forward" />
+                </Link>
+              </section>
+            )}
           </aside>
         </div>
       </section>
-
-      {/* Related articles */}
-      {related.length > 0 && (
-        <section className={`${ui.section} ${ui.white} ${styles.related}`}>
-          <div className={ui.container}>
-            <div className={ui.headerSplit}>
-              <div>
-                <span className={ui.eyebrow}>Keep Reading</span>
-                <h2 className={ui.title}>Related Guides</h2>
-              </div>
-              <Link href={`/blog?category=${post.category}`} className={styles.allLink}>
-                View all {category.toLowerCase()} articles
-                <Icon name="arrow_forward" />
-              </Link>
-            </div>
-            <ul className={styles.relatedGrid}>
-              {related.map((item) => (
-                <li key={item.slug}>
-                  <BlogCard post={item} />
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-      )}
 
       {/* CTA */}
       <CtaBand
