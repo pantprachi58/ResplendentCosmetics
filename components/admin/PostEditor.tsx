@@ -7,10 +7,10 @@ import Icon from "@/components/Icon";
 import { blogFilters } from "@/data/blog";
 import { treatmentCategories } from "@/data/treatmentCategories";
 import { slugify } from "@/lib/blog/slug";
-import type { BlogCategory, Post, PostInput, PostStatus } from "@/lib/blog/types";
+import type { BlogCategory, BlogFaq, Post, PostInput, PostStatus } from "@/lib/blog/types";
 import RichTextEditor from "./RichTextEditor";
 import { formatDateTime } from "./format";
-import { uploadImage } from "./upload";
+import { UPLOAD_MAX_MB, uploadImage } from "./upload";
 import styles from "./admin.module.css";
 
 type FieldErrors = Partial<Record<string, string>>;
@@ -23,6 +23,10 @@ type Props = {
 };
 
 const EXCERPT_MAX = 320;
+const FAQ_MAX = 30;
+/** What search results show before cutting off */
+const SEO_TITLE_TARGET = 65;
+const SEO_DESCRIPTION_TARGET = 160;
 
 const emptyInput: PostInput = {
   slug: "",
@@ -33,8 +37,11 @@ const emptyInput: PostInput = {
   coverImage: { src: "", alt: "" },
   treatment: null,
   content: "",
-  questions: [],
+  faqs: [],
+  reviewedBy: "",
+  seo: { title: "", description: "", keywords: [] },
   status: "draft",
+  publishedAt: null,
 };
 
 const toInput = (post: Post): PostInput => ({
@@ -46,9 +53,22 @@ const toInput = (post: Post): PostInput => ({
   coverImage: { ...post.coverImage },
   treatment: post.treatment ? { ...post.treatment } : null,
   content: post.content,
-  questions: [...post.questions],
+  faqs: post.faqs.map((f) => ({ ...f })),
+  reviewedBy: post.reviewedBy,
+  seo: { ...post.seo, keywords: [...post.seo.keywords] },
   status: post.status,
+  publishedAt: post.publishedAt,
 });
+
+// Publish dates are edited as calendar days in India time (noon, so the day never shifts across time zones)
+const istDay = (iso: string | null) => (iso ? new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" }).format(new Date(iso)) : "");
+const fromIstDay = (day: string) => (day ? new Date(`${day}T12:00:00+05:30`).toISOString() : null);
+
+const parseKeywords = (text: string) =>
+  text
+    .split(",")
+    .map((k) => k.trim())
+    .filter(Boolean);
 
 export default function PostEditor({ post, notice }: Props) {
   const router = useRouter();
@@ -56,8 +76,10 @@ export default function PostEditor({ post, notice }: Props) {
   const [values, setValues] = useState<PostInput>(() => (post ? toInput(post) : emptyInput));
   const [saved, setSaved] = useState(() => JSON.stringify(post ? toInput(post) : emptyInput));
   const [savedStatus, setSavedStatus] = useState<PostStatus | null>(post?.status ?? null);
+  const [savedSlug, setSavedSlug] = useState(post?.slug ?? "");
   const [updatedAt, setUpdatedAt] = useState(post?.updatedAt ?? null);
   const [slugTouched, setSlugTouched] = useState(!isNew);
+  const [keywordsText, setKeywordsText] = useState(() => post?.seo.keywords.join(", ") ?? "");
   const [errors, setErrors] = useState<FieldErrors>({});
   const [message, setMessage] = useState<{ tone: "success" | "error"; text: string } | null>(
     notice ? { tone: "success", text: notice } : null
@@ -81,6 +103,11 @@ export default function PostEditor({ post, notice }: Props) {
     setErrors((e) => ({ ...e, [key]: undefined }));
   };
 
+  const setSeo = (patch: Partial<PostInput["seo"]>) => {
+    setValues((v) => ({ ...v, seo: { ...v.seo, ...patch } }));
+    setErrors((e) => ({ ...e, ...Object.fromEntries(Object.keys(patch).map((k) => [`seo.${k}`, undefined])) }));
+  };
+
   const setTitle = (title: string) => {
     setValues((v) => ({ ...v, title, slug: slugTouched ? v.slug : slugify(title) }));
     setErrors((e) => ({ ...e, title: undefined, slug: slugTouched ? e.slug : undefined }));
@@ -95,7 +122,8 @@ export default function PostEditor({ post, notice }: Props) {
     if (!file) return;
     setUploading(true);
     try {
-      setCover({ src: await uploadImage(file) });
+      const image = await uploadImage(file);
+      setCover({ src: image.url, width: image.width, height: image.height });
     } catch (err) {
       setErrors((e) => ({ ...e, "coverImage.src": err instanceof Error ? err.message : "Upload failed" }));
     } finally {
@@ -104,8 +132,25 @@ export default function PostEditor({ post, notice }: Props) {
     }
   };
 
+  const setFaq = (index: number, patch: Partial<BlogFaq>) =>
+    set(
+      "faqs",
+      values.faqs.map((f, i) => (i === index ? { ...f, ...patch } : f))
+    );
+
+  const moveFaq = (index: number, by: -1 | 1) => {
+    const next = [...values.faqs];
+    [next[index], next[index + by]] = [next[index + by], next[index]];
+    set("faqs", next);
+  };
+
   const save = async (status: PostStatus) => {
-    const payload: PostInput = { ...values, status, questions: values.questions.map((q) => q.trim()).filter(Boolean) };
+    const payload: PostInput = {
+      ...values,
+      status,
+      faqs: values.faqs.map((f) => ({ question: f.question.trim(), answer: f.answer.trim() })).filter((f) => f.question || f.answer),
+      seo: { ...values.seo, keywords: parseKeywords(keywordsText) },
+    };
     setSaving(status);
     setMessage(null);
     try {
@@ -134,7 +179,8 @@ export default function PostEditor({ post, notice }: Props) {
       setValues(payload);
       setSaved(JSON.stringify(payload));
       setSavedStatus(status);
-      setUpdatedAt(new Date().toISOString());
+      setSavedSlug(payload.slug);
+      setUpdatedAt(data.post?.updatedAt ?? new Date().toISOString());
       setMessage({ tone: "success", text: status === "published" ? "Saved and live on the website." : "Saved as a draft." });
       router.refresh();
     } catch {
@@ -166,6 +212,9 @@ export default function PostEditor({ post, notice }: Props) {
     ) : null;
   const invalid = (key: string) => (errors[key] ? { "aria-invalid": true, "aria-describedby": `${key.replace(".", "-")}-error` } : {});
 
+  const seoTitleLength = (values.seo.title || values.title).length;
+  const seoDescriptionLength = (values.seo.description || values.excerpt).length;
+
   return (
     <form className={styles.editorPage} onSubmit={(e) => e.preventDefault()} noValidate>
       {/* Header */}
@@ -185,8 +234,8 @@ export default function PostEditor({ post, notice }: Props) {
           </p>
         </div>
         <div className={styles.editorActions}>
-          {isPublished && post && (
-            <a href={`/blog/${post.slug}`} target="_blank" rel="noopener" className={`${styles.button} ${styles.buttonGhost}`}>
+          {isPublished && savedSlug && (
+            <a href={`/blog/${savedSlug}`} target="_blank" rel="noopener" className={`${styles.button} ${styles.buttonGhost}`}>
               <Icon name="open_in_new" />
               View live
             </a>
@@ -219,10 +268,11 @@ export default function PostEditor({ post, notice }: Props) {
                 className={`${styles.input} ${styles.inputTitle}`}
                 value={values.title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="e.g. Rhinoplasty: Appearance, Breathing and Recovery"
+                placeholder="e.g. Rhinoplasty Cost in India – Complete Guide"
                 maxLength={160}
                 {...invalid("title")}
               />
+              <span className={styles.fieldHint}>The heading on the article page and on its blog card.</span>
               {error("title")}
             </label>
 
@@ -241,7 +291,7 @@ export default function PostEditor({ post, notice }: Props) {
                     set("slug", e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "-"));
                   }}
                   onBlur={() => set("slug", slugify(values.slug))}
-                  placeholder="rhinoplasty-recovery-guide"
+                  placeholder="rhinoplasty-cost-in-india"
                   maxLength={120}
                   {...invalid("slug")}
                 />
@@ -261,7 +311,7 @@ export default function PostEditor({ post, notice }: Props) {
               {error("slug")}
               {!isNew && post && values.slug !== post.slug && (
                 <p className={styles.fieldHint}>
-                  <Icon name="warning" /> Changing the URL of a published post breaks existing links to it.
+                  <Icon name="warning" /> Changing the URL of a published post breaks existing links and search rankings for it.
                 </p>
               )}
             </div>
@@ -269,7 +319,7 @@ export default function PostEditor({ post, notice }: Props) {
             <label className={styles.field}>
               <span className={styles.labelRow}>
                 <span className={styles.label}>Summary</span>
-                <span className={`${styles.counter} ${values.excerpt.length > 160 ? styles.counterWarn : ""}`}>
+                <span className={`${styles.counter} ${values.excerpt.length > SEO_DESCRIPTION_TARGET ? styles.counterWarn : ""}`}>
                   {values.excerpt.length}/{EXCERPT_MAX}
                 </span>
               </span>
@@ -278,11 +328,11 @@ export default function PostEditor({ post, notice }: Props) {
                 rows={3}
                 value={values.excerpt}
                 onChange={(e) => set("excerpt", e.target.value)}
-                placeholder="One or two sentences shown on blog cards, under the title and in Google results."
+                placeholder="One or two sentences shown on blog cards and under the title."
                 maxLength={EXCERPT_MAX}
                 {...invalid("excerpt")}
               />
-              <span className={styles.fieldHint}>Aim for 120–160 characters so search results don’t cut it off.</span>
+              <span className={styles.fieldHint}>Also used as the meta description when that field below is empty.</span>
               {error("excerpt")}
             </label>
           </section>
@@ -290,6 +340,7 @@ export default function PostEditor({ post, notice }: Props) {
           <section className={styles.card}>
             <div className={styles.cardHeader}>
               <h2 className={styles.cardTitle}>Article</h2>
+              <p className={styles.cardSubtitle}>Use “Heading 2” for each main section (they form the table of contents). The table button adds a table.</p>
             </div>
             <RichTextEditor
               initialHtml={values.content}
@@ -302,46 +353,132 @@ export default function PostEditor({ post, notice }: Props) {
 
           <section className={styles.card}>
             <div className={styles.cardHeader}>
-              <h2 className={styles.cardTitle}>Questions to ask at your consultation</h2>
-              <p className={styles.cardSubtitle}>Optional checklist shown at the end of the article.</p>
+              <h2 className={styles.cardTitle}>Frequently asked questions</h2>
+              <p className={styles.cardSubtitle}>Optional. Shown as an accordion after the article and marked up for Google (FAQ structured data).</p>
             </div>
-            {values.questions.length > 0 && (
-              <ol className={styles.questionList}>
-                {values.questions.map((question, index) => (
-                  <li key={index} className={styles.questionItem}>
+            {values.faqs.length > 0 && (
+              <ol className={styles.faqList}>
+                {values.faqs.map((faq, index) => (
+                  <li key={index} className={styles.faqItem}>
                     <span className={styles.questionNumber}>{index + 1}</span>
-                    <input
-                      className={styles.input}
-                      value={question}
-                      onChange={(e) => set("questions", values.questions.map((q, i) => (i === index ? e.target.value : q)))}
-                      placeholder="e.g. How long does swelling usually take to settle?"
-                      maxLength={300}
-                      aria-label={`Question ${index + 1}`}
-                    />
-                    <button
-                      type="button"
-                      className={`${styles.iconButton} ${styles.iconButtonDanger}`}
-                      onClick={() => set("questions", values.questions.filter((_, i) => i !== index))}
-                      title="Remove question"
-                    >
-                      <Icon name="close" />
-                      <span className={styles.srOnly}>Remove question {index + 1}</span>
-                    </button>
+                    <div className={styles.faqFields}>
+                      <input
+                        className={styles.input}
+                        value={faq.question}
+                        onChange={(e) => setFaq(index, { question: e.target.value })}
+                        placeholder="Question, e.g. Is the procedure painful?"
+                        maxLength={300}
+                        aria-label={`Question ${index + 1}`}
+                      />
+                      <textarea
+                        className={styles.input}
+                        rows={3}
+                        value={faq.answer}
+                        onChange={(e) => setFaq(index, { answer: e.target.value })}
+                        placeholder="Answer. Leave a blank line to start a new paragraph."
+                        maxLength={3000}
+                        aria-label={`Answer ${index + 1}`}
+                      />
+                    </div>
+                    <div className={styles.faqActions}>
+                      <button type="button" className={styles.iconButton} onClick={() => moveFaq(index, -1)} disabled={index === 0} title="Move up">
+                        <Icon name="arrow_upward" />
+                        <span className={styles.srOnly}>Move question {index + 1} up</span>
+                      </button>
+                      <button
+                        type="button"
+                        className={styles.iconButton}
+                        onClick={() => moveFaq(index, 1)}
+                        disabled={index === values.faqs.length - 1}
+                        title="Move down"
+                      >
+                        <Icon name="arrow_downward" />
+                        <span className={styles.srOnly}>Move question {index + 1} down</span>
+                      </button>
+                      <button
+                        type="button"
+                        className={`${styles.iconButton} ${styles.iconButtonDanger}`}
+                        onClick={() => set("faqs", values.faqs.filter((_, i) => i !== index))}
+                        title="Remove question"
+                      >
+                        <Icon name="close" />
+                        <span className={styles.srOnly}>Remove question {index + 1}</span>
+                      </button>
+                    </div>
                   </li>
                 ))}
               </ol>
             )}
-            {values.questions.length < 20 && (
+            {values.faqs.length < FAQ_MAX && (
               <button
                 type="button"
                 className={`${styles.button} ${styles.buttonGhost} ${styles.buttonSmall}`}
-                onClick={() => set("questions", [...values.questions, ""])}
+                onClick={() => set("faqs", [...values.faqs, { question: "", answer: "" }])}
               >
                 <Icon name="add" />
                 Add question
               </button>
             )}
-            {error("questions")}
+            {error("faqs")}
+          </section>
+
+          <section className={styles.card}>
+            <div className={styles.cardHeader}>
+              <h2 className={styles.cardTitle}>Search engine listing</h2>
+              <p className={styles.cardSubtitle}>How the article appears in Google and when shared. Leave blank to use the title and summary.</p>
+            </div>
+            <label className={styles.field}>
+              <span className={styles.labelRow}>
+                <span className={styles.label}>Meta title</span>
+                <span className={`${styles.counter} ${seoTitleLength > SEO_TITLE_TARGET ? styles.counterWarn : ""}`}>
+                  {seoTitleLength}/{SEO_TITLE_TARGET}
+                </span>
+              </span>
+              <input
+                className={styles.input}
+                value={values.seo.title}
+                onChange={(e) => setSeo({ title: e.target.value })}
+                placeholder={values.title || "Defaults to the title"}
+                maxLength={120}
+                {...invalid("seo.title")}
+              />
+              <span className={styles.fieldHint}>Shown in the browser tab and as the Google headline. Aim for under {SEO_TITLE_TARGET} characters.</span>
+              {error("seo.title")}
+            </label>
+            <label className={styles.field}>
+              <span className={styles.labelRow}>
+                <span className={styles.label}>Meta description</span>
+                <span className={`${styles.counter} ${seoDescriptionLength > SEO_DESCRIPTION_TARGET ? styles.counterWarn : ""}`}>
+                  {seoDescriptionLength}/{SEO_DESCRIPTION_TARGET}
+                </span>
+              </span>
+              <textarea
+                className={styles.input}
+                rows={3}
+                value={values.seo.description}
+                onChange={(e) => setSeo({ description: e.target.value })}
+                placeholder={values.excerpt || "Defaults to the summary"}
+                maxLength={320}
+                {...invalid("seo.description")}
+              />
+              <span className={styles.fieldHint}>The text under the headline in Google. Aim for 120–{SEO_DESCRIPTION_TARGET} characters.</span>
+              {error("seo.description")}
+            </label>
+            <label className={styles.field}>
+              <span className={styles.label}>Keywords</span>
+              <input
+                className={styles.input}
+                value={keywordsText}
+                onChange={(e) => {
+                  setKeywordsText(e.target.value);
+                  setSeo({ keywords: parseKeywords(e.target.value) });
+                }}
+                placeholder="e.g. rhinoplasty cost, nose job in Delhi"
+                {...invalid("seo.keywords")}
+              />
+              <span className={styles.fieldHint}>Optional, separated by commas.</span>
+              {error("seo.keywords")}
+            </label>
           </section>
         </div>
 
@@ -368,7 +505,7 @@ export default function PostEditor({ post, notice }: Props) {
                 className={styles.input}
                 value={values.topic}
                 onChange={(e) => set("topic", e.target.value)}
-                placeholder="e.g. Rhinoplasty guide"
+                placeholder="e.g. Cost guide"
                 maxLength={60}
                 {...invalid("topic")}
               />
@@ -390,6 +527,12 @@ export default function PostEditor({ post, notice }: Props) {
                 </span>
               )}
             </div>
+            {values.coverImage.width && values.coverImage.height ? (
+              <span className={styles.fieldHint}>
+                {values.coverImage.width} × {values.coverImage.height} px
+                {values.coverImage.width < 1000 && " · small: shown at its own size on the article page. Upload 1600 px or wider for a full-width banner."}
+              </span>
+            ) : null}
             <input
               ref={coverFileRef}
               type="file"
@@ -406,7 +549,9 @@ export default function PostEditor({ post, notice }: Props) {
               <Icon name="upload" />
               {uploading ? "Uploading…" : values.coverImage.src ? "Replace image" : "Upload image"}
             </button>
-            <span className={styles.fieldHint}>JPEG, PNG, WebP or AVIF, up to 5 MB. Landscape (16:10) works best.</span>
+            <span className={styles.fieldHint}>
+              JPEG, PNG, WebP or AVIF, up to {UPLOAD_MAX_MB} MB. Landscape, 1600 px or wider, works best. Saved as an optimised WebP.
+            </span>
             {error("coverImage.src")}
             <label className={styles.field}>
               <span className={styles.label}>Image description (alt text)</span>
@@ -427,11 +572,41 @@ export default function PostEditor({ post, notice }: Props) {
                 <input
                   className={styles.input}
                   value={values.coverImage.src}
-                  onChange={(e) => setCover({ src: e.target.value.trim() })}
+                  // Size unknown for a typed path; the page then uses the full-width banner
+                  onChange={(e) => setCover({ src: e.target.value.trim(), width: undefined, height: undefined })}
                   placeholder="/images/procedures/2.png"
                 />
               </label>
             </details>
+          </section>
+
+          <section className={styles.card}>
+            <h2 className={styles.cardTitle}>Byline &amp; date</h2>
+            <label className={styles.field}>
+              <span className={styles.label}>Medically reviewed by</span>
+              <input
+                className={styles.input}
+                value={values.reviewedBy}
+                onChange={(e) => set("reviewedBy", e.target.value)}
+                placeholder="e.g. Dr. Sukhbir Singh"
+                maxLength={80}
+                {...invalid("reviewedBy")}
+              />
+              <span className={styles.fieldHint}>Shown under the title. Leave blank if no doctor reviewed the article.</span>
+              {error("reviewedBy")}
+            </label>
+            <label className={styles.field}>
+              <span className={styles.label}>Publish date</span>
+              <input
+                type="date"
+                className={styles.input}
+                value={istDay(values.publishedAt)}
+                onChange={(e) => set("publishedAt", fromIstDay(e.target.value))}
+                {...invalid("publishedAt")}
+              />
+              <span className={styles.fieldHint}>Orders the blog listing (newest first). Set automatically when first published.</span>
+              {error("publishedAt")}
+            </label>
           </section>
 
           <section className={styles.card}>

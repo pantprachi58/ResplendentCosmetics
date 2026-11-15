@@ -75,6 +75,18 @@ const nextConfig = {
       { source: "/non-surgical-injections-and-fillers.php", destination: "/treatments/dermal-fillers", permanent: true },
       { source: "/laser.php", destination: "/treatments/laser-hair-removal", permanent: true },
       { source: "/international-patients", destination: "/contact#international-desk", permanent: true },
+      // Old landing pages still linked from the imported blog articles
+      { source: "/breast-augmentation-in-delhi.php", destination: "/treatments/female-breast-surgery#augmentation", permanent: true },
+      { source: "/hair-transplant-in-greater-kailash.php", destination: "/treatments/hair-transplant", permanent: true },
+      // Old blog posts that were dropped from the live site before the import (still linked from imported articles)
+      {
+        source: "/blog/breathe-easier-and-look-better-with-a-rhinoplasty-surgery-in-delhi-and-ncr.php",
+        destination: "/treatments/rhinoplasty",
+        permanent: true,
+      },
+      { source: "/blog/understanding-gynecomastia-or-male-breast-surgery-in-delhi-ncr.php", destination: "/treatments/gynecomastia", permanent: true },
+      // Old blog article URLs (/blog/<slug>.php) → /blog/<slug>; the imported posts keep their original slugs
+      { source: "/blog/:slug([a-z0-9-]+)\\.php", destination: "/blog/:slug", permanent: true },
       // Old menu slugs renamed to match the live site's procedures
       { source: "/treatments/abdominoplasty", destination: "/treatments/tummy-tuck", permanent: true },
       { source: "/treatments/buttock-enhancement", destination: "/treatments/buttock-calf-augmentation", permanent: true },

@@ -5,7 +5,7 @@ Marketing website for **Resplendent Aesthetics**, a plastic & cosmetic surgery c
 ## Stack & commands
 
 - Next.js 16 (App Router), React 19, TypeScript 7 (strict), plain **CSS Modules**. No Tailwind, no UI library, no state library.
-- MongoDB (`mongodb` driver) for blog posts, admin accounts/sessions and uploaded images (GridFS). TipTap for the admin editor, `sanitize-html` for article HTML, `bcryptjs` for passwords.
+- MongoDB (`mongodb` driver) for blog posts and admin accounts/sessions. Uploaded images are files in `uploads/` at the project root (always; no setting), only their `/uploads/<file>` path is stored. TipTap (with tables) for the admin editor, `sanitize-html` for article HTML, `sharp` for upload processing, `bcryptjs` for passwords.
 - No test suite, no ESLint config. Prettier is installed but has no config file (defaults).
 
 ```bash
@@ -14,7 +14,9 @@ npm run dev      # http://localhost:3000
 npm run build    # also the main type-check; run it after changes
 npm start
 npm run admin:create -- --email a@b.com --name "Name"   # create admin / reset its password (prompts; or NEW_ADMIN_PASSWORD from the shell)
-npm run blog:seed                                        # insert missing original articles (never touches existing posts)
+npm run blog:seed                                        # insert the 37 old-site articles whose slugs are missing (never touches existing posts)
+npm run blog:seed -- --reset                             # delete EVERY post (+ old GridFS store) first, then insert all 37 (asks to type "reset"; --yes skips)
+npm run media:prune [-- --delete]                        # list/delete uploads no post uses (older than 24 h)
 ```
 
 ## Layout
@@ -27,7 +29,7 @@ app/
   admin/              Blog CMS (own chrome, noindex). login/ is public; (panel)/ requires a session:
                       page.tsx posts table, posts/new, posts/[id] (editor), account (change password)
   api/admin/          session (POST login / DELETE logout), password, posts, posts/[id] (PUT/DELETE), media (upload)
-  media/[id]/         Serves uploaded images from GridFS (immutable cache)
+  uploads/[...path]/  Serves admin-uploaded images from <root>/uploads (like express.static; immutable cache, path-traversal safe)
   sitemap.ts robots.ts  /sitemap.xml (static pages + hardcoded treatment slug list + published blog posts, ISR 5 min,
                       refreshed by revalidateBlog) and /robots.txt (disallows /admin, /api/). Origin from lib/site.ts
                       (NEXT_PUBLIC_SITE_URL, default https://www.resplendentcosmetics.com). Add new pages to sitemap.ts
@@ -47,9 +49,12 @@ app/
   book-consultation/ contact/ doctors/ why-choose-us/   Standalone pages (page.tsx + page.module.css)
   gallery/ achievements/   Videos + event photos; publications list (data in data/gallery.ts, data/achievements.ts)
   blog/page.tsx       Blog index (server, ISR): posts from lib/blog/repository → components/blog/BlogExplorer (client; All/Face/Body/Women/Men filter,
-                      mirrored in ?category=, "Show more" adds BLOG_PAGE_SIZE cards)
+                      mirrored in ?category=, "Show more" adds BLOG_PAGE_SIZE cards; all cards stay in the HTML, extras `hidden`, so
+                      crawlers see every post link)
   blog/[slug]/        Article page from MongoDB (ISR 5 min + on-demand revalidation on admin save; new slugs render
-                      on first request, unknown/draft slugs 404). TOC is built from the article's <h2>s
+                      on first request, unknown/draft slugs 404). Meta title/description/keywords from post.seo (fallback: title/
+                      excerpt), BlogPosting + BreadcrumbList (+ FAQPage) JSON-LD, TOC from the article's <h2>s, FAQ as <details>,
+                      tables wrapped in a scroll region, covers under 1000px wide shown at natural size
 components/
   <Section>.tsx + <Section>.module.css   one pair per home-page section
   WhatsAppButton.tsx  Floating wa.me link rendered on every page (from layout.tsx)
@@ -68,17 +73,22 @@ components/
                       BeforeAfter (treatment section wrapping shared/CompareSlider)
   blog/BlogCard.tsx   Article card (stretched title link); blog/BlogExplorer.tsx  client filter + show more
   booking/BookingWizard.tsx  Client 4-step booking flow; contact/ContactForm.tsx  Client form
-data/blog.ts          Blog categories/filters + the original articles: only the seed and the DB-down fallback, not live content
+data/blog.ts          Blog categories/filters/labels and BLOG_PAGE_SIZE only (posts live in MongoDB)
 lib/mongodb.ts        Shared client (MONGODB_URI, optional MONGODB_DB); also used by scripts/
-lib/blog/             types, store (collection + doc mapping), repository (server-only reads/writes, public reads fall back
-                      to data/blog.ts), seed (insert-only, once per DB via `migrations`), content (sanitise, TOC, read time),
+lib/blog/             types, store (collection + doc mapping, image refs), repository (server-only reads/writes; public reads return []
+                      without MONGODB_URI and throw on DB errors so ISR keeps the last good page; saves report orphaned uploads),
+                      seed (old-site import, insert-only or --reset), content (sanitise incl. tables, TOC, read time),
+                      render (inline <img> → next/image srcset via getImageProps),
                       validation, slug, revalidate
 lib/auth/             users (bcrypt, admin_users), session (hashed tokens in admin_sessions + httpOnly cookie, guards,
                       same-origin check), rate-limit (in-memory, failed logins)
-lib/media.ts          GridFS image save/read + magic-byte type sniffing (no SVG)
+lib/media.ts          Upload storage on disk: magic-byte sniffing (no SVG), sharp (rotate, strip EXIF, max 2400px, WebP), save/open/delete/list
 lib/seo.ts            pageMetadata(): title, description, canonical, Open Graph + Twitter for a public page; default share image
 components/admin/     AdminNav, LoginForm, PostsTable, PostEditor, RichTextEditor (TipTap), ChangePasswordForm, SignOutButton
-scripts/              create-admin.ts, seed-blog.ts (run with tsx; env.ts loads .env like Next)
+scripts/              create-admin.ts, seed-blog.ts, prune-uploads.ts (run with tsx; env.ts loads .env like Next)
+scripts/seed-data/legacy-blog-posts.json  The 37 articles imported from the archived old site (web.archive.org snapshot of
+                      blog.php, 2026-04-29): slug, title, meta title/description/keywords, content HTML, FAQs, reviewer, cover,
+                      approximate publish date (Wayback first capture, kept in the old listing order). Seed source, not live content
 data/*.ts             Typed content arrays (procedures, doctors, results, testimonials,
                       stats, navigation, treatmentCategories, footer, facility, about, internationalDesk,
                       doctorProfiles, whyChooseUs, contact, booking)
@@ -94,6 +104,7 @@ public/
                       not referenced in code yet (folder names have spaces/caps; one file is "hair-before].jpg")
   logo.svg, logo-white.svg, favicon.svg, images/{log1,white-logo,fav}.png  Unreferenced leftovers
   images/pages/<route>/  Locally downloaded images for the new pages (no remote image links)
+  images/blog/<slug>/ Imported old-site blog images (static; referenced by path from the seeded posts)
   *.html              Saved copy of the original live site, for reference only
 ```
 
@@ -128,8 +139,9 @@ Path alias: `@/*` → repo root (e.g. `@/components/Icon`, `@/data/procedures`).
 - `/treatments/eyelid-surgery` (ported from live) and `/treatments/blepharoplasty` (template) cover the same procedure; consolidate into one before launch. Until then blepharoplasty sets its canonical to `/treatments/eyelid-surgery` and is left out of the sitemap.
 - Pages not reachable from the header menu: `hydrafacial`, `chin-jawline`, `blepharoplasty` (overlaps `eyelid-surgery`), `hair-transplant` and `/why-choose-us` (the last two are still linked from the footer).
 - Before/after sliders: only rhinoplasty, gynecomastia, female-breast-surgery, thread-lift (split from live result-03) and eyelid-surgery (low-res 400px) use real clinic pairs; the other 24 show `sample` stand-ins until real photos are supplied.
-- The original articles in `data/blog.ts` are general-information drafts (the live `blog.php` couldn't be retrieved; it now 308-redirects to `/blog`). They need clinic review; keep posts free of stats, prices and guarantees.
-- Blog CMS: the login rate limit is per process (in memory); replacing or removing an image doesn't delete the old GridFS file; there is no post preview before publishing (save as draft, then publish).
+- Blog posts are the 37 old-site articles, imported verbatim at the owner's request (old URLs `/blog/<slug>.php` 308 to `/blog/<slug>`). They still contain the old site's prices, "best surgeon" claims and stats; review them in /admin. The archive only kept the 500px listing thumbnails for most featured images (shown at natural size, not stretched), 13 inline images were never archived and were dropped, and `gynecomastia-surgery-cost-in-india` uses a stand-in cover (`/images/procedures/11.png`). Publish dates are approximate (editable in the admin).
+- Old-site blog URLs not in the April 2026 listing (e.g. hair-transplant-cost-in-delhi, lip-reduction-surgery-cost-in-delhi/-india, plastic-surgery-costs-in-india, rhinoplasty-nose-job-cost-in-delhi, nanoplastia-..., side-effects-of-applying-coffee-on-hair) were not imported; they 404 after the generic `.php` redirect.
+- Blog CMS: the login rate limit is per process (in memory); there is no post preview before publishing (save as draft, then publish). Uploads are saved as `uploads/<timestamp>-<name>-<rand>.webp` (folder created on first upload, gitignored): keep that folder when redeploying; on a read-only/serverless host uploads fail.
 - Secrets live in `.env.local` (gitignored; template in `.env.example`). Never commit env files.
 - Forms (contact, booking, consultation) have no backend; they only show a client-side confirmation.
 - `app/(site)/treatments/TreatmentsCatalog.tsx` derives categories by matching `procedure.badge` strings against hardcoded lists; adding a procedure with a new badge value means updating those lists (filter map and the surgical/non-surgical counts).

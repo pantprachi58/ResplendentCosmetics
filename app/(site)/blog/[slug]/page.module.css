@@ -95,14 +95,33 @@
   box-shadow: 0 24px 48px rgb(15 23 42 / 0.12);
 }
 
+/* Small covers (e.g. imported from the old site at 500px) keep their own size and shape instead of being
+   stretched and cropped into the full-width banner. Width and aspect ratio are set inline from the image. */
+.heroCompact {
+  width: 100%;
+}
+
+.reviewer {
+  font-weight: 700;
+  color: #0052cc;
+  text-decoration: none;
+}
+
+.reviewer:hover {
+  text-decoration: underline;
+}
+
 @media (min-width: 768px) {
   .title {
     font-size: 25px;
     line-height: 48px;
   }
 
-  .hero {
+  .hero:not(.heroCompact) {
     aspect-ratio: 21 / 9;
+  }
+
+  .hero {
     border-radius: 1.25rem;
   }
 }
@@ -290,6 +309,14 @@
   max-width: 100%;
   height: auto;
   border-radius: 0.75rem;
+  background-color: #f1f5f9;
+}
+
+/* Several small images in a row (e.g. before/after photos) sit side by side, as they did on the old site */
+.prose p:has(> img + img) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
 .prose code {
@@ -312,73 +339,162 @@
   background: none;
 }
 
-/* Questions checklist */
-.questions {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  padding: 1.75rem;
-  border-radius: 1rem;
-  border: 1px solid #dbe6ff;
-  background-color: #f1f5ff;
+/* Tables (wrapped by prepareArticle in a keyboard-scrollable region so wide tables scroll on phones) */
+.prose [data-table-scroll] {
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  -webkit-overflow-scrolling: touch;
 }
 
-@media (min-width: 640px) {
-  .questions {
-    padding: 2rem 2.25rem;
-  }
+.prose [data-table-scroll]:focus-visible {
+  outline: 2px solid #0052cc;
+  outline-offset: 2px;
 }
 
-.questionsTitle {
-  display: flex;
-  align-items: center;
-  gap: 0.625rem;
-  font-family: "Plus Jakarta Sans", sans-serif;
-  font-size: 20px;
-  line-height: 28px;
+.prose table {
+  width: 100%;
+  min-width: 32rem;
+  border-collapse: collapse;
+  font-size: 15px;
+  line-height: 24px;
+}
+
+.prose th,
+.prose td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: top;
+  text-align: left;
+}
+
+.prose th + th,
+.prose td + td,
+.prose td + th,
+.prose th + td {
+  border-left: 1px solid #e2e8f0;
+}
+
+.prose tr:last-child > th,
+.prose tr:last-child > td {
+  border-bottom: 0;
+}
+
+.prose th {
+  background-color: #eef4ff;
   font-weight: 700;
   color: #0f172a;
 }
 
-.questionsTitle :global(.material-symbols-outlined) {
-  font-size: 26px;
+.prose tbody tr:nth-child(even) > td {
+  background-color: #f8fafc;
+}
+
+.prose th > p + p,
+.prose td > p + p {
+  margin-top: 0.5rem;
+}
+
+.prose caption {
+  padding: 0.75rem 1rem 0;
+  caption-side: top;
+  text-align: left;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* FAQ accordion (native <details>: works without JavaScript, answers stay in the HTML for search engines) */
+.faq {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.faqTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #0f172a;
+}
+
+.faqTitle :global(.material-symbols-outlined) {
+  font-size: 28px;
   color: #0052cc;
 }
 
-.questionList {
+.faqList {
   display: flex;
   flex-direction: column;
-  gap: 0.875rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  counter-reset: question;
+  gap: 0.75rem;
 }
 
-.questionList li {
-  position: relative;
-  padding-left: 2.5rem;
-  font-size: 15px;
-  line-height: 24px;
-  color: #1e293b;
-  counter-increment: question;
+.faqItem {
+  overflow: hidden;
+  border-radius: 0.75rem;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  box-shadow: 0 1px 2px rgb(15 23 42 / 0.04);
+  transition: border-color 200ms ease, box-shadow 200ms ease;
 }
 
-.questionList li::before {
-  content: counter(question);
-  position: absolute;
-  top: 0;
-  left: 0;
+.faqItem[open] {
+  border-color: rgb(0 82 204 / 0.3);
+  box-shadow: 0 8px 24px rgb(15 23 42 / 0.06);
+}
+
+.faqQuestion {
   display: flex;
-  width: 1.75rem;
-  height: 1.75rem;
   align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  background-color: #0052cc;
-  font-size: 13px;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.125rem 1.25rem;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
   font-weight: 700;
-  color: #ffffff;
+  color: #0f172a;
+  list-style: none;
+  cursor: pointer;
+  transition: color 150ms ease;
+}
+
+.faqQuestion::-webkit-details-marker {
+  display: none;
+}
+
+.faqQuestion:hover {
+  color: #0052cc;
+}
+
+.faqQuestion:focus-visible {
+  outline: 2px solid #0052cc;
+  outline-offset: -2px;
+}
+
+.faqChevron {
+  flex-shrink: 0;
+  font-size: 24px;
+  color: #0052cc;
+  transition: transform 300ms ease;
+}
+
+.faqItem[open] .faqChevron {
+  transform: rotate(180deg);
+}
+
+.faqAnswer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0 1.25rem 1.25rem;
+  font-size: 15px;
+  line-height: 26px;
+  color: #475569;
 }
 
 .disclaimer {

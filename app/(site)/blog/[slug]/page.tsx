@@ -10,8 +10,9 @@ import BlogCard from "@/components/blog/BlogCard";
 import { blogCategoryLabel } from "@/data/blog";
 import { bookConsultationCta, clinicMeta } from "@/data/treatments/shared";
 import { prepareArticle } from "@/lib/blog/content";
+import { optimiseArticleImages } from "@/lib/blog/render";
 import { getPublishedPost, listPublishedPosts } from "@/lib/blog/repository";
-import { clampDescription, pageMetadata, titleWithSuffix } from "@/lib/seo";
+import { absoluteUrl, clampDescription, pageMetadata, siteName, titleWithSuffix } from "@/lib/seo";
 import type { Post, PostSummary } from "@/lib/blog/types";
 import ui from "@/components/shared/ui.module.css";
 import styles from "./page.module.css";
@@ -26,15 +27,25 @@ export async function generateStaticParams() {
   return (await listPublishedPosts()).map((post) => ({ slug: post.slug }));
 }
 
+/** Meta title/description as entered in the admin (imported posts keep the old site's), else derived from the post */
+const seoTitle = (post: Post) => post.seo.title || titleWithSuffix(post.title, [" | Resplendent Aesthetics Blog", " | Resplendent Aesthetics"]);
+const seoDescription = (post: Post) => post.seo.description || clampDescription(post.excerpt);
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getPublishedPost((await params).slug);
   if (!post) return { robots: { index: false, follow: false } };
   return pageMetadata({
-    title: titleWithSuffix(post.title, [" | Resplendent Aesthetics Blog", " | Resplendent Aesthetics"]),
-    description: clampDescription(post.excerpt),
+    title: seoTitle(post),
+    description: seoDescription(post),
     path: `/blog/${post.slug}`,
     image: post.coverImage,
-    article: { publishedTime: post.publishedAt ?? undefined, modifiedTime: post.updatedAt },
+    keywords: post.seo.keywords,
+    article: {
+      publishedTime: post.publishedAt ?? undefined,
+      modifiedTime: post.updatedAt,
+      section: blogCategoryLabel[post.category],
+      tags: post.seo.keywords,
+    },
   });
 }
 
@@ -44,6 +55,55 @@ function relatedPosts(post: Post, all: PostSummary[], count = 3) {
   return [...others.filter((p) => p.category === post.category), ...others.filter((p) => p.category !== post.category)].slice(0, count);
 }
 
+/** Below this width the cover is shown at its own size instead of stretched across the full-width banner */
+const FULL_BANNER_MIN_WIDTH = 1000;
+
+/** Article, breadcrumb and (when present) FAQ structured data for search engines */
+function structuredData(post: Post, url: string) {
+  const organization = { "@type": "Organization", name: siteName, url: absoluteUrl("/"), logo: absoluteUrl("/svg/logo.png") };
+  const graph: Record<string, unknown>[] = [
+    {
+      "@type": "BlogPosting",
+      "@id": `${url}#article`,
+      headline: post.title,
+      description: seoDescription(post),
+      image: {
+        "@type": "ImageObject",
+        url: absoluteUrl(post.coverImage.src),
+        ...(post.coverImage.width && post.coverImage.height ? { width: post.coverImage.width, height: post.coverImage.height } : {}),
+      },
+      url,
+      mainEntityOfPage: { "@type": "WebPage", "@id": url },
+      datePublished: post.publishedAt ?? undefined,
+      dateModified: post.updatedAt,
+      author: organization,
+      publisher: organization,
+      articleSection: blogCategoryLabel[post.category],
+      ...(post.seo.keywords.length ? { keywords: post.seo.keywords.join(", ") } : {}),
+      inLanguage: "en-IN",
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+        { "@type": "ListItem", position: 2, name: "Blog", item: absoluteUrl("/blog") },
+        { "@type": "ListItem", position: 3, name: post.title, item: url },
+      ],
+    },
+  ];
+  if (post.faqs.length) {
+    graph.push({
+      "@type": "FAQPage",
+      mainEntity: post.faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: { "@type": "Answer", text: faq.answer },
+      })),
+    });
+  }
+  return { "@context": "https://schema.org", "@graph": graph };
+}
+
 export default async function BlogPostPage({ params }: Props) {
   const post = await getPublishedPost((await params).slug);
   if (!post) notFound();
@@ -51,25 +111,19 @@ export default async function BlogPostPage({ params }: Props) {
   const category = blogCategoryLabel[post.category];
   const related = relatedPosts(post, await listPublishedPosts());
   const article = prepareArticle(post.content);
-  const hasQuestions = post.questions.length > 0;
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: post.title,
-    description: post.excerpt,
-    image: post.coverImage.src,
-    datePublished: post.publishedAt ?? undefined,
-    dateModified: post.updatedAt,
-    author: { "@type": "Organization", name: "Resplendent Aesthetics" },
-    publisher: { "@type": "Organization", name: "Resplendent Aesthetics" },
-  };
+  const articleHtml = optimiseArticleImages(article.html);
+  const hasFaqs = post.faqs.length > 0;
+  const url = absoluteUrl(`/blog/${post.slug}`);
+
+  const { width: coverWidth, height: coverHeight } = post.coverImage;
+  const compactCover = Boolean(coverWidth && coverHeight && coverWidth < FULL_BANNER_MIN_WIDTH);
 
   return (
     <main className={ui.page}>
       <script
         type="application/ld+json"
         // Escape "<" so post text can't close the script tag
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData(post, url)).replace(/</g, "\\u003c") }}
       />
       <Breadcrumb current={post.title} trail={[{ label: "Blog", href: "/blog" }]} />
 
@@ -89,20 +143,33 @@ export default async function BlogPostPage({ params }: Props) {
               <Icon name="schedule" />
               {post.readMinutes} min read
             </span>
-            <span>
-              <Icon name="edit_note" />
-              Resplendent Aesthetics team
-            </span>
+            {post.reviewedBy ? (
+              <span>
+                <Icon name="verified" filled />
+                Medically reviewed by{" "}
+                <Link href="/doctors" className={styles.reviewer}>
+                  {post.reviewedBy}
+                </Link>
+              </span>
+            ) : (
+              <span>
+                <Icon name="edit_note" />
+                Resplendent Aesthetics team
+              </span>
+            )}
           </div>
         </div>
         <div className={`${ui.container} ${styles.heroWrap}`}>
-          <div className={`${ui.media} ${styles.hero}`}>
+          <div
+            className={`${ui.media} ${styles.hero} ${compactCover ? styles.heroCompact : ""}`}
+            style={compactCover ? { maxWidth: coverWidth, aspectRatio: `${coverWidth} / ${coverHeight}` } : undefined}
+          >
             <Image
               src={post.coverImage.src}
               alt={post.coverImage.alt}
               fill
               priority
-              sizes="(min-width: 1320px) 1272px, 100vw"
+              sizes={compactCover ? `(min-width: ${coverWidth! + 32}px) ${coverWidth}px, 100vw` : "(min-width: 1320px) 1272px, 100vw"}
               className={ui.cover}
             />
           </div>
@@ -114,19 +181,29 @@ export default async function BlogPostPage({ params }: Props) {
         <div className={`${ui.container} ${styles.layout}`}>
           <article className={styles.article}>
             {/* Sanitised in prepareArticle (allow-listed tags, local images only) */}
-            <div className={styles.prose} dangerouslySetInnerHTML={{ __html: article.html }} />
+            <div className={styles.prose} dangerouslySetInnerHTML={{ __html: articleHtml }} />
 
-            {hasQuestions && (
-              <section id="questions" className={styles.questions}>
-                <h2 className={styles.questionsTitle}>
+            {hasFaqs && (
+              <section id="faq" className={styles.faq} aria-labelledby="faq-heading">
+                <h2 id="faq-heading" className={styles.faqTitle}>
                   <Icon name="quiz" />
-                  Questions to ask at your consultation
+                  Frequently Asked Questions
                 </h2>
-                <ol className={styles.questionList}>
-                  {post.questions.map((question) => (
-                    <li key={question}>{question}</li>
+                <div className={styles.faqList}>
+                  {post.faqs.map((faq, index) => (
+                    <details key={index} className={styles.faqItem} open={index === 0}>
+                      <summary className={styles.faqQuestion}>
+                        <span>{faq.question}</span>
+                        <Icon name="expand_more" className={styles.faqChevron} />
+                      </summary>
+                      <div className={styles.faqAnswer}>
+                        {faq.answer.split(/\n{2,}/).map((paragraph, i) => (
+                          <p key={i}>{paragraph}</p>
+                        ))}
+                      </div>
+                    </details>
                   ))}
-                </ol>
+                </div>
               </section>
             )}
 
@@ -138,7 +215,7 @@ export default async function BlogPostPage({ params }: Props) {
           </article>
 
           <aside className={styles.aside}>
-            {(article.toc.length > 0 || hasQuestions) && (
+            {(article.toc.length > 0 || hasFaqs) && (
               <nav className={styles.toc} aria-label="In this article">
                 <p className={styles.asideLabel}>In this article</p>
                 <ol>
@@ -147,9 +224,9 @@ export default async function BlogPostPage({ params }: Props) {
                       <a href={`#${entry.id}`}>{entry.text}</a>
                     </li>
                   ))}
-                  {hasQuestions && (
+                  {hasFaqs && (
                     <li>
-                      <a href="#questions">Questions to ask</a>
+                      <a href="#faq">Frequently asked questions</a>
                     </li>
                   )}
                 </ol>

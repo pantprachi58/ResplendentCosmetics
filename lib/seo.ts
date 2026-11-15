@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import type { ImageRef } from "@/data/treatments/types";
+import { siteUrl } from "@/lib/site";
 
 export const siteName = "Resplendent Aesthetics";
+
+/** Absolute URL for a site path (structured data needs full URLs; metadata resolves them via metadataBase). */
+export const absoluteUrl = (path: string) => (/^https?:\/\//.test(path) ? path : `${siteUrl}${path.startsWith("/") ? "" : "/"}${path}`);
 
 /** Social preview for pages without a photo of their own (1376x768, local file) */
 export const defaultShareImage: ImageRef = {
@@ -16,8 +20,9 @@ type PageSeo = {
   path: string;
   /** Canonical path when it differs from `path` (duplicate pages pointing at the preferred one) */
   canonical?: string;
-  image?: ImageRef;
-  article?: { publishedTime?: string; modifiedTime?: string };
+  image?: ImageRef & { width?: number; height?: number };
+  keywords?: string[];
+  article?: { publishedTime?: string; modifiedTime?: string; section?: string; tags?: string[] };
 };
 
 /** Search results cut titles at ~60-65 characters and descriptions at ~160 */
@@ -43,13 +48,14 @@ export function clampDescription(text: string) {
  * Relative URLs resolve against metadataBase (app/layout.tsx). Next replaces a parent's openGraph/twitter
  * objects instead of merging them, so every page must go through this to get its own og:title/og:url.
  */
-export function pageMetadata({ title, description, path, canonical = path, image = defaultShareImage, article }: PageSeo): Metadata {
-  const images = [{ url: image.src, alt: image.alt }];
+export function pageMetadata({ title, description, path, canonical = path, image = defaultShareImage, keywords, article }: PageSeo): Metadata {
+  const images = [{ url: image.src, alt: image.alt, ...(image.width && image.height ? { width: image.width, height: image.height } : {}) }];
   const shared = { siteName, locale: "en_IN", url: canonical, title, description, images };
 
   return {
     title,
     description,
+    ...(keywords?.length ? { keywords } : {}),
     alternates: { canonical },
     openGraph: article ? { ...shared, type: "article", ...article } : { ...shared, type: "website" },
     twitter: { card: "summary_large_image", title, description, images },
