@@ -2,9 +2,9 @@ import "server-only";
 import { getImageProps } from "next/image";
 import { decodeEntities, escapeHtml } from "./content";
 
-/** Article column: 46rem (736px) from 1024px up, full width minus the page gutters below that. */
-const ARTICLE_WIDTH = 736;
-const ARTICLE_IMAGE_SIZES = `(min-width: 1024px) ${ARTICLE_WIDTH}px, calc(100vw - 2rem)`;
+/** Main column: 864px from 1320px up, viewport minus sidebar + gutters from 1024px, full width minus gutters below. */
+const ARTICLE_WIDTH = 864;
+const ARTICLE_IMAGE_SIZES = `(min-width: 1320px) ${ARTICLE_WIDTH}px, (min-width: 1024px) calc(100vw - 26rem), calc(100vw - 2rem)`;
 
 /** Images narrower than the column are shown at their own width (width attribute + max-width: 100%) */
 const sizesFor = (width: number) => (width < ARTICLE_WIDTH ? `(min-width: ${width + 32}px) ${width}px, calc(100vw - 2rem)` : ARTICLE_IMAGE_SIZES);

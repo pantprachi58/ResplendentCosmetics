@@ -54,8 +54,10 @@ app/
   blog/[slug]/        Article page from MongoDB (ISR 5 min + on-demand revalidation on admin save; new slugs render
                       on first request, unknown/draft slugs 404). Meta title/description/keywords from post.seo (fallback: title/
                       excerpt), BlogPosting + BreadcrumbList (+ FAQPage) JSON-LD, TOC from the article's <h2>s, FAQ as <details>,
-                      tables wrapped in a scroll region, covers under 1000px wide shown at natural size. Sidebar: TOC + treatment card,
-                      then "Related Guides" (4 compact rows), the only sticky block (desktop); below 1024px it follows the article
+                      tables wrapped in a scroll region. One grid: main column (header, cover, body; ~864px at 1440) + 22rem sidebar
+                      (20rem at 1024–1279) that starts level with the title: TOC, treatment card, then "Related Guides" (4 compact
+                      rows, the only sticky block). Below 1024px the sidebar follows the article. Covers ≥800px fill the column at
+                      16:9; smaller ones are framed (blurred copy behind, sharp image centred at its own size, never upscaled)
 components/
   <Section>.tsx + <Section>.module.css   one pair per home-page section
   WhatsAppButton.tsx  Floating wa.me link rendered on every page (from layout.tsx)

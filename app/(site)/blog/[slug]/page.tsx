@@ -54,8 +54,8 @@ function relatedPosts(post: Post, all: PostSummary[], count = 4) {
   return [...others.filter((p) => p.category === post.category), ...others.filter((p) => p.category !== post.category)].slice(0, count);
 }
 
-/** Below this width the cover is shown at its own size instead of stretched across the full-width banner */
-const FULL_BANNER_MIN_WIDTH = 1000;
+/** Below this width the cover is shown at its own size instead of stretched across the main column (~860px wide) */
+const FULL_BANNER_MIN_WIDTH = 800;
 
 /** Article, breadcrumb and (when present) FAQ structured data for search engines */
 function structuredData(post: Post, url: string) {
@@ -126,59 +126,67 @@ export default async function BlogPostPage({ params }: Props) {
       />
       <Breadcrumb current={post.title} trail={[{ label: "Blog", href: "/blog" }]} />
 
-      {/* Article header */}
-      <header className={styles.header}>
-        <div className={`${ui.container} ${styles.headerInner}`}>
-          <div className={styles.headerTags}>
-            <Link href={`/blog?category=${post.category}`} className={styles.categoryLink}>
-              {category}
-            </Link>
-            {post.topic && <span className={styles.topic}>{post.topic}</span>}
-          </div>
-          <h1 className={styles.title}>{post.title}</h1>
-          <p className={styles.lead}>{post.excerpt}</p>
-          <div className={styles.meta}>
-            <span>
-              <Icon name="schedule" />
-              {post.readMinutes} min read
-            </span>
-            {post.reviewedBy ? (
-              <span>
-                <Icon name="verified" filled />
-                Medically reviewed by{" "}
-                <Link href="/doctors" className={styles.reviewer}>
-                  {post.reviewedBy}
-                </Link>
-              </span>
-            ) : (
-              <span>
-                <Icon name="edit_note" />
-                Resplendent Aesthetics team
-              </span>
-            )}
-          </div>
-        </div>
-        <div className={`${ui.container} ${styles.heroWrap}`}>
-          <div
-            className={`${ui.media} ${styles.hero} ${compactCover ? styles.heroCompact : ""}`}
-            style={compactCover ? { maxWidth: coverWidth, aspectRatio: `${coverWidth} / ${coverHeight}` } : undefined}
-          >
-            <Image
-              src={post.coverImage.src}
-              alt={post.coverImage.alt}
-              fill
-              priority
-              sizes={compactCover ? `(min-width: ${coverWidth! + 32}px) ${coverWidth}px, 100vw` : "(min-width: 1320px) 1272px, 100vw"}
-              className={ui.cover}
-            />
-          </div>
-        </div>
-      </header>
-
-      {/* Article body */}
+      {/* Article (header, cover and body in the main column) + sidebar beside it from the top */}
       <section className={styles.bodySection}>
         <div className={`${ui.container} ${styles.layout}`}>
           <article className={styles.article}>
+            <header className={styles.header}>
+              <div className={styles.headerTags}>
+                <Link href={`/blog?category=${post.category}`} className={styles.categoryLink}>
+                  {category}
+                </Link>
+                {post.topic && <span className={styles.topic}>{post.topic}</span>}
+              </div>
+              <h1 className={styles.title}>{post.title}</h1>
+              <p className={styles.lead}>{post.excerpt}</p>
+              <div className={styles.meta}>
+                <span>
+                  <Icon name="schedule" />
+                  {post.readMinutes} min read
+                </span>
+                {post.reviewedBy ? (
+                  <span>
+                    <Icon name="verified" filled />
+                    Medically reviewed by{" "}
+                    <Link href="/doctors" className={styles.reviewer}>
+                      {post.reviewedBy}
+                    </Link>
+                  </span>
+                ) : (
+                  <span>
+                    <Icon name="edit_note" />
+                    Resplendent Aesthetics team
+                  </span>
+                )}
+              </div>
+              {compactCover ? (
+                // Small cover: full-width frame filled with a blurred copy, the sharp image centred at its own size (never upscaled)
+                <div className={`${ui.media} ${styles.hero} ${styles.heroFramed}`}>
+                  <Image src={post.coverImage.src} alt="" aria-hidden fill sizes="96px" className={styles.heroBackdrop} />
+                  <Image
+                    src={post.coverImage.src}
+                    alt={post.coverImage.alt}
+                    width={coverWidth}
+                    height={coverHeight}
+                    priority
+                    sizes={`(min-width: ${coverWidth! + 32}px) ${coverWidth}px, calc(100vw - 2rem)`}
+                    className={styles.heroImage}
+                  />
+                </div>
+              ) : (
+                <div className={`${ui.media} ${styles.hero}`}>
+                  <Image
+                    src={post.coverImage.src}
+                    alt={post.coverImage.alt}
+                    fill
+                    priority
+                    sizes="(min-width: 1320px) 864px, (min-width: 1024px) calc(100vw - 26rem), calc(100vw - 2rem)"
+                    className={ui.cover}
+                  />
+                </div>
+              )}
+            </header>
+
             {/* Sanitised in prepareArticle (allow-listed tags, local images only) */}
             <div className={styles.prose} dangerouslySetInnerHTML={{ __html: articleHtml }} />
 
