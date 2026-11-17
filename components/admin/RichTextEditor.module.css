@@ -265,8 +265,111 @@
   border-radius: 0.75rem;
 }
 
+.content p:has(> img + img) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
 .content img:global(.ProseMirror-selectednode) {
   outline: 3px solid #0052cc;
+}
+
+/* Tables (mirror the public article's table look; prosemirror-tables adds .selectedCell) */
+.content :global(.tableWrapper) {
+  overflow-x: auto;
+}
+
+.content table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.content th,
+.content td {
+  position: relative;
+  min-width: 4rem;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  vertical-align: top;
+  text-align: left;
+}
+
+.content th {
+  background-color: #eef4ff;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.content th > p,
+.content td > p {
+  margin: 0;
+}
+
+.content th > * + *,
+.content td > * + * {
+  margin-top: 0.5rem;
+}
+
+.content :global(.selectedCell)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgb(0 82 204 / 0.12);
+  pointer-events: none;
+}
+
+.tablePanel {
+  border-top: 1px dashed #cbd5e1;
+  padding-top: 0.625rem;
+}
+
+.tableGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.tableGroup + .tableGroup {
+  padding-left: 0.5rem;
+  border-left: 1px solid #e2e8f0;
+}
+
+.tableButton {
+  height: 2rem;
+  padding: 0 0.625rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  background-color: #ffffff;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+}
+
+.tableButton:hover:not(:disabled) {
+  border-color: #0052cc;
+  color: #0052cc;
+}
+
+.tableButton:disabled {
+  color: #cbd5e1;
+  cursor: default;
+}
+
+.tableButtonDanger:hover:not(:disabled) {
+  border-color: #dc2626;
+  color: #b91c1c;
+}
+
+.tableHint {
+  width: 100%;
+  font-size: 12px;
+  color: #94a3b8;
 }
 
 /* Placeholder (TipTap adds .is-editor-empty + data-placeholder to the first empty node) */

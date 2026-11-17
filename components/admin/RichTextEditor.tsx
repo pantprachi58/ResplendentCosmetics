@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { EditorContent, useEditor, useEditorState, type Editor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
+import { TableKit } from "@tiptap/extension-table";
 import { CharacterCount, Placeholder } from "@tiptap/extensions";
 import Icon from "@/components/Icon";
 import { uploadImage } from "./upload";
@@ -28,7 +29,8 @@ const normaliseHref = (raw: string) => {
 
 /**
  * WYSIWYG article editor (TipTap / ProseMirror). Emits HTML limited to what the site renders and the
- * server sanitiser allows: H2–H4, paragraphs, bold/italic/underline/strike, lists, quotes, links, images, rules.
+ * server sanitiser allows: H2–H4, paragraphs, bold/italic/underline/strike, lists, quotes, links, images
+ * (with their pixel size), tables (header row, merged cells), rules.
  */
 export default function RichTextEditor({ id, initialHtml, onChange, invalid, describedBy }: Props) {
   const editor = useEditor({
@@ -40,7 +42,11 @@ export default function RichTextEditor({ id, initialHtml, onChange, invalid, des
         codeBlock: false,
         link: { openOnClick: false, autolink: true, defaultProtocol: "https", HTMLAttributes: { rel: null, target: null } },
       }),
-      Image,
+      // Inline, so several small images can share a line (e.g. a strip of before/after photos)
+      Image.configure({ inline: true }),
+      // Column widths aren't stored (the site lays tables out itself), so no resize handles. The wrapper div
+      // scrolls wide tables inside the editor; the sanitiser drops it from the saved HTML.
+      TableKit.configure({ table: { resizable: false, renderWrapper: true } }),
       Placeholder.configure({ placeholder: "Start writing the article. Use “Heading 2” for each main section; they become the table of contents." }),
       CharacterCount,
     ],
@@ -87,6 +93,9 @@ function Toolbar({ editor }: { editor: Editor }) {
       orderedList: e.isActive("orderedList"),
       blockquote: e.isActive("blockquote"),
       link: e.isActive("link"),
+      inTable: e.isActive("table"),
+      canMerge: e.can().mergeCells(),
+      canSplit: e.can().splitCell(),
       canUndo: e.can().undo(),
       canRedo: e.can().redo(),
     }),
@@ -120,6 +129,12 @@ function Toolbar({ editor }: { editor: Editor }) {
     [
       { icon: "link", label: "Link", active: state.link || panel === "link", run: () => setPanel(panel === "link" ? null : "link") },
       { icon: "image", label: "Insert image", active: panel === "image", run: () => setPanel(panel === "image" ? null : "image") },
+      {
+        icon: "table",
+        label: "Insert table (3 × 3 with a header row)",
+        run: () => chain().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run(),
+        disabled: state.inTable,
+      },
       { icon: "format_clear", label: "Clear formatting", run: () => chain().unsetAllMarks().clearNodes().run() },
     ],
   ];
@@ -154,6 +169,52 @@ function Toolbar({ editor }: { editor: Editor }) {
       </div>
       {panel === "link" && <LinkPanel editor={editor} onClose={() => setPanel(null)} />}
       {panel === "image" && <ImagePanel editor={editor} onClose={() => setPanel(null)} />}
+      {state.inTable && <TablePanel editor={editor} canMerge={state.canMerge} canSplit={state.canSplit} />}
+    </div>
+  );
+}
+
+/** Row/column controls, shown while the cursor is inside a table. */
+function TablePanel({ editor, canMerge, canSplit }: { editor: Editor; canMerge: boolean; canSplit: boolean }) {
+  const chain = () => editor.chain().focus();
+  const groups: { label: string; run: () => void; disabled?: boolean; danger?: boolean }[][] = [
+    [
+      { label: "Row above", run: () => chain().addRowBefore().run() },
+      { label: "Row below", run: () => chain().addRowAfter().run() },
+      { label: "Delete row", run: () => chain().deleteRow().run(), danger: true },
+    ],
+    [
+      { label: "Column left", run: () => chain().addColumnBefore().run() },
+      { label: "Column right", run: () => chain().addColumnAfter().run() },
+      { label: "Delete column", run: () => chain().deleteColumn().run(), danger: true },
+    ],
+    [
+      { label: "Header row on/off", run: () => chain().toggleHeaderRow().run() },
+      { label: "Merge cells", run: () => chain().mergeCells().run(), disabled: !canMerge },
+      { label: "Split cell", run: () => chain().splitCell().run(), disabled: !canSplit },
+    ],
+    [{ label: "Delete table", run: () => chain().deleteTable().run(), danger: true }],
+  ];
+
+  return (
+    <div className={`${styles.panel} ${styles.tablePanel}`} role="toolbar" aria-label="Table">
+      <Icon name="table" />
+      {groups.map((group, i) => (
+        <div key={i} className={styles.tableGroup}>
+          {group.map((b) => (
+            <button
+              key={b.label}
+              type="button"
+              className={`${styles.tableButton} ${b.danger ? styles.tableButtonDanger : ""}`}
+              onClick={b.run}
+              disabled={b.disabled}
+            >
+              {b.label}
+            </button>
+          ))}
+        </div>
+      ))}
+      <span className={styles.tableHint}>Tab moves to the next cell. Select several cells (drag or Shift+click) to merge them.</span>
     </div>
   );
 }
@@ -223,8 +284,8 @@ function ImagePanel({ editor, onClose }: { editor: Editor; onClose: () => void }
     setBusy(true);
     setError("");
     try {
-      const src = await uploadImage(file);
-      editor.chain().focus().setImage({ src, alt: alt.trim() }).run();
+      const image = await uploadImage(file);
+      editor.chain().focus().setImage({ src: image.url, alt: alt.trim(), width: image.width, height: image.height }).run();
       onClose();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed");
@@ -269,7 +330,7 @@ function Footer({ editor }: { editor: Editor }) {
       <span>
         {words} words · about {Math.max(1, Math.ceil(words / 200))} min read
       </span>
-      <span className={styles.hint}>Tip: paste from Word or Google Docs keeps headings, lists and links.</span>
+      <span className={styles.hint}>Tip: paste from Word or Google Docs keeps headings, lists, links and tables.</span>
     </div>
   );
 }

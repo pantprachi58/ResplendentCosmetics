@@ -1,17 +1,56 @@
 /* Spacing between text blocks uses flex gaps / padding: ui.page resets margins on h1–h4, p and ul. */
 
-/* Header */
-.header {
-  padding-top: 3rem;
-  background: linear-gradient(180deg, #eef4ff 0%, #f8fafc 70%);
+/*
+ * Layout: one grid. Main column = article header (tags, title, summary, byline, cover) + article body;
+ * sidebar = contents, treatment card, related guides, starting level with the title on desktop.
+ * Below 1024px everything stacks: header, article, then the sidebar blocks.
+ */
+.bodySection {
+  padding-top: 2.5rem;
+  padding-bottom: 4rem;
+  background: linear-gradient(180deg, #eef4ff 0, #f8fafc 32rem);
 }
 
-/* Left edge lines up with the hero image and article body; line length is capped per element */
-.headerInner {
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 3rem;
+}
+
+@media (min-width: 1024px) {
+  .bodySection {
+    padding-top: 3.5rem;
+    padding-bottom: 5rem;
+  }
+
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 20rem;
+    column-gap: 3rem;
+    align-items: start;
+  }
+}
+
+/* Wide screens: ~860px text column (comfortable at 18px) + 22rem sidebar */
+@media (min-width: 1280px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 22rem;
+    column-gap: 3.5rem;
+  }
+}
+
+.article {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+/* Article header */
+.header {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 1.25rem;
+  gap: 1rem;
 }
 
 .headerTags {
@@ -49,19 +88,17 @@
 }
 
 .title {
-  /* max-width: 52rem; */
   font-family: "Plus Jakarta Sans", sans-serif;
-  font-size: 25px;
-  line-height: 40px;
-  font-weight: 600;
+  font-size: 26px;
+  line-height: 34px;
+  font-weight: 700;
   letter-spacing: -0.02em;
   color: #0f172a;
 }
 
 .lead {
-  max-width: 46rem;
   font-size: 16px;
-  line-height: 28px;
+  line-height: 27px;
   color: #475569;
 }
 
@@ -85,69 +122,59 @@
   color: #0052cc;
 }
 
-.heroWrap {
-  padding-top: 2.5rem;
+.reviewer {
+  font-weight: 700;
+  color: #0052cc;
+  text-decoration: none;
 }
 
+.reviewer:hover {
+  text-decoration: underline;
+}
+
+/* Cover: fills the main column; set apart from the byline by a little more than the header gap */
 .hero {
-  aspect-ratio: 16 / 10;
+  width: 100%;
+  margin-top: 0.75rem;
+  overflow: hidden;
   border-radius: 1rem;
-  box-shadow: 0 24px 48px rgb(15 23 42 / 0.12);
+  background-color: #e2e8f0;
+  box-shadow: 0 20px 40px rgb(15 23 42 / 0.1);
+}
+
+/* The whole image at the column's width; its height follows the image's proportions */
+.heroImage {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Fallback when the image size isn't stored: fixed frame, image cropped to fill it */
+.heroFixed {
+  aspect-ratio: 16 / 9;
 }
 
 @media (min-width: 768px) {
   .title {
-    font-size: 25px;
-    line-height: 48px;
+    font-size: 30px;
+    line-height: 38px;
+  }
+
+  .lead {
+    font-size: 17px;
+    line-height: 28px;
   }
 
   .hero {
-    aspect-ratio: 21 / 9;
     border-radius: 1.25rem;
   }
 }
 
-@media (min-width: 1024px) {
-  .header {
-    padding-top: 4rem;
-  }
-
+@media (min-width: 1280px) {
   .title {
-    font-size: 30px;
-    line-height: 56px;
+    font-size: 34px;
+    line-height: 42px;
   }
-}
-
-/* Body layout */
-.bodySection {
-  padding-top: 3rem;
-  padding-bottom: 4rem;
-}
-
-.layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 3rem;
-}
-
-@media (min-width: 1024px) {
-  .bodySection {
-    padding-top: 4rem;
-    padding-bottom: 5.5rem;
-  }
-
-  .layout {
-    grid-template-columns: minmax(0, 1fr) 20rem;
-    gap: 4rem;
-    align-items: start;
-  }
-}
-
-.article {
-  display: flex;
-  max-width: 46rem;
-  flex-direction: column;
-  gap: 2.5rem;
 }
 
 /* Article HTML from the CMS. Selectors are doubled (.article .prose) to outrank ui.page's margin/list resets. */
@@ -161,6 +188,13 @@
   .prose {
     font-size: 17px;
     line-height: 30px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .prose {
+    font-size: 18px;
+    line-height: 32px;
   }
 }
 
@@ -290,6 +324,14 @@
   max-width: 100%;
   height: auto;
   border-radius: 0.75rem;
+  background-color: #f1f5f9;
+}
+
+/* Several small images in a row (e.g. before/after photos) sit side by side, as they did on the old site */
+.prose p:has(> img + img) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
 .prose code {
@@ -312,73 +354,162 @@
   background: none;
 }
 
-/* Questions checklist */
-.questions {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  padding: 1.75rem;
-  border-radius: 1rem;
-  border: 1px solid #dbe6ff;
-  background-color: #f1f5ff;
+/* Tables (wrapped by prepareArticle in a keyboard-scrollable region so wide tables scroll on phones) */
+.prose [data-table-scroll] {
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  -webkit-overflow-scrolling: touch;
 }
 
-@media (min-width: 640px) {
-  .questions {
-    padding: 2rem 2.25rem;
-  }
+.prose [data-table-scroll]:focus-visible {
+  outline: 2px solid #0052cc;
+  outline-offset: 2px;
 }
 
-.questionsTitle {
-  display: flex;
-  align-items: center;
-  gap: 0.625rem;
-  font-family: "Plus Jakarta Sans", sans-serif;
-  font-size: 20px;
-  line-height: 28px;
+.prose table {
+  width: 100%;
+  min-width: 32rem;
+  border-collapse: collapse;
+  font-size: 15px;
+  line-height: 24px;
+}
+
+.prose th,
+.prose td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: top;
+  text-align: left;
+}
+
+.prose th + th,
+.prose td + td,
+.prose td + th,
+.prose th + td {
+  border-left: 1px solid #e2e8f0;
+}
+
+.prose tr:last-child > th,
+.prose tr:last-child > td {
+  border-bottom: 0;
+}
+
+.prose th {
+  background-color: #eef4ff;
   font-weight: 700;
   color: #0f172a;
 }
 
-.questionsTitle :global(.material-symbols-outlined) {
-  font-size: 26px;
+.prose tbody tr:nth-child(even) > td {
+  background-color: #f8fafc;
+}
+
+.prose th > p + p,
+.prose td > p + p {
+  margin-top: 0.5rem;
+}
+
+.prose caption {
+  padding: 0.75rem 1rem 0;
+  caption-side: top;
+  text-align: left;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* FAQ accordion (native <details>: works without JavaScript, answers stay in the HTML for search engines) */
+.faq {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.faqTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #0f172a;
+}
+
+.faqTitle :global(.material-symbols-outlined) {
+  font-size: 28px;
   color: #0052cc;
 }
 
-.questionList {
+.faqList {
   display: flex;
   flex-direction: column;
-  gap: 0.875rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  counter-reset: question;
+  gap: 0.75rem;
 }
 
-.questionList li {
-  position: relative;
-  padding-left: 2.5rem;
-  font-size: 15px;
-  line-height: 24px;
-  color: #1e293b;
-  counter-increment: question;
+.faqItem {
+  overflow: hidden;
+  border-radius: 0.75rem;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  box-shadow: 0 1px 2px rgb(15 23 42 / 0.04);
+  transition: border-color 200ms ease, box-shadow 200ms ease;
 }
 
-.questionList li::before {
-  content: counter(question);
-  position: absolute;
-  top: 0;
-  left: 0;
+.faqItem[open] {
+  border-color: rgb(0 82 204 / 0.3);
+  box-shadow: 0 8px 24px rgb(15 23 42 / 0.06);
+}
+
+.faqQuestion {
   display: flex;
-  width: 1.75rem;
-  height: 1.75rem;
   align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  background-color: #0052cc;
-  font-size: 13px;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.125rem 1.25rem;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
   font-weight: 700;
-  color: #ffffff;
+  color: #0f172a;
+  list-style: none;
+  cursor: pointer;
+  transition: color 150ms ease;
+}
+
+.faqQuestion::-webkit-details-marker {
+  display: none;
+}
+
+.faqQuestion:hover {
+  color: #0052cc;
+}
+
+.faqQuestion:focus-visible {
+  outline: 2px solid #0052cc;
+  outline-offset: -2px;
+}
+
+.faqChevron {
+  flex-shrink: 0;
+  font-size: 24px;
+  color: #0052cc;
+  transition: transform 300ms ease;
+}
+
+.faqItem[open] .faqChevron {
+  transform: rotate(180deg);
+}
+
+.faqAnswer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0 1.25rem 1.25rem;
+  font-size: 15px;
+  line-height: 26px;
+  color: #475569;
 }
 
 .disclaimer {
@@ -404,10 +535,11 @@
   gap: 1.5rem;
 }
 
+/* Desktop: the sidebar runs the full height of the article so its last block (Related Guides) can stay in view
+   while reading. Only that block is sticky: the whole column is taller than a laptop screen. */
 @media (min-width: 1024px) {
   .aside {
-    position: sticky;
-    top: 9rem;
+    align-self: stretch;
   }
 }
 
@@ -496,9 +628,154 @@
   padding-top: 0.5rem;
 }
 
-/* Related */
+/* Related guides (sidebar on desktop, after the article below 1024px) */
 .related {
-  border-top: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+}
+
+@media (min-width: 1024px) {
+  .related {
+    position: sticky;
+    top: 9rem;
+  }
+}
+
+.relatedHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.relatedHeading {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.relatedList {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  list-style: none;
+}
+
+/* Tablet: the sidebar is full width under the article, so use two columns */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .relatedList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem 1.5rem;
+  }
+}
+
+/* Whole row is clickable through the title link's ::after */
+.relatedItem {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+}
+
+.relatedItem + .relatedItem {
+  padding-top: 1rem;
+  border-top: 1px solid #f1f5f9;
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .relatedItem + .relatedItem {
+    padding-top: 0;
+    border-top: 0;
+  }
+}
+
+.relatedThumb {
+  width: 6rem;
+  flex-shrink: 0;
+  aspect-ratio: 4 / 3;
+  border-radius: 0.625rem;
+}
+
+.relatedThumb img {
+  transition: transform 400ms ease;
+}
+
+.relatedItem:hover .relatedThumb img {
+  transform: scale(1.05);
+}
+
+.relatedBody {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.relatedMeta {
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #10b981;
+}
+
+.relatedTitle {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  color: #0f172a;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+
+.relatedLink {
+  color: inherit;
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.relatedLink::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.relatedItem:hover .relatedLink,
+.relatedLink:focus-visible {
+  color: #0052cc;
+}
+
+.relatedLink:focus-visible {
+  outline: none;
+}
+
+.relatedItem:has(.relatedLink:focus-visible) {
+  border-radius: 0.625rem;
+  outline: 2px solid #0052cc;
+  outline-offset: 4px;
+}
+
+.relatedRead {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 12px;
+  line-height: 16px;
+  color: #64748b;
+}
+
+.relatedRead :global(.material-symbols-outlined) {
+  font-size: 14px;
 }
 
 .allLink {
@@ -519,23 +796,4 @@
 
 .allLink :global(.material-symbols-outlined) {
   font-size: 18px;
-}
-
-.relatedGrid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 1.5rem;
-}
-
-@media (min-width: 640px) {
-  .relatedGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 1024px) {
-  .relatedGrid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 2rem;
-  }
 }

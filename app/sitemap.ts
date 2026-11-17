@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { listPublishedPosts } from "@/lib/blog/repository";
+import { absoluteUrl } from "@/lib/seo";
 import { siteUrl } from "@/lib/site";
 
 // Served at /sitemap.xml. Re-generated with the blog (ISR + revalidateBlog on admin save).
@@ -59,9 +60,16 @@ const treatmentSlugs = [
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const posts = await listPublishedPosts();
+  // The blog index changes whenever a post is published or edited
+  const blogUpdated = posts.reduce<string | undefined>((latest, p) => (!latest || p.updatedAt > latest ? p.updatedAt : latest), undefined);
 
   return [
-    ...pages.map(({ path, priority, changeFrequency }) => ({ url: `${siteUrl}${path}`, priority, changeFrequency })),
+    ...pages.map(({ path, priority, changeFrequency }) => ({
+      url: `${siteUrl}${path}`,
+      priority,
+      changeFrequency,
+      ...(path === "/blog" && blogUpdated ? { lastModified: blogUpdated } : {}),
+    })),
     ...treatmentSlugs.map((slug) => ({
       url: `${siteUrl}/treatments/${slug}`,
       priority: 0.8,
@@ -72,6 +80,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: post.updatedAt,
       priority: 0.6,
       changeFrequency: "monthly" as const,
+      images: [absoluteUrl(post.coverImage.src)],
     })),
   ];
 }
