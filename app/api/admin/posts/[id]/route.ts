@@ -3,6 +3,7 @@ import { jsonError, requireAdminApi } from "@/lib/auth/session";
 import { deletePost, SlugTakenError, updatePost } from "@/lib/blog/repository";
 import { revalidateBlog } from "@/lib/blog/revalidate";
 import { parsePostInput } from "@/lib/blog/validation";
+import { deleteUploads } from "@/lib/media";
 
 type Context = { params: Promise<{ id: string }> };
 
@@ -18,7 +19,9 @@ export async function PUT(request: Request, { params }: Context) {
     const result = await updatePost((await params).id, parsed.data);
     if (!result) return jsonError(404, "This post no longer exists");
     revalidateBlog(result.post.slug, result.previousSlug);
-    return NextResponse.json({ post: { id: result.post.id, slug: result.post.slug } });
+    // Replaced/removed uploads no post uses any more (best effort; media:prune catches anything missed)
+    await deleteUploads(result.orphanedImages);
+    return NextResponse.json({ post: { id: result.post.id, slug: result.post.slug, updatedAt: result.post.updatedAt } });
   } catch (err) {
     if (err instanceof SlugTakenError) return jsonError(409, err.message, { fields: { slug: err.message } });
     console.error("[admin] update post failed:", err);
@@ -32,9 +35,10 @@ export async function DELETE(_request: Request, { params }: Context) {
   if (admin instanceof NextResponse) return admin;
 
   try {
-    const slug = await deletePost((await params).id);
-    if (!slug) return jsonError(404, "This post no longer exists");
-    revalidateBlog(slug);
+    const result = await deletePost((await params).id);
+    if (!result) return jsonError(404, "This post no longer exists");
+    revalidateBlog(result.slug);
+    await deleteUploads(result.orphanedImages);
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error("[admin] delete post failed:", err);

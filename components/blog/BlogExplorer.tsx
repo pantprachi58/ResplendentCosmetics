@@ -35,6 +35,7 @@ export default function BlogExplorer({ posts: allPosts }: { posts: PostSummary[]
 
   const posts = postsFor(filter);
   const shown = posts.slice(0, visible);
+  const shownSlugs = new Set(shown.map((post) => post.slug));
   const remaining = posts.length - shown.length;
 
   return (
@@ -68,9 +69,11 @@ export default function BlogExplorer({ posts: allPosts }: { posts: PostSummary[]
         </div>
 
         {shown.length > 0 ? (
+          // Every article stays in the HTML (hidden until "Show more" / its category is picked) so search
+          // engines can follow links to all posts from the listing; hidden cards' lazy images don't load.
           <ul className={styles.grid}>
-            {shown.map((post) => (
-              <li key={post.slug}>
+            {allPosts.map((post) => (
+              <li key={post.slug} hidden={!shownSlugs.has(post.slug)}>
                 <BlogCard post={post} />
               </li>
             ))}

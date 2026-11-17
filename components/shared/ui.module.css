@@ -10,7 +10,10 @@
   font-family: Inter, sans-serif;
   /* Very long words (e.g. "Stereophotogrammetry") break instead of overflowing on 320px phones */
   overflow-wrap: break-word;
+  /* Clip sideways overflow without making <main> a scroll container (`hidden` would, which silently breaks
+     position: sticky inside the page, e.g. the blog sidebar). `hidden` stays as the fallback for Safari < 16. */
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 @media (min-width: 1024px) {
