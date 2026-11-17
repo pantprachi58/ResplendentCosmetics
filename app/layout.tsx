@@ -23,6 +23,7 @@ export const metadata: Metadata = {
     images: [{ url: defaultShareImage.src, alt: defaultShareImage.alt }],
   },
   twitter: { card: "summary_large_image" },
+  verification: { google: "rKU1kQA5J11BZNaXel3d1gcM02NwrQogUp6a33h6xhQ" },
   icons: {
     icon: "/svg/favicon.png",
   },
